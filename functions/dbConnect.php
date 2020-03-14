@@ -1,7 +1,7 @@
 <?php
-require_once($_SERVER["DOCUMENT_ROOT"] . "/config/database.php");
 function dbConnect()
 {
+	require($_SERVER["DOCUMENT_ROOT"] . "/config/database.php");
 	try
 	{
 		$connection = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);

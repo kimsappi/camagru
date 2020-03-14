@@ -11,38 +11,28 @@ catch(PDOException $e)
 }
 
 $query = <<<'QUERY'
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
 	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	username VARCHAR(24) NOT NULL,
 	password CHAR(64) NOT NULL,
-	email VARCHAR(99) NOT NULL
+	email VARCHAR(99) NOT NULL,
+	email_on_comment BOOLEAN DEFAULT 1
 );
 QUERY;
 if (!$connection->query($query))
-	exit("Failed to create table 'users'.");
+	exit("Failed to CREATE TABLE IF NOT EXISTS 'users'.");
 
 $query = <<<'QUERY'
-CREATE TABLE users (
-	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	username VARCHAR(24) NOT NULL,
-	password CHAR(64) NOT NULL,
-	email VARCHAR(99) NOT NULL
-);
-QUERY;
-if (!$connection->query($query))
-	exit("Failed to create table 'users'.");
-
-$query = <<<'QUERY'
-CREATE TABLE admins (
+CREATE TABLE IF NOT EXISTS admins (
 	id INT UNSIGNED PRIMARY KEY,
 	FOREIGN KEY (id) REFERENCES users(id)
 );
 QUERY;
 if (!$connection->query($query))
-	exit("Failed to create table 'admins'.");
+	exit("Failed to CREATE TABLE IF NOT EXISTS 'admins'.");
 
 $query = <<<'QUERY'
-CREATE TABLE posts (
+CREATE TABLE IF NOT EXISTS posts (
 	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	user_id INT UNSIGNED NOT NULL,
 	content VARCHAR(512),
@@ -50,10 +40,10 @@ CREATE TABLE posts (
 );
 QUERY;
 if (!$connection->query($query))
-	exit("Failed to create table 'posts'.");
+	exit("Failed to CREATE TABLE IF NOT EXISTS 'posts'.");
 
 $query = <<<'QUERY'
-CREATE TABLE comments (
+CREATE TABLE IF NOT EXISTS comments (
 	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	post_id INT UNSIGNED NOT NULL,
 	user_id INT UNSIGNED NOT NULL,
@@ -63,10 +53,10 @@ CREATE TABLE comments (
 );
 QUERY;
 if (!$connection->query($query))
-	exit("Failed to create table 'comments'.");
+	exit("Failed to CREATE TABLE IF NOT EXISTS 'comments'.");
 
 $query = <<<'QUERY'
-CREATE TABLE likes (
+CREATE TABLE IF NOT EXISTS likes (
 	post_id INT UNSIGNED NOT NULL,
 	user_id INT UNSIGNED NOT NULL,
 	PRIMARY KEY (post_id, user_id),
@@ -75,7 +65,20 @@ CREATE TABLE likes (
 );
 QUERY;
 if (!$connection->query($query))
-	exit("Failed to create table 'comments'.");
+	exit("Failed to CREATE TABLE IF NOT EXISTS 'comments'.");
 
 echo "All tables created successfully." . PHP_EOL;
+
+/* Create admin account */
+require_once("config.php");
+require_once(__DIR__ . "/../functions/hashPassword.php");
+$admin_password = hashPassword($admin_password, $admin_username, $salt);
+$query = <<<QUERY
+INSERT INTO users (`username`, `password`, `email`)
+	VALUES ('$admin_username', '$admin_password', '$admin_email');
+QUERY;
+if (!$connection->query($query))
+	exit("Failed to create admin account.");
+
+echo "Admin account created successfully." . PHP_EOL;
 ?>
