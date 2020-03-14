@@ -22,6 +22,17 @@ if (!$connection->query($query))
 	exit("Failed to create table 'users'.");
 
 $query = <<<'QUERY'
+CREATE TABLE users (
+	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+	username VARCHAR(24) NOT NULL,
+	password CHAR(64) NOT NULL,
+	email VARCHAR(99) NOT NULL
+);
+QUERY;
+if (!$connection->query($query))
+	exit("Failed to create table 'users'.");
+
+$query = <<<'QUERY'
 CREATE TABLE admins (
 	id INT UNSIGNED PRIMARY KEY,
 	FOREIGN KEY (id) REFERENCES users(id)
