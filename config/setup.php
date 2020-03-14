@@ -22,14 +22,14 @@ QUERY;
 if (!$connection->query($query))
 	exit("Failed to CREATE TABLE IF NOT EXISTS 'users'.");
 
-$query = <<<'QUERY'
-CREATE TABLE IF NOT EXISTS admins (
-	id INT UNSIGNED PRIMARY KEY,
-	FOREIGN KEY (id) REFERENCES users(id)
-);
-QUERY;
-if (!$connection->query($query))
-	exit("Failed to CREATE TABLE IF NOT EXISTS 'admins'.");
+// $query = <<<'QUERY'
+// CREATE TABLE IF NOT EXISTS admins (
+// 	id INT UNSIGNED PRIMARY KEY,
+// 	FOREIGN KEY (id) REFERENCES users(id)
+// );
+// QUERY;
+// if (!$connection->query($query))
+// 	exit("Failed to CREATE TABLE IF NOT EXISTS 'admins'.");
 
 $query = <<<'QUERY'
 CREATE TABLE IF NOT EXISTS posts (

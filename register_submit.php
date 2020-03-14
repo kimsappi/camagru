@@ -29,8 +29,7 @@ $query = $connection->prepare(
 		WHERE username = ?
 			OR email = ?;"
 );
-//$query->bindParam(1, $_POST["username"]);
-//$query->bindParam(2, $_POST["email"]);
+
 if ($query->execute([$_POST["username"], $_POST["email"]]))
 {
 	if ($query->fetch()) // Existing account found for username and/or password
