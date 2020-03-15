@@ -1,5 +1,10 @@
 </head>
-<body>
+<?php
+if (isset($body_onload))
+	echo "<body onload='$body_onload'";
+else
+	echo "<body>";
+?>
 	<nav>
 		<a href="/index.php">Home</a>
 	</nav>
