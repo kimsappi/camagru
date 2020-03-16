@@ -1,4 +1,6 @@
 <?php
+require_once($_SERVER["DOCUMENT_ROOT"] . "/require.php");
+
 /* Fail registration if all fields not filled */
 foreach (["username", "password", "password2", "email"] as $field)
 {
@@ -10,14 +12,14 @@ foreach (["username", "password", "password2", "email"] as $field)
 }
 
 /* Fail registration if data not correct, e.g. username length, pw complexity */
-require_once($_SERVER["DOCUMENT_ROOT"] . "/functions/validateRegistrationData.php");
+require_once($functions_path . "validateRegistrationData.php");
 if (!validateRegistrationData($_POST))
 {
 	header("Location: /register.php");
 	exit();
 }
 
-require_once($_SERVER["DOCUMENT_ROOT"] . "/functions/dbConnect.php");
+require_once($functions_path . "dbConnect.php");
 if (!$connection = dbConnect())
 {
 	header("Location: /register.php");
@@ -37,12 +39,14 @@ if ($query->execute([$_POST["username"], $_POST["email"]]))
 		echo "Username or email already associated with an account.";
 		exit();
 	}
-	require_once($_SERVER["DOCUMENT_ROOT"] . "/functions/hashPassword.php");
+	require_once($functions_path . "hashPassword.php");
 	$password = hashPassword($_POST["password"], $_POST["username"]);
 	$query = $connection->prepare(
 		"INSERT IGNORE INTO users (`username`, `password`, `email`)
 			VALUES (?, ?, ?);"
 	);
 	$query->execute([$_POST["username"], $password, $_POST["email"]]);
+	header("Location: index.php");
+	exit();
 }
 ?>
