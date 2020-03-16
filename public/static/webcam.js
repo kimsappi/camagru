@@ -81,6 +81,7 @@ function uploadPic()
 {
 	let data = new FormData();
 	data.append("imageBlob", imageBlob, "image");
+	data.append("filter", "1");
 	let request = new XMLHttpRequest();
 	request.open("POST", "/upload.php");
 	request.send(data);
