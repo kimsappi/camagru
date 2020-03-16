@@ -1,0 +1,12 @@
+Array
+(
+    [imageBlob] => Array
+        (
+            [name] => image
+            [type] => image/png
+            [tmp_name] => /tmp/phpMiEvUX
+            [error] => 0
+            [size] => 228259
+        )
+
+)

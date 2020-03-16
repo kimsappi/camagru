@@ -9,6 +9,6 @@ if (isset($_SESSION["username"]))
 }
 else
 {
-	require_once($_SERVER["DOCUMENT_ROOT"] . "/templates/forms/form_login.html");
+	require_once($_SERVER["DOCUMENT_ROOT"] . "/templates/forms/form_login.php");
 }
 ?>

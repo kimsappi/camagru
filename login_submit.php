@@ -32,7 +32,10 @@ if ($query->execute([$_POST["username"]]))
 	$_SESSION["user_id"] = $result["id"];
 	//require_once($_SERVER["DOCUMENT_ROOT"] . "/functions/idAdmin.php");
 	//$_SESSION["is_admin"] = isAdmin($result["id"]);
-	header("Location: index.php");
+	if (isset($_GET["destination"]))
+		header("Location: " . $_GET["destination"]);
+	else
+		header("Location: index.php");
 	exit();
 }
 ?>

@@ -3,6 +3,12 @@ $head_title = "Snap! | Camagru";
 $body_onload = "initialiseWebcamStreamOnload();";
 require_once($_SERVER["DOCUMENT_ROOT"] . "/templates/head.php");
 require_once($_SERVER["DOCUMENT_ROOT"] . "/templates/header.php");
+
+if (!isset($_SESSION["username"]))
+{
+	header("Location: /login.php?destination=take_pic.php");
+	exit();
+}
 ?>
 <div id="webcam_container">
 	<video autoplay id="webcam"></video>

@@ -1,4 +1,5 @@
 let imageCapture = null;
+let imageBlob = null;
 
 function initialiseWebcamStreamOnload()
 {
@@ -21,6 +22,27 @@ function initialiseWebcamStreamOnload()
 	document.getElementById("cancel_pic_from_webcam").addEventListener("click", cancelPicFromWebcam);
 }
 
+/*
+** Change functionality of the take pic button to upload button (toUpload: true)
+** or back to take pic (toUpload: false)
+*/
+function changeTakePicButtonFunctionality(toUpload)
+{
+	let button = document.getElementById("take_pic_from_webcam");
+	if (toUpload)
+	{
+		button.removeEventListener("click", takePicFromWebcamStream);
+		button.addEventListener("click", uploadPic);
+		button.innerHTML = "Upload!";
+	}
+	else
+	{
+		button.removeEventListener("click", uploadPic);
+		button.addEventListener("click", takePicFromWebcamStream);
+		button.innerHTML = "Snap!";
+	}
+}
+
 function takePicFromWebcamStream()
 {
 	if (imageCapture)
@@ -32,6 +54,8 @@ function takePicFromWebcamStream()
 				previewElement.src = URL.createObjectURL(blob);
 				previewElement.style.visibility = "visible";
 				changeElementDisplay("cancel_pic_from_webcam", "inline-block");
+				changeTakePicButtonFunctionality(true);
+				imageBlob = blob;
 			})
 			.catch(() =>
 			{
@@ -44,12 +68,22 @@ function takePicFromWebcamStream()
 function cancelPicFromWebcam()
 {
 	let previewElement = document.getElementById("img_preview");
+	imageBlob = null;
 	if (previewElement.src)
 	{
 		previewElement.style.visibility = "hidden";
 		URL.revokeObjectURL(previewElement.src);
 		previewElement.src = "#";
 	}
+}
+
+function uploadPic()
+{
+	let data = new FormData();
+	data.append("imageBlob", imageBlob, "image");
+	let request = new XMLHttpRequest();
+	request.open("POST", "/upload.php");
+	request.send(data);
 }
 
 function changeElementDisplay(id, display)
