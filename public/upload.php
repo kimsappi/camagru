@@ -5,10 +5,10 @@ if (!$_POST || !$_FILES || !isset($_FILES["imageBlob"]) || !isset($_FILES["image
 	exit();
 }
 require_once($_SERVER["DOCUMENT_ROOT"] . "/require.php");
+require_once($functions_path . "imageFunctions.php");
 
-$uploaded_file = $_FILES["imageBlob"];
-move_uploaded_file($_FILES["imageBlob"]["tmp_name"], $uploads_path . "test.png");
-$dest = imagecreatefrompng($uploads_path . "test.png");
+$uploadedImage = imagecreatefrompng($_FILES["imageBlob"]["tmp_name"]);
+cropAndResizeImage($uploadedImage);
 $src = imagecreatefrompng($filters_path . "rainbow-gradient.png");
-imagecopymerge($dest, $src, 0, 0, 0, 0, 500, 500, 30);
-imagepng($dest, $uploads_path . "test_filtered.png");
+imagecopymerge($uploadedImage, $src, 0, 0, 0, 0, 500, 500, 30);
+imagepng($uploadedImage, $uploads_path . "test_filtered.png");
