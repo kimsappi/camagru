@@ -7,11 +7,20 @@ function initialiseWebcamStreamOnload()
 	navigator.mediaDevices.getUserMedia({video: {facingMode: "user"}, audio: false})
 		.then((mediaStream) =>
 		{
-			let webcamElement = document.getElementById("webcam");
+			/* Set webcam to stream to #webcam element */
+			const webcamElement = document.getElementById("webcam");
 			webcamElement.srcObject = mediaStream;
+
+			/* Set maximum available resolution for webcam, up to 1080 */
+			const capabilities = mediaStream.getVideoTracks()[0].getCapabilities();
+			const size = Math.min(capabilities.height.max, capabilities.width.max, 1080);
+			const constraints = {height: size, width: size, facingMode: capabilities.facingMode};
+			mediaStream.getVideoTracks()[0].applyConstraints(constraints);
+
+			/* Set imageCapture object to video track for photo taking */
 			imageCapture = new ImageCapture(mediaStream.getVideoTracks()[0]);
 		})
-		.catch(() =>
+		.catch((e) =>
 		{
 			alert("Please make sure you have a webcam and allow your browser access to it.");
 		})
