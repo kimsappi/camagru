@@ -12,7 +12,7 @@ if (!isset($_SESSION["username"]))
 	exit();
 }
 ?>
-<div id="webcam_container">
+<div id="webcam_container" class="square">
 	<video autoplay id="webcam"></video>
 	<img id="img_preview">
 </div>

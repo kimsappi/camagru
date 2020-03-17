@@ -75,6 +75,8 @@ function cancelPicFromWebcam()
 		URL.revokeObjectURL(previewElement.src);
 		previewElement.src = "#";
 	}
+	changeElementDisplay("cancel_pic_from_webcam", "none");
+	changeTakePicButtonFunctionality(false);
 }
 
 function uploadPic()
