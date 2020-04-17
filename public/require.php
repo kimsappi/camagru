@@ -1,5 +1,5 @@
 <?php
-if (!isset($_SESSION))
+//if (!isset($_SESSION))
 	session_start();
 
 $root_path = $_SERVER["DOCUMENT_ROOT"];
@@ -9,4 +9,6 @@ $templates_path = $root_path . "/../templates/";
 $functions_path = $root_path . "/../functions/";
 $static_path = $root_path . "/static/";
 $config_path = $root_path . "/../config/";
+
+$uploads_path_url = '/images/uploads/';
 ?>

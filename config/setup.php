@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 require_once("database.php");
 try
@@ -36,6 +37,7 @@ CREATE TABLE IF NOT EXISTS posts (
 	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	user_id INT UNSIGNED NOT NULL,
 	content VARCHAR(512),
+	extension VARCHAR(4) NOT NULL,
 	FOREIGN KEY (user_id) REFERENCES users(id)
 );
 QUERY;

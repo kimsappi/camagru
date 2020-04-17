@@ -1,16 +1,33 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !$_POST || !$_FILES || !isset($_FILES["imageBlob"]) || !isset($_FILES["imageBlob"]["type"]) || $_FILES["imageBlob"]["type"] !== "image/png" || $_FILES["imageBlob"]["type"] > 5000000)
+require_once($_SERVER["DOCUMENT_ROOT"] . "/require.php");
+if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST' || !$_POST || !$_FILES || !isset($_FILES["imageBlob"]) || !isset($_FILES["imageBlob"]["type"]) || $_FILES["imageBlob"]["type"] !== "image/png" || $_FILES["imageBlob"]["type"] > 5000000)
 {
 	header("Location: /");
 	exit();
 }
-require_once($_SERVER["DOCUMENT_ROOT"] . "/require.php");
 require_once($functions_path . "imageFunctions.php");
 
 $uploadedImage = imagecreatefrompng($_FILES["imageBlob"]["tmp_name"]);
 $resizedImage = cropAndResizeImage($uploadedImage);
-$src = imagecreatefrompng($filters_path . "rainbow-gradient.png");
+$src = imagecreatefrompng($filters_path . "testi.png");
 //imagecopymerge($resizedImage['image'], $src, 0, 0, 0, 0, 500, 500, 30);
 imagecopymerge($resizedImage['image'], $src, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], 30);
-imagepng($resizedImage['image'], $uploads_path . "test_filtered.png");
-error_log($resizedImage['size']);
+
+require_once($functions_path . "dbConnect.php");
+if (!$connection = dbConnect())
+{
+	header("Location: /register.php");
+	exit();
+}
+
+$extension = 'png';
+$query = $connection->prepare(
+	"INSERT INTO posts (`user_id`, `extension`)
+		VALUES (?, ?)"
+);
+$query->execute([$_SESSION['user_id'], $extension]);
+$newPostId = $connection->lastInsertId();
+error_log('New post added, id: ' . $newPostId);
+
+imagepng($resizedImage['image'], $uploads_path . $newPostId . "." . $extension);
+error_log('Square size of new image: ' . $resizedImage['size']);
