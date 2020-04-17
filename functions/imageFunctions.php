@@ -24,4 +24,9 @@ function cropAndResizeImage(&$image)
 			($width - $squareSize) / 2, ($height - $squareSize) / 2, // Source offset coordinates
 			$squareSize, $squareSize // Source width, height
 		);
+	
+	return [
+		'image' => $squareImage,
+		'size' => $squareSize
+	];
 }

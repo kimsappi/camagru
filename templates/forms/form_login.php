@@ -2,7 +2,7 @@
 if (isset($_GET["destination"]))
 {
 	$destination = $_GET["destination"];
-	echo "<form action=\"/login_submit.php?destination=$destination\" method=\"post\">";
+	echo "<form action=\"/login.php?destination=$destination\" method=\"post\">";
 }
 else
 	echo '<form action="/login.php" method="post">';

@@ -93,9 +93,14 @@ function uploadPic()
 	let data = new FormData();
 	data.append("imageBlob", imageBlob, "image");
 	data.append("filter", "1");
-	let request = new XMLHttpRequest();
-	request.open("POST", "/upload.php");
-	request.send(data);
+	fetch("/upload.php", {
+		method: 'post',
+		body: data
+	})
+		.then(window.location.href='/');
+	//let request = new XMLHttpRequest();
+	//request.open("POST", "/upload.php");
+	//request.send(data);
 }
 
 function changeElementDisplay(id, display)
