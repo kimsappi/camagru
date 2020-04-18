@@ -43,10 +43,12 @@ if ($currentPage > 1) {
 $imagesFound = 0;
 foreach ($connection->query($query) as $imageData)
 {
-	
-	$fileName = $imageData['id'] . '.' . $imageData['extension'];
+	$imageId = $imageData['id'];
+	$fileName = $imageId . '.' . $imageData['extension'];
 	echo <<<EOD
-		<img src="$uploads_path_url$fileName" class='thumbnail'>
+	<a href="post.php?id=$imageId">
+		<img src="$uploads_path_url$fileName" class='thumbnail' alt='Thumbnail'>
+	</a>
 	EOD;
 	++$imagesFound;
 
