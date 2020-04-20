@@ -79,6 +79,12 @@ foreach ($connection->query($query) as $comment)
 <!-- Page body -->
 <img src='<?= $uploads_path_url . $fileName; ?>' alt='Post image'>
 
+<aside>
+	<?php
+	require_once($templates_path . "sideGallery.php");
+	?>
+</aside>
+
 <?php
 echo $commentForm;
 echo $commentsHTML;
