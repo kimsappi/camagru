@@ -25,7 +25,7 @@ foreach ($connection->query($query) as $galleryPost)
 	{
 		$sideGalleryHTML .= <<<EOD
 		<a href='/post.php?id=$galleryPostId'>
-			<img src="$uploads_path_url$galleryPostFileName">
+			<img src="$uploads_path_url$galleryPostFileName" class='sideGalleryImage'>
 		</a>
 		EOD;
 	}

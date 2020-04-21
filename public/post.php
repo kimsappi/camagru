@@ -77,13 +77,17 @@ foreach ($connection->query($query) as $comment)
 
 
 <!-- Page body -->
-<img src='<?= $uploads_path_url . $fileName; ?>' alt='Post image'>
+	<div class='row'>
+		<div class='col-sm-12 col-lg-10'>
+			<img src='<?= $uploads_path_url . $fileName; ?>' alt='Post image'>
+		</div>
 
-<aside>
-	<?php
-	require_once($templates_path . "sideGallery.php");
-	?>
-</aside>
+		<div class='col-sm-12 col-lg-2'>
+			<?php
+			require_once($templates_path . "sideGallery.php");
+			?>
+		</div>
+	</div>
 
 <?php
 echo $commentForm;
@@ -93,3 +97,5 @@ echo $commentsHTML;
 <?php
 require_once($templates_path . "footer.php");
 ?>
+
+</div>

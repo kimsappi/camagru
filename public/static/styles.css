@@ -1,9 +1,44 @@
+:root {
+	--mainBodyMaxHeight: 20vh;
+}
+/* 
+aside {
+	display: inline-block;
+	max-width: 10%;
+	overflow-y: auto;
+}
+
+aside img {
+	max-width: 100%;
+} */
+
+.sideGalleryImage {
+	width: 100%;
+	margin-bottom: 2%;
+}
+
 .square:after {
 	content: "";
 	padding-bottom: 100%;
 	display: block;
 }
 
+/* ID selectors */
+/* #mainBodyAndSideGalleryContainer {
+	width: 100%;
+}
+
+#mainBody {
+	display: inline-block;
+	max-width: 85%;
+}
+
+#mainBody > img {
+	width: 100%;
+} */
+
+
+/* Webcam stuff */
 #cancel_pic_from_webcam {
 	display: none;
 }
