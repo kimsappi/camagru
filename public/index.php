@@ -35,9 +35,7 @@ $prevPageLink = '';
 $nextPageLink = '';
 if ($currentPage > 1) {
 	$prevPage = $currentPage - 1;
-	$prevPageLink = <<<EOD
-		<div><a href="/?page=$prevPage">Previous page</a></div>
-	EOD;
+	$prevPageLink = "<div><a href=\"/?page=$prevPage\">Previous page</a></div>";
 }
 
 $imagesFound = 0;

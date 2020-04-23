@@ -32,3 +32,4 @@ foreach ($connection->query($query) as $galleryPost)
 }
 
 echo $sideGalleryHTML;
+?>
