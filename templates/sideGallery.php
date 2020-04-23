@@ -27,7 +27,7 @@ foreach ($connection->query($query) as $galleryPost)
 		<a href='/post.php?id=$galleryPostId'>
 			<img src="$uploads_path_url$galleryPostFileName" class='sideGalleryImage'>
 		</a>
-		EOD;
+EOD;
 	}
 }
 

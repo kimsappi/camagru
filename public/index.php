@@ -37,7 +37,7 @@ if ($currentPage > 1) {
 	$prevPage = $currentPage - 1;
 	$prevPageLink = <<<EOD
 		<div><a href="/?page=$prevPage">Previous page</a></div>
-	EOD;
+EOD;
 }
 
 $imagesFound = 0;
@@ -49,7 +49,7 @@ foreach ($connection->query($query) as $imageData)
 	<a href="post.php?id=$imageId">
 		<img src="$uploads_path_url$fileName" class='thumbnail' alt='Thumbnail'>
 	</a>
-	EOD;
+EOD;
 	++$imagesFound;
 
 	
@@ -58,7 +58,7 @@ foreach ($connection->query($query) as $imageData)
 		$nextPage = $currentPage + 1;
 		$nextPageLink = <<<EOD
 			<div><a href="/?page=$nextPage">Next page</a></div>
-		EOD;
+EOD;
 		break;
 	}
 }

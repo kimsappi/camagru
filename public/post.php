@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 	$queryStr = <<<EOD
 	INSERT INTO `comments` (`post_id`, `user_id`, `content`)
 		VALUES (?, ?, ?);
-	EOD;
+EOD;
 	$query = $connection->prepare($queryStr);
 	$query->execute([$commentPostId, $commentUserId, $_POST['commentInput']]);
 }
@@ -58,7 +58,7 @@ if (isset($_SESSION['username']))
 		<input type='textarea' name='commentInput' id='commentInput'>
 		<input type='submit' name='submit' value='OK'>
 	</form>
-	EOD;
+EOD;
 
 
 $commentsHTML = '';
