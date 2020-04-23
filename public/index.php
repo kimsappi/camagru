@@ -35,7 +35,9 @@ $prevPageLink = '';
 $nextPageLink = '';
 if ($currentPage > 1) {
 	$prevPage = $currentPage - 1;
-	$prevPageLink = "<div><a href=\"/?page=$prevPage\">Previous page</a></div>";
+	$prevPageLink = <<<EOD
+		<div><a href="/?page=$prevPage">Previous page</a></div>
+EOD;
 }
 
 $imagesFound = 0;
@@ -43,16 +45,20 @@ foreach ($connection->query($query) as $imageData)
 {
 	$imageId = $imageData['id'];
 	$fileName = $imageId . '.' . $imageData['extension'];
-	echo "<a href='post.php?id=$imageId'>
-		<img src='$uploads_path_url$fileName' class='thumbnail' alt='Thumbnail'>
-	</a>";
+	echo <<<EOD
+	<a href="post.php?id=$imageId">
+		<img src="$uploads_path_url$fileName" class='thumbnail' alt='Thumbnail'>
+	</a>
+EOD;
 	++$imagesFound;
 
 	
 	if ($imagesFound >= $posts_per_page)
 	{
 		$nextPage = $currentPage + 1;
-		$nextPageLink = "<div><a href='/?page=$nextPage'>Next page</a></div>";
+		$nextPageLink = <<<EOD
+			<div><a href="/?page=$nextPage">Next page</a></div>
+EOD;
 		break;
 	}
 }
@@ -62,10 +68,8 @@ if (!$imagesFound)
 	$query = "SELECT `id` FROM posts LIMIT 1;";
 	if ($connection->query($query))
 	{
-		header('Location: /');
-		exit();
+		echo "Gallery is currently empty. Why not make the FIRST post?";
 	}
-	echo "Gallery is currently empty. Why not make the FIRST post?";
 }
 ?>
 
