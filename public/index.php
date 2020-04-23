@@ -68,10 +68,8 @@ if (!$imagesFound)
 	$query = "SELECT `id` FROM posts LIMIT 1;";
 	if ($connection->query($query))
 	{
-		header('Location: /');
-		exit();
+		echo "Gallery is currently empty. Why not make the FIRST post?";
 	}
-	echo "Gallery is currently empty. Why not make the FIRST post?";
 }
 ?>
 

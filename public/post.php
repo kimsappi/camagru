@@ -77,22 +77,33 @@ foreach ($connection->query($query) as $comment)
 
 
 <!-- Page body -->
-	<div class='row'>
-		<div class='col-sm-12 col-lg-10'>
-			<img src='<?= $uploads_path_url . $fileName; ?>' alt='Post image'>
-		</div>
-
-		<div class='col-sm-12 col-lg-2'>
-			<?php
-			require_once($templates_path . "sideGallery.php");
-			?>
-		</div>
+<div class='row'>
+	<div class='col-sm-12 col-lg-10' id='postMainImage'>
+		<img src='<?= $uploads_path_url . $fileName; ?>' alt='Post image' id='postMainImageImg'>
 	</div>
+
+	<div class='col-sm-12 col-lg-2 sideGallery' id='postSideGallery'>
+		<?php
+		require_once($templates_path . "sideGallery.php");
+		?>
+	</div>
+</div>
 
 <?php
 echo $commentForm;
 echo $commentsHTML;
 ?>
+
+<script>
+	const resizeSideGalleryOnResize = () => {
+		const height = document.getElementById('postMainImage').offsetHeight;
+		const postSideGallery = document.getElementById('postSideGallery');
+		postSideGallery.style.maxHeight = height + 'px';
+		console.log(height + 'px');
+	}
+	window.addEventListener('resize', resizeSideGalleryOnResize);
+	window.addEventListener('load', resizeSideGalleryOnResize);
+</script>
 
 <?php
 require_once($templates_path . "footer.php");

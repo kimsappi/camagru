@@ -12,6 +12,10 @@ aside img {
 	max-width: 100%;
 } */
 
+.sideGallery {
+	overflow-y: auto;
+}
+
 .sideGalleryImage {
 	width: 100%;
 	margin-bottom: 2%;
@@ -24,6 +28,14 @@ aside img {
 }
 
 /* ID selectors */
+#postMainImageImg {
+	object-fit: contain;
+	height: 100%;
+}
+
+#postSideGallery {
+}
+
 /* #mainBodyAndSideGalleryContainer {
 	width: 100%;
 }
