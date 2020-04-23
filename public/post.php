@@ -99,10 +99,23 @@ echo $commentsHTML;
 		const height = document.getElementById('postMainImage').offsetHeight;
 		const postSideGallery = document.getElementById('postSideGallery');
 		postSideGallery.style.maxHeight = height + 'px';
-		console.log(height + 'px');
 	}
+
+	const centerPostMainImage = () => {
+		const imageElement = document.getElementById('postMainImageImg');
+		const containerWidth = document.getElementById('postMainImage').offsetWidth;
+		const imageWidth = imageElement.offsetHeight;
+		const leftMargin = (containerWidth - imageWidth) / 2;
+
+		if (leftMargin > 0) {
+			imageElement.style.marginLeft = leftMargin + 'px';
+		}
+	}
+
 	window.addEventListener('resize', resizeSideGalleryOnResize);
 	window.addEventListener('load', resizeSideGalleryOnResize);
+	window.addEventListener('resize', centerPostMainImage);
+	window.addEventListener('load', centerPostMainImage);
 </script>
 
 <?php

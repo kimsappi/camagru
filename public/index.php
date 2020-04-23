@@ -45,15 +45,17 @@ foreach ($connection->query($query) as $imageData)
 {
 	$imageId = $imageData['id'];
 	$fileName = $imageId . '.' . $imageData['extension'];
-	echo <<<EOD
-	<a href="post.php?id=$imageId">
-		<img src="$uploads_path_url$fileName" class='thumbnail' alt='Thumbnail'>
-	</a>
+	if ($imagesFound < $posts_per_page)
+	{
+		echo <<<EOD
+		<a href="post.php?id=$imageId">
+			<img src="$uploads_path_url$fileName" class='thumbnail' alt='Thumbnail'>
+		</a>
 EOD;
+	}
 	++$imagesFound;
-
 	
-	if ($imagesFound >= $posts_per_page)
+	if ($imagesFound > $posts_per_page)
 	{
 		$nextPage = $currentPage + 1;
 		$nextPageLink = <<<EOD

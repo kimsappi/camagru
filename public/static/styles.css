@@ -1,24 +1,27 @@
-:root {
-	--mainBodyMaxHeight: 20vh;
-}
-/* 
-aside {
-	display: inline-block;
-	max-width: 10%;
-	overflow-y: auto;
-}
+@media screen and (max-width: 991.98px) {
+	.sideGallery {
+		display: flex;
+		flex-direction: row;
+		overflow-x: auto;
+	}
 
-aside img {
-	max-width: 100%;
-} */
-
-.sideGallery {
-	overflow-y: auto;
+	.sideGalleryImage {
+		max-height: 10vh;
+		margin-right: 1vh;
+	}
 }
 
-.sideGalleryImage {
-	width: 100%;
-	margin-bottom: 2%;
+/* On large devices, move the side gallery to the side */
+@media screen and (min-width: 992px)
+{
+	.sideGallery {
+		overflow-y: auto;
+	}
+
+	.sideGalleryImage {
+		width: 100%;
+		margin-bottom: 2%;
+	}
 }
 
 .square:after {
@@ -28,12 +31,19 @@ aside img {
 }
 
 /* ID selectors */
+#postMainImage {
+	background-color: lightblue;
+	padding: 0px;
+}
+
 #postMainImageImg {
+	max-height: 100%;
+	max-width: 100%;
 	object-fit: contain;
-	height: 100%;
 }
 
 #postSideGallery {
+	background-color: pink;
 }
 
 /* #mainBodyAndSideGalleryContainer {
