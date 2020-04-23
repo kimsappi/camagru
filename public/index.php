@@ -43,20 +43,16 @@ foreach ($connection->query($query) as $imageData)
 {
 	$imageId = $imageData['id'];
 	$fileName = $imageId . '.' . $imageData['extension'];
-	echo <<<EOD
-	<a href="post.php?id=$imageId">
-		<img src="$uploads_path_url$fileName" class='thumbnail' alt='Thumbnail'>
-	</a>
-	EOD;
+	echo "<a href='post.php?id=$imageId'>
+		<img src='$uploads_path_url$fileName' class='thumbnail' alt='Thumbnail'>
+	</a>";
 	++$imagesFound;
 
 	
 	if ($imagesFound >= $posts_per_page)
 	{
 		$nextPage = $currentPage + 1;
-		$nextPageLink = <<<EOD
-			<div><a href="/?page=$nextPage">Next page</a></div>
-		EOD;
+		$nextPageLink = "<div><a href='/?page=$nextPage'>Next page</a></div>";
 		break;
 	}
 }
@@ -76,8 +72,10 @@ if (!$imagesFound)
 </div>
 
 <div id='galleryNextPrevNavigation'>
-	<?= $prevPageLink ?>
-	<?= $nextPageLink ?>
+	<?php
+	echo $prevPageLink;
+	echo $nextPageLink;
+	?>
 </div>
 
 
