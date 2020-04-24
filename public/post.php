@@ -6,7 +6,6 @@ require_once($templates_path . "head.php");
 require_once($templates_path . "header.php");
 require_once($templates_path . "Comment.php");
 require_once($functions_path . "dbConnect.php");
-require_once($functions_path . "utils.php");
 
 if (!$connection = dbConnect()) {
 	echo "The site appears to be broken! Check back later.";
@@ -90,10 +89,11 @@ foreach ($connection->query($query) as $comment)
 	</div>
 </div>
 
-<?php
-echo $commentForm;
-echo $commentsHTML;
-?>
+<?= $commentForm; ?>
+
+<div id='commentsContainer'>
+<?= $commentsHTML; ?>
+</div>
 
 <script>
 	const resizeSideGalleryOnResize = () => {
@@ -107,9 +107,19 @@ echo $commentsHTML;
 		const containerWidth = document.getElementById('postMainImage').offsetWidth;
 		const imageWidth = imageElement.offsetHeight;
 		const leftMargin = (containerWidth - imageWidth) / 2;
+		const sideGallery = document.getElementById('postSideGallery');
 
+		if (leftMargin < 20) {
+			sideGallery.style.paddingLeft = leftMargin + 'px';
+		}
+		
 		if (leftMargin > 0) {
 			imageElement.style.marginLeft = leftMargin + 'px';
+		}
+		else {
+			imageElement.style.marginLeft = '0px';
+			imageElement.style.marginRight = '0px';
+			sideGallery.style.paddingLeft = '0px';
 		}
 	}
 

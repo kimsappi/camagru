@@ -1,29 +1,60 @@
-@media screen and (max-width: 991.98px) {
-	.sideGallery {
-		display: flex;
-		flex-direction: row;
-		overflow-x: auto;
-	}
+/* Classes related to side gallery */
+.sideGallery {
+	display: flex;
+	flex-direction: row;
+	overflow-x: auto;
+}
 
-	.sideGalleryImage {
-		max-height: 10vh;
-		margin-right: 1vh;
-	}
+.sideGalleryImage {
+	max-height: 15vh;
+	margin-right: 1vh;
 }
 
 /* On large devices, move the side gallery to the side */
 @media screen and (min-width: 992px)
 {
 	.sideGallery {
+		display: flex;
+		flex-direction: column;
 		overflow-y: auto;
 	}
 
 	.sideGalleryImage {
 		width: 100%;
 		margin-bottom: 2%;
+		margin-right: initial;
+		max-height: initial;
 	}
 }
 
+/* Classes related to comments on post page */
+#commentsContainer {
+}
+
+.commentContainer {
+	border-radius: 1em;
+	padding: 0.7em;
+	max-width: fit-content;
+}
+
+.commentContainer > * {
+	box-sizing: content-box;
+}
+
+.commentContainer:nth-child(even) {
+	background-color: lightgray;
+}
+
+.commentUsername {
+	font-weight: bold;
+	font-style: oblique;
+	margin-bottom: 0.5em;
+}
+
+.commentContent {
+}
+
+/* Class to force divs to be square */
 .square:after {
 	content: "";
 	padding-bottom: 100%;

@@ -31,9 +31,9 @@ EOD;
 		$userName = sanitiseOutput($this->userName);
 		$text = sanitiseOutput($this->commentText);
 		return <<<EOD
-			<div>
-				<div>$userName</div>
-				<div>$text</div>
+			<div class='commentContainer'>
+				<div class='commentUsername'>$userName</div>
+				<div class='commentContent'>$text</div>
 			</div>
 EOD;
 	}
