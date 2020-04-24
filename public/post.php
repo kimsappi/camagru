@@ -4,6 +4,7 @@ require_once($_SERVER["DOCUMENT_ROOT"] . "/require.php");
 require_once($config_path . "config.php");
 require_once($templates_path . "head.php");
 require_once($templates_path . "header.php");
+require_once($templates_path . "Comment.php");
 require_once($functions_path . "dbConnect.php");
 require_once($functions_path . "utils.php");
 
@@ -69,8 +70,8 @@ SELECT * FROM `comments`
 EOD;
 foreach ($connection->query($query) as $comment)
 {
-	$commentContent = sanitiseOutput($comment['content']);
-	$commentsHTML .= "<div>$commentContent</div>";
+	$commentHTML = new Comment($comment);
+	$commentsHTML .= $commentHTML;
 }
 ?>
 
@@ -78,11 +79,11 @@ foreach ($connection->query($query) as $comment)
 
 <!-- Page body -->
 <div class='row'>
-	<div class='col-sm-12 col-lg-10' id='postMainImage'>
+	<div class='col-12 col-md-10' id='postMainImage'>
 		<img src='<?= $uploads_path_url . $fileName; ?>' alt='Post image' id='postMainImageImg'>
 	</div>
 
-	<div class='col-sm-12 col-lg-2 sideGallery' id='postSideGallery'>
+	<div class='col-12 col-md-2 sideGallery' id='postSideGallery'>
 		<?php
 		require_once($templates_path . "sideGallery.php");
 		?>
