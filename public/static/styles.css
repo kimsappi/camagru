@@ -1,3 +1,11 @@
+img, video {
+	border-radius: 3%;
+}
+
+.thumbnailCustom {
+	max-width: 25%;
+}
+
 /* Classes related to side gallery */
 .sideGallery {
 	display: flex;

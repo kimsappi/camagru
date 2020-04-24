@@ -49,7 +49,7 @@ foreach ($connection->query($query) as $imageData)
 	{
 		echo <<<EOD
 		<a href="post.php?id=$imageId">
-			<img src="$uploads_path_url$fileName" class='thumbnail' alt='Thumbnail'>
+			<img src="$uploads_path_url$fileName" class='thumbnailCustom' alt='Thumbnail'>
 		</a>
 EOD;
 	}

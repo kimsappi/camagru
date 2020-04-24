@@ -12,21 +12,29 @@ if (!isset($_SESSION["username"]))
 	exit();
 }
 ?>
-<div id='mainBody'>
-	<div id="webcam_container" class="square">
-		<video autoplay id="webcam"></video>
-		<img id="img_preview">
+
+<!-- Page body -->
+<div class='container'>
+	<div class='row'>
+		<div id="webcam_container" class="square col-12 col-md-10">
+			<video autoplay id="webcam"></video>
+			<img id="img_preview">
+		</div>
+		<div class='col-12 col-md-2 sideGallery' id='postSideGallery'>
+			<?php
+			require_once($templates_path . "sideGallery.php");
+			?>
+		</div>
 	</div>
-	<br />
-	<button id="take_pic_from_webcam">Snap!</button>
-	<button id="cancel_pic_from_webcam">Cancel</button>
-	<script src="/static/webcam.js"></script>
+	<div class='row'>
+		<button id="take_pic_from_webcam">Snap!</button>
+		<button id="cancel_pic_from_webcam">Cancel</button>
+	</div>
 </div>
-<aside>
-	<?php
-	require_once($templates_path . "sideGallery.php");
-	?>
-</aside>
+
+<!-- Load scripts required for webcam functionality -->
+<script src="/static/webcam.js"></script>
+
 <?php
 require_once($templates_path . "footer.php");
 ?>

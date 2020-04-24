@@ -21,7 +21,7 @@ foreach ($connection->query($query) as $galleryPost)
 	$galleryPostFileName = $galleryPostId . '.' . $galleryPost['extension'];
 
 	// Don't show current post in side gallery in post view
-	if (isset($postId) && $galleryPostId != $postId)
+	if (!isset($postId) || (isset($postId) && $galleryPostId != $postId))
 	{
 		$sideGalleryHTML .= <<<EOD
 		<a href='/post.php?id=$galleryPostId'>
