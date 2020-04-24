@@ -79,7 +79,7 @@ foreach ($connection->query($query) as $comment)
 <!-- Page body -->
 <div class='row'>
 	<div class='col-12 col-md-10' id='postMainImage'>
-		<img src='<?= $uploads_path_url . $fileName; ?>' alt='Post image' id='postMainImageImg'>
+		<img src='<?= $uploads_path_url . $fileName; ?>' alt='Post image' id='postMainImageImg' class='resizeSelectorClass'>
 	</div>
 
 	<div class='col-12 col-md-2 sideGallery' id='postSideGallery'>
@@ -95,42 +95,9 @@ foreach ($connection->query($query) as $comment)
 <?= $commentsHTML; ?>
 </div>
 
-<script>
-	const resizeSideGalleryOnResize = () => {
-		const height = document.getElementById('postMainImage').offsetHeight;
-		const postSideGallery = document.getElementById('postSideGallery');
-		postSideGallery.style.maxHeight = height + 'px';
-	}
-
-	const centerPostMainImage = () => {
-		const imageElement = document.getElementById('postMainImageImg');
-		const containerWidth = document.getElementById('postMainImage').offsetWidth;
-		const imageWidth = imageElement.offsetHeight;
-		const leftMargin = (containerWidth - imageWidth) / 2;
-		const sideGallery = document.getElementById('postSideGallery');
-
-		if (leftMargin < 20) {
-			sideGallery.style.paddingLeft = leftMargin + 'px';
-		}
-		
-		if (leftMargin > 0) {
-			imageElement.style.marginLeft = leftMargin + 'px';
-		}
-		else {
-			imageElement.style.marginLeft = '0px';
-			imageElement.style.marginRight = '0px';
-			sideGallery.style.paddingLeft = '0px';
-		}
-	}
-
-	window.addEventListener('resize', resizeSideGalleryOnResize);
-	window.addEventListener('load', resizeSideGalleryOnResize);
-	window.addEventListener('resize', centerPostMainImage);
-	window.addEventListener('load', centerPostMainImage);
-</script>
+<script src='/static/sideGallery.js'></script>
 
 <?php
 require_once($templates_path . "footer.php");
 ?>
 
-</div>

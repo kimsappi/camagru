@@ -62,20 +62,14 @@ img, video {
 .commentContent {
 }
 
-/* Class to force divs to be square */
-.square:after {
-	content: "";
-	padding-bottom: 100%;
-	display: block;
-}
-
 /* ID selectors */
-#postMainImage {
+#postMainImage, #webcam_container {
 	background-color: lightblue;
 	padding: 0px;
+	max-width: 100%;
 }
 
-#postMainImageImg {
+#postMainImageImg, #webcam, #img_preview {
 	max-height: 100%;
 	max-width: 100%;
 	object-fit: contain;
@@ -104,18 +98,18 @@ img, video {
 	display: none;
 }
 
+
 #webcam_container {
-	position: relative;
-	min-height: 300px;
-	object-fit: cover;
+	/* position: relative; */
+	/* min-height: 50vh; */
 }
 
 #webcam, #img_preview {
-	position: absolute;
-	width: 100%;
-	height: 100%;
+	/* position: absolute; */
+	/* min-height: 50vh; */
 	z-index: 2;
 	object-fit: cover;
+	box-sizing: border-box;
 }
 
 #webcam {
@@ -123,6 +117,17 @@ img, video {
 }
 
 #img_preview {
-	visibility: hidden;
+	display: none;
 	z-index: 3;
+}
+
+/* Class to force divs to be square */
+.square:after {
+	content: "";
+	padding-bottom: 100%;
+	display: block;
+}
+
+.noMargin {
+	margin: 0px;
 }

@@ -52,6 +52,10 @@ function changeTakePicButtonFunctionality(toUpload)
 	}
 }
 
+/*
+** Capture a momentary snapshot and display it instead of the webcam
+** stream. Change button functionality to allow cancellation/uploading.
+*/
 function takePicFromWebcamStream()
 {
 	if (imageCapture)
@@ -59,9 +63,14 @@ function takePicFromWebcamStream()
 		imageCapture.takePhoto()
 			.then((blob) =>
 			{
-				let previewElement = document.getElementById("img_preview");
+				const previewElement = document.getElementById("img_preview");
+				const webcamElement = document.getElementById("webcam");
+				const size = webcamElement.offsetHeight;
 				previewElement.src = URL.createObjectURL(blob);
-				previewElement.style.visibility = "visible";
+				previewElement.style.display = "block";
+				previewElement.style.width = size + 'px';
+				previewElement.style.height = size + 'px';
+				webcamElement.style.display = "none";
 				changeElementDisplay("cancel_pic_from_webcam", "inline-block");
 				changeTakePicButtonFunctionality(true);
 				imageBlob = blob;
@@ -74,13 +83,18 @@ function takePicFromWebcamStream()
 	}
 }
 
+/*
+** Redisplay webcam stream, change buttons back to initial state.
+*/
 function cancelPicFromWebcam()
 {
 	let previewElement = document.getElementById("img_preview");
+	let webcamElement = document.getElementById("webcam");
 	imageBlob = null;
 	if (previewElement.src)
 	{
-		previewElement.style.visibility = "hidden";
+		previewElement.style.display = "none";
+		webcamElement.style.display = "block";
 		URL.revokeObjectURL(previewElement.src);
 		previewElement.src = "#";
 	}
@@ -98,9 +112,6 @@ function uploadPic()
 		body: data
 	})
 		.then(window.location.href='/');
-	//let request = new XMLHttpRequest();
-	//request.open("POST", "/upload.php");
-	//request.send(data);
 }
 
 function changeElementDisplay(id, display)

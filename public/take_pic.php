@@ -14,11 +14,11 @@ if (!isset($_SESSION["username"]))
 ?>
 
 <!-- Page body -->
-<div class='container'>
+<div class='container noMargin'>
 	<div class='row'>
-		<div id="webcam_container" class="square col-12 col-md-10">
-			<video autoplay id="webcam"></video>
-			<img id="img_preview">
+		<div id="webcam_container" class="col-12 col-md-10">
+			<video autoplay id="webcam" class='square resizeSelectorClass'></video>
+			<img id="img_preview" class='square resizeSelectorClass'>
 		</div>
 		<div class='col-12 col-md-2 sideGallery' id='postSideGallery'>
 			<?php
@@ -32,8 +32,9 @@ if (!isset($_SESSION["username"]))
 	</div>
 </div>
 
-<!-- Load scripts required for webcam functionality -->
+<!-- Load scripts required for webcam functionality and formatting -->
 <script src="/static/webcam.js"></script>
+<script src="/static/sideGallery.js"></script>
 
 <?php
 require_once($templates_path . "footer.php");
