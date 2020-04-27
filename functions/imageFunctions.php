@@ -1,7 +1,10 @@
 <?php
 function cropAndResizeImage(&$image)
 {
-	$maxRes = 1080;
+	require($_SERVER["DOCUMENT_ROOT"] . "/require.php");
+	require($config_path . "config.php");
+
+	$maxRes = $maxImageRes; // config.php
 	$width = imagesx($image);
 	$height = imagesy($image);
 	$squareSize = min([$width, $height]);
@@ -11,7 +14,7 @@ function cropAndResizeImage(&$image)
 	
 	/* Original image larger than maxRes, need to downscale image */
 	if ($squareSize > $maxRes)
-		imagecopyresized($squareImage, $image,
+		imagecopyresampled($squareImage, $image,
 			0, 0, // Destination offset coordinates (width, height)
 			($width - $squareSize) / 2, ($height - $squareSize) / 2, // Source offset coordinates
 			$maxRes, $maxRes, // Destination width, height

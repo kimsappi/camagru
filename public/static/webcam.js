@@ -11,9 +11,9 @@ function initialiseWebcamStreamOnload()
 			const webcamElement = document.getElementById("webcam");
 			webcamElement.srcObject = mediaStream;
 
-			/* Set maximum available resolution for webcam, up to 1080 */
+			/* Set maximum available resolution for webcam, up to 720 */
 			const capabilities = mediaStream.getVideoTracks()[0].getCapabilities();
-			const size = Math.min(capabilities.height.max, capabilities.width.max, 1080);
+			const size = Math.min(capabilities.height.max, capabilities.width.max, 720);
 			const constraints = {height: size, width: size, facingMode: capabilities.facingMode};
 			mediaStream.getVideoTracks()[0].applyConstraints(constraints);
 
@@ -115,7 +115,7 @@ function uploadPic(uploadedFile = null)
 		method: 'post',
 		body: data
 	})
-	//	.then(window.location.href='/');
+		.then(window.location.href='/');
 }
 
 function changeElementDisplay(id, display)

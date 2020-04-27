@@ -10,9 +10,15 @@ error_log(print_r($_FILES, true));
 require_once($functions_path . "imageFunctions.php");
 
 $uploadedImage = imagecreatefrompng($_FILES["imageBlob"]["tmp_name"]);
-$resizedImage = cropAndResizeImage($uploadedImage);
-$src = imagecreatefrompng($filters_path . "testi.png");
-imagecopymerge($resizedImage['image'], $src, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], 30);
+//$resizedImage = cropAndResizeImage($uploadedImage);
+
+// This removes the problem with the horrible image compression
+$resizedImage = ['image' => $uploadedImage, 'size' => 720];
+$filterSrc = imagecreatefrompng($filters_path . "testi.png");
+$filterSquare = imagecreate($resizedImage['size'], $resizedImage['size']);
+imagecopyresampled($filterSquare, $filterSrc, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], imagesx($filterSrc), imagesy($filterSrc));
+//Not the problem
+//imagecopymerge($resizedImage['image'], $filterSquare, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], 30);
 
 require_once($functions_path . "dbConnect.php");
 if (!$connection = dbConnect())
