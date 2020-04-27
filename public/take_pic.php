@@ -16,6 +16,9 @@ if (!isset($_SESSION["username"]))
 <!-- Page body -->
 <div class='container noMargin'>
 	<div class='row'>
+		<input type='file' id='fileUpload' oninput='userSelectsUploadFile();'>
+	</div>
+	<div class='row'>
 		<div id="webcam_container" class="col-12 col-md-10">
 			<video autoplay id="webcam" class='square resizeSelectorClass'></video>
 			<img id="img_preview" class='square resizeSelectorClass'>
@@ -29,6 +32,7 @@ if (!isset($_SESSION["username"]))
 	<div class='row'>
 		<button id="take_pic_from_webcam">Snap!</button>
 		<button id="cancel_pic_from_webcam">Cancel</button>
+		<button id="upload_old_pic">Upload</button>
 	</div>
 </div>
 

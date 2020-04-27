@@ -1,16 +1,17 @@
 <?php
 require_once($_SERVER["DOCUMENT_ROOT"] . "/require.php");
-if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST' || !$_POST || !$_FILES || !isset($_FILES["imageBlob"]) || !isset($_FILES["imageBlob"]["type"]) || $_FILES["imageBlob"]["type"] !== "image/png" || $_FILES["imageBlob"]["type"] > 5000000)
+if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST' || !$_POST || !$_FILES)
 {
 	header("Location: /");
 	exit();
 }
+error_log(print_r($_FILES, true));
+// !isset($_FILES["imageBlob"]) || !isset($_FILES["imageBlob"]["type"]) || $_FILES["imageBlob"]["type"] !== "image/png" || $_FILES["imageBlob"]["size"] > 5000000
 require_once($functions_path . "imageFunctions.php");
 
 $uploadedImage = imagecreatefrompng($_FILES["imageBlob"]["tmp_name"]);
 $resizedImage = cropAndResizeImage($uploadedImage);
 $src = imagecreatefrompng($filters_path . "testi.png");
-//imagecopymerge($resizedImage['image'], $src, 0, 0, 0, 0, 500, 500, 30);
 imagecopymerge($resizedImage['image'], $src, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], 30);
 
 require_once($functions_path . "dbConnect.php");

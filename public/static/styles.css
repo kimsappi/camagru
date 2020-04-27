@@ -37,12 +37,18 @@ img, video {
 
 /* Classes related to comments on post page */
 #commentsContainer {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
 
 .commentContainer {
 	border-radius: 1em;
 	padding: 0.7em;
 	max-width: fit-content;
+	border: 1px solid black;
+	box-shadow: 5px 10px 8px #888888;
+	margin-bottom: 1em;
 }
 
 .commentContainer > * {
@@ -50,7 +56,7 @@ img, video {
 }
 
 .commentContainer:nth-child(even) {
-	background-color: lightgray;
+	background-color: #ececec;
 }
 
 .commentUsername {
@@ -94,7 +100,7 @@ img, video {
 
 
 /* Webcam stuff */
-#cancel_pic_from_webcam {
+#cancel_pic_from_webcam, #upload_old_pic {
 	display: none;
 }
 

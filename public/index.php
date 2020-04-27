@@ -5,9 +5,7 @@ require_once($config_path . "config.php");
 require_once($templates_path . "head.php");
 require_once($templates_path . "header.php");
 ?>
-<button onclick="window.location.href = '/take_pic.php';">Snap!</button>
 
-<div id='indexGallery'>
 <?php
 require_once($functions_path . 'dbConnect.php');
 if (!$connection = dbConnect()) {
@@ -40,6 +38,7 @@ if ($currentPage > 1) {
 EOD;
 }
 
+$indexGalleryHTML = '';
 $imagesFound = 0;
 foreach ($connection->query($query) as $imageData)
 {
@@ -47,7 +46,7 @@ foreach ($connection->query($query) as $imageData)
 	$fileName = $imageId . '.' . $imageData['extension'];
 	if ($imagesFound < $posts_per_page)
 	{
-		echo <<<EOD
+		$indexGalleryHTML .= <<<EOD
 		<a href="post.php?id=$imageId">
 			<img src="$uploads_path_url$fileName" class='thumbnailCustom' alt='Thumbnail'>
 		</a>
@@ -70,11 +69,23 @@ if (!$imagesFound)
 	$query = "SELECT `id` FROM posts LIMIT 1;";
 	if ($connection->query($query))
 	{
-		echo "Gallery is currently empty. Why not make the FIRST post?";
+		$indexGalleryHTML .= "Gallery is currently empty. Why not make the FIRST post?";
 	}
 }
 ?>
 
+
+
+<!-- Page body -->
+<p>You can <a href='/take_pic.php' class='buttonStyleLink'>SNAP</a> a new picture with a webcam or upload a file:</p>
+<!--
+<form action='/file_upload.php' method='post'>
+	<input type='file' name='picUpload'>
+	<input type='submit' name='submit'>
+</form>
+-->
+<div id='indexGallery'>
+	<?= $indexGalleryHTML ?>
 </div>
 
 <div id='galleryNextPrevNavigation'>

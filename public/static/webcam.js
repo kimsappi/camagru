@@ -26,7 +26,7 @@ function initialiseWebcamStreamOnload()
 		})
 	;
 	
-	/* Add eventListener for button to take/cancel photo */
+	/* Add eventListener for button to take/cancel photo and upload photo */
 	document.getElementById("take_pic_from_webcam").addEventListener("click", takePicFromWebcamStream);
 	document.getElementById("cancel_pic_from_webcam").addEventListener("click", cancelPicFromWebcam);
 }
@@ -102,20 +102,67 @@ function cancelPicFromWebcam()
 	changeTakePicButtonFunctionality(false);
 }
 
-function uploadPic()
+function uploadPic(uploadedFile = null)
 {
 	let data = new FormData();
-	data.append("imageBlob", imageBlob, "image");
+	if (!uploadedFile)
+		data.append("imageBlob", imageBlob, "image");
+	else {
+		data.append("imageBlob", uploadedFile, "image");
+	}
 	data.append("filter", "1");
 	fetch("/upload.php", {
 		method: 'post',
 		body: data
 	})
-		.then(window.location.href='/');
+	//	.then(window.location.href='/');
 }
 
 function changeElementDisplay(id, display)
 {
 	let element = document.getElementById(id);
 	element.style.display = display;
+}
+
+/*
+** User has uploaded an image, display it and remove webcam functionality
+*/
+const userSelectsUploadFile = () => {
+	const inputElement = document.getElementById('fileUpload');
+	const fileData = inputElement.files[0];
+	if (!fileData)
+		return;
+	if (!fileData.type.startsWith('image/')) {
+		alert('You can only upload image files.');
+		inputElement.value = null;
+		return;
+	}
+	const imgElement = document.getElementById('img_preview');
+	imgElement.src = '';
+	imgElement.file = fileData;
+	document.getElementById('webcam').remove();
+	changeElementDisplay('img_preview', 'block');
+	changeElementDisplay('take_pic_from_webcam', 'none');
+	changeElementDisplay('upload_old_pic', 'block');
+	document.getElementById("upload_old_pic").addEventListener("click", uploadOldPic);
+
+	const reader = new FileReader();
+	reader.onload = (img => e => img.src = e.target.result)(imgElement);
+	reader.readAsDataURL(fileData);
+}
+
+/*
+** User clicks upload button, upload image to server
+*/
+const uploadOldPic = () => {
+	const inputElement = document.getElementById('fileUpload');
+	const fileData = inputElement.files[0];
+	if (!fileData)
+		return;
+	if (!fileData.type.startsWith('image/')) {
+		alert('You can only upload image files.');
+		inputElement.value = null;
+		return;
+	}
+	uploadPic(fileData);
 }

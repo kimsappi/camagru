@@ -42,5 +42,4 @@ if (document.getElementById('webcam_container')) {
 	const webcamContainer = document.getElementById('webcam');
 	webcamContainer.addEventListener('loadeddata', resizeSideGalleryOnResize);
 	webcamContainer.addEventListener('loadeddata', centerPostMainImage);
-	webcamContainer.addEventListener('loadeddata', () => console.log('xd'));
 }
