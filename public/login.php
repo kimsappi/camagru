@@ -10,7 +10,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		exit();
 	}
 
-	echo $root_path;
 	//exit();
 	require_once($functions_path . "dbConnect.php");
 	if (!$connection = dbConnect())
