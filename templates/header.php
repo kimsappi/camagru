@@ -13,8 +13,17 @@ else
 		<?php
 			if (isset($_SESSION["username"]))
 			{
-				$userName = htmlentities($_SESSION['username']);
-				echo "<div id='username'>".$userName."</div><div id='logout'><a href='/logout.php'>Log out</a></div>";
+				require_once($_SERVER["DOCUMENT_ROOT"] . "/require.php");
+				require_once($functions_path . "/utils.php");
+				$userName = sanitiseOutput($_SESSION['username']);
+				echo <<<EOD
+				<div id='username'>
+					<a href='/profile.php'>
+						$userName
+					</a>
+				</div>
+				<div id='logout'><a href='/logout.php'>Log out</a></div>
+EOD;
 				//if ($_SESSION["is_admin"])
 				//	echo "<div id='adminpanel'><a href='/admin.php'>Admin panel</a></div>";
 			}

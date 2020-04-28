@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 	}
 
 	$query = $connection->prepare(
-		"SELECT `id`, `username`, `password` FROM users
+		"SELECT `id`, `username`, `password`, `email` FROM users
 			WHERE `username` = ?;"
 	);
 	if ($query->execute([$_POST["username"]]))
@@ -36,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		}
 		$_SESSION["username"] = $result["username"];
 		$_SESSION["user_id"] = $result["id"];
+		$_SESSION["email"] = $result["email"];
 		//require_once($_SERVER["DOCUMENT_ROOT"] . "/functions/idAdmin.php");
 		//$_SESSION["is_admin"] = isAdmin($result["id"]);
 		if (isset($_GET["destination"]))
