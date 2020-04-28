@@ -22,6 +22,8 @@ function validatePassWordStrength(string $password, string $confirmPassword): bo
 
 function validateUsername(string $username): bool
 {
+	/* Username 4-24 characters, only alphanumerics and underscores */
+	
 	if (
 		strlen($username) < 4 ||
 		strlen($username) > 24 ||
@@ -33,7 +35,6 @@ function validateUsername(string $username): bool
 
 function validateRegistrationData(Array $arr): bool
 {
-	/* Username 4-24 characters, only alphanumerics and underscores */
 	if (!validateUsername($arr['username']))
 		return FALSE;
 

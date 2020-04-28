@@ -14,10 +14,11 @@ catch(PDOException $e)
 $query = <<<'QUERY'
 CREATE TABLE IF NOT EXISTS users (
 	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-	username VARCHAR(24) NOT NULL,
+	username VARCHAR(24) UNIQUE NOT NULL,
 	password CHAR(64) NOT NULL,
-	email VARCHAR(99) NOT NULL,
-	email_on_comment BOOLEAN DEFAULT 1
+	email VARCHAR(99) UNIQUE NOT NULL,
+	email_on_comment BOOLEAN DEFAULT 1,
+	email_verified BOOLEAN DEFAULT 0
 );
 QUERY;
 if (!$connection->query($query))
@@ -76,11 +77,21 @@ require_once("config.php");
 require_once(__DIR__ . "/../functions/hashPassword.php");
 $admin_password = hashPassword($admin_password, $admin_username, $salt);
 $query = <<<QUERY
-INSERT INTO users (`username`, `password`, `email`)
-	VALUES ('$admin_username', '$admin_password', '$admin_email');
+INSERT INTO users (`username`, `password`, `email`, `email_verified`)
+	VALUES ('$admin_username', '$admin_password', '$admin_email', 1);
 QUERY;
+try
+{
 if (!$connection->query($query))
 	exit("Failed to create admin account.");
 
 echo "Admin account created successfully." . PHP_EOL;
+}
+catch(Exception $e)
+{
+	if (preg_match("/Integrity constraint violation.*for key 'username'/", $e))
+		echo "Admin account already exists." . PHP_EOL;
+	else
+		echo $e . PHP_EOL;
+}
 ?>
