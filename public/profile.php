@@ -55,7 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 					echo '<br>';
 					print_r($userData['password']);
 					if ($userData["password"] !== hashPassword($_POST["oldPassword"], $_SESSION["username"]))
-						echo strlen($userData["password"]);
+						echo '<br>';
+						echo $userData["password"];
+						echo '<br>';
+						echo hashPassword($_POST["oldPassword"], $_SESSION["username"], 'camagru.com');
+						echo 'This one is wrong.';
 					// Old password is wrong
 					$errorWithOldPassword = 'Old password is wrong, changes not made.';
 					$changesMadeCorrectly = FALSE;
@@ -80,10 +84,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 									$query = "UPDATE `users` SET `username` = ?, `password` = ? WHERE `id` = ?";
 									$query = $connection->prepare($query);
 									$query->execute([$_POST['username'], $newHashedPassword, $_SESSION['user_id']]);
+									$_SESSION['username'] = $_POST['username'];
 								}
+								else
+									$errorWithName = 'Username is already in use.';
 							}
+							else
+								$errorWithName = 'There was a problem with changing your username. Try again later.';
 						}
+						else
+							$errorWithName = 'Your new username does not meet the criteria for usernames.';
 					}
+					if (strlen($errorWithName) > 0)
+						$changesMadeCorrectly = FALSE;
 				}
 			}
 		}
