@@ -1,5 +1,5 @@
 <?php
-function validatePassWordStrength(string $password, string $confirmPassword): bool
+function validatePassWordStrength(string $password, $confirmPassword = FALSE): bool
 {
 	/*
 	** Password minimum characters, at least 3 of: [lowercase, uppercase,
@@ -12,7 +12,7 @@ function validatePassWordStrength(string $password, string $confirmPassword): bo
 	$password_strength += preg_match("/[0-9]/", $password);
 	$password_strength += preg_match("/[\W]/", $password);
 	if (
-		$password !== $confirmPassword ||
+		($password !== $confirmPassword && $confirmPassword !== FALSE) ||
 		strlen($password) < 8 ||
 		$password_strength < 3
 	)
