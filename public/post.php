@@ -15,8 +15,6 @@ if (!$connection = dbConnect()) {
 // POST for commenting
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
-	print_r($_POST);
-	print_r($_GET);
 	if (!isset($_POST['commentInput']) || strlen($_POST['commentInput']) < 1 || !isset($_SESSION['username']) || !isset($_GET['id']))
 		exit();
 	
@@ -51,6 +49,19 @@ if (!$result)
 
 $fileName = $result['id'] . '.' . $result['extension'];
 
+// Deletion is via GET too because this was easiest
+if (isset($_GET['delete']))
+{
+	if ($_SESSION['user_id'] === $result['user_id'])
+	{
+		unlink($uploads_path . $fileName);
+		$query = $connection->prepare("DELETE FROM posts WHERE `id` = ?;");
+		$query->execute([$postId]);
+	}
+	header('Location: /');
+	exit();
+}
+
 $commentForm = '';
 if (isset($_SESSION['username']))
 	$commentForm = <<<EOD
@@ -72,11 +83,21 @@ foreach ($connection->query($query) as $comment)
 	$commentHTML = new Comment($comment);
 	$commentsHTML .= $commentHTML;
 }
+
+// If the current user is the author of the post, allow deletion
+$deletionHTML = '';
+if ($_SESSION['user_id'] === $result['user_id'])
+{
+	$deletionHTML = <<<EOD
+	<a href='post.php?id=$postId&delete=1'>Delete this post</a>
+EOD;
+}
 ?>
 
 
 
 <!-- Page body -->
+<?= $deletionHTML ?>
 <div class='row'>
 	<div class='col-12 col-md-10' id='postMainImage'>
 		<img src='<?= $uploads_path_url . $fileName; ?>' alt='Post image' id='postMainImageImg' class='resizeSelectorClass'>

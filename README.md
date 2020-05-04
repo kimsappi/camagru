@@ -30,7 +30,7 @@ Hive web-dev project. PHP/vanilla JS
 - [x] Ability to comment on posts
 - [ ] Ability to like posts
 - [x] Gallery pagination
-- [ ] Ability to delete posts
+- [x] Ability to delete posts
 
 ## Capture features
 - [x] Only allow logged in users to access the page
