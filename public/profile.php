@@ -2,8 +2,6 @@
 $head_title = "Profile | Camagru";
 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/require.php");
-require_once($templates_path . "head.php");
-require_once($templates_path . "header.php");
 require_once($functions_path . "utils.php");
 require_once($functions_path . "dbConnect.php");
 require_once($functions_path . "validateRegistrationData.php");
@@ -26,9 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
 	$changesMadeCorrectly = TRUE;
 	$userData = NULL;
-	print_r($_POST);
-	print('<br>');
-	print(hashPassword($_POST["oldPassword"], $_SESSION["username"]));
 
 	if (isset($_POST['oldPassword']) && $_POST['oldPassword'])
 	{
@@ -52,14 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 					$userData["password"] !== hashPassword($_POST["oldPassword"], $_SESSION["username"])
 				)
 				{
-					echo '<br>';
-					print_r($userData['password']);
-					if ($userData["password"] !== hashPassword($_POST["oldPassword"], $_SESSION["username"]))
-						echo '<br>';
-						echo $userData["password"];
-						echo '<br>';
-						echo hashPassword($_POST["oldPassword"], $_SESSION["username"], 'camagru.com');
-						echo 'This one is wrong.';
 					// Old password is wrong
 					$errorWithOldPassword = 'Old password is wrong, changes not made.';
 					$changesMadeCorrectly = FALSE;
@@ -68,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 				// User used the correct password, check and possibly make other changes
 				if ($changesMadeCorrectly)
 				{
+					// Change username (requires changing password as well because that's how it's hashed)
 					if ($_POST['username'] != $_SESSION['username'])
 					{
 						if (validateUsername($_POST['username']))
@@ -97,6 +85,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 					}
 					if (strlen($errorWithName) > 0)
 						$changesMadeCorrectly = FALSE;
+
+					// Change email
+					if ($_POST['email'] != $_SESSION['email'])
+					{
+						if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+						{
+							$query = $connection->prepare(
+								"SELECT `id` FROM users
+									WHERE `email` = ?;"
+							);
+							if ($query->execute([$_POST["email"]]))
+							{
+								if (!$query->fetch())
+								{
+									$query = "UPDATE `users` SET `email` = ? WHERE `id` = ?";
+									$query = $connection->prepare($query);
+									$query->execute([$_POST['email'], $_SESSION['user_id']]);
+									$_SESSION['email'] = $_POST['email'];
+								}
+								else
+									$errorWithEmail = 'Email is already in use.';
+							}
+							else
+								$errorWithEmail = 'There was a problem with changing your email. Try again later.';
+						}
+						else
+							$errorWithEmail = 'Not a valid email address.';
+					}
+					if (strlen($errorWithEmail) > 0)
+						$changesMadeCorrectly = FALSE;
+
+					// Change password
+					if (strlen($_POST['newPassword']) > 0 && $_POST['newPassword'] != $_POST['oldPassword'])
+					{
+						if (validatePasswordStrength($_POST['newPassword']) && $_POST['newPassword'] == $_POST['confirmPassword'])
+						{
+							
+							$newHashedPassword = hashPassword($_POST['newPassword'], $_SESSION['username']);
+							$query = "UPDATE `users` SET `password` = ? WHERE `id` = ?";
+							$query = $connection->prepare($query);
+							$query->execute([$newHashedPassword, $_SESSION['user_id']]);
+						}
+						else
+							$errorWithNewPassword = 'New password does not meet criteria or passwords don\'t match.';
+					}
+					if (strlen($errorWithNewPassword) > 0)
+						$changesMadeCorrectly = FALSE;
 				}
 			}
 		}
@@ -115,6 +150,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 ?>
 
 <!-- Page body -->
+<?php
+// These are here instead of the top, so we get the new username immediately on submission
+require_once($templates_path . "head.php");
+require_once($templates_path . "header.php");
+?>
 <div class='container'>
 	<div class='row'>
 		<?php
