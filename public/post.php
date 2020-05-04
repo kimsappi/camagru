@@ -52,7 +52,7 @@ $fileName = $result['id'] . '.' . $result['extension'];
 // Deletion is via GET too because this was easiest
 if (isset($_GET['delete']))
 {
-	if ($_SESSION['user_id'] === $result['user_id'])
+	if (isset($_SESSION['user_id']) && $_SESSION['user_id'] === $result['user_id'])
 	{
 		unlink($uploads_path . $fileName);
 		$query = $connection->prepare("DELETE FROM posts WHERE `id` = ?;");
@@ -60,6 +60,23 @@ if (isset($_GET['delete']))
 	}
 	header('Location: /');
 	exit();
+}
+
+// Liking is handled via GET too because why not
+if (isset($_SESSION['user_id']) && isset($_GET['like']))
+{
+	$likeQuery = <<<EOD
+	INSERT INTO `likes` (`post_id`, `user_id`)
+		VALUES ($postId, {$_SESSION['user_id']});
+EOD;
+	try
+	{
+		$connection->query($likeQuery);
+	}
+	catch (PDOException $e)
+	{
+		// User has already liked this post, do nothing
+	}
 }
 
 $commentForm = '';
@@ -84,14 +101,20 @@ foreach ($connection->query($query) as $comment)
 	$commentsHTML .= $commentHTML;
 }
 
+// Get the number of likes for the current post
+$likesQuery = "SELECT COUNT(*) FROM `likes` WHERE `post_id` = $postId";
+$likesQuery = $connection->query($likesQuery);
+$likesCount = $likesQuery->fetchColumn();
+
 // If the current user is the author of the post, allow deletion
 $deletionHTML = '';
-if ($_SESSION['user_id'] === $result['user_id'])
+if (isset($_SESSION['user_id']) && $_SESSION['user_id'] === $result['user_id'])
 {
 	$deletionHTML = <<<EOD
 	<a href='post.php?id=$postId&delete=1'>Delete this post</a>
 EOD;
 }
+
 ?>
 
 
@@ -108,6 +131,10 @@ EOD;
 		require_once($templates_path . "sideGallery.php");
 		?>
 	</div>
+</div>
+
+<div class='row'>
+<a href='post.php?id=<?= $postId ?>&like=1'>&#x2764;&#xFE0F; <?= $likesCount ?></a>
 </div>
 
 <?= $commentForm; ?>

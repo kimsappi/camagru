@@ -28,7 +28,7 @@ Hive web-dev project. PHP/vanilla JS
 
 ## Post/gallery features
 - [x] Ability to comment on posts
-- [ ] Ability to like posts
+- [x] Ability to like posts
 - [x] Gallery pagination
 - [x] Ability to delete posts
 
