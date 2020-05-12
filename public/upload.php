@@ -6,6 +6,7 @@ if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST' || !$_
 	exit();
 }
 error_log(print_r($_FILES, true));
+error_log(print_r($_POST, true));
 // !isset($_FILES["imageBlob"]) || !isset($_FILES["imageBlob"]["type"]) || $_FILES["imageBlob"]["type"] !== "image/png" || $_FILES["imageBlob"]["size"] > 5000000
 require_once($functions_path . "imageFunctions.php");
 

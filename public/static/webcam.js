@@ -105,12 +105,13 @@ function cancelPicFromWebcam()
 function uploadPic(uploadedFile = null)
 {
 	let data = new FormData();
-	if (!uploadedFile)
+	console.log(uploadedFile);
+	if (uploadedFile instanceof Event)
 		data.append("imageBlob", imageBlob, "image");
 	else {
 		data.append("imageBlob", uploadedFile, "image");
 	}
-	data.append("filter", "1");
+	data.append("filter", document.getElementById('filter').value);
 	fetch("/upload.php", {
 		method: 'post',
 		body: data

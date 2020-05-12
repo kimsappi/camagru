@@ -11,12 +11,29 @@ if (!isset($_SESSION["username"]))
 	header("Location: /login.php?destination=take_pic.php");
 	exit();
 }
+
+$filtersSelectHTML = "<option value=''>Select filter</option>";
+$filtersDir = new DirectoryIterator($filters_path);
+foreach ($filtersDir as $fileData)
+{
+	if (!$fileData->isDot())
+	{
+		$filtersSelectHTML .= <<<EOD
+		<option value='{$fileData->getFilename()}'>{$fileData->getFilename()}</option>	
+EOD;
+	}
+}
 ?>
 
 <!-- Page body -->
 <div class='container noMargin'>
 	<div class='row'>
 		<input type='file' id='fileUpload' oninput='userSelectsUploadFile();'>
+	</div>
+	<div class='row'>
+		<select id='filter' name='filter'>
+			<?= $filtersSelectHTML ?>
+		</select>
 	</div>
 	<div class='row'>
 		<div id="webcam_container" class="col-12 col-md-10">
