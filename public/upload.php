@@ -1,6 +1,6 @@
 <?php
 require_once($_SERVER["DOCUMENT_ROOT"] . "/require.php");
-if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST' || !$_POST || !$_FILES)
+if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST' || !$_POST || !$_FILES || !isset($_POST['filter']) || !strlen($_POST['filter']))
 {
 	header("Location: /");
 	exit();
@@ -10,28 +10,34 @@ error_log(print_r($_POST, true));
 // !isset($_FILES["imageBlob"]) || !isset($_FILES["imageBlob"]["type"]) || $_FILES["imageBlob"]["type"] !== "image/png" || $_FILES["imageBlob"]["size"] > 5000000
 require_once($functions_path . "imageFunctions.php");
 
+if (!file_exists($filters_path . $_POST['filter']))
+{
+	header("Location: /");
+	exit();
+}
+$filterSrc = imagecreatefrompng($filters_path . $_POST['filter']);
+
 $uploadedImage = imagecreatefrompng($_FILES["imageBlob"]["tmp_name"]);
 //$resizedImage = cropAndResizeImage($uploadedImage);
 
 // This removes the problem with the horrible image compression
 $resizedImage = ['image' => $uploadedImage, 'size' => 720];
-$filterSrc = imagecreatefrompng($filters_path . "testi.png");
 $filterSquare = imagecreate($resizedImage['size'], $resizedImage['size']);
 imagecopyresampled($filterSquare, $filterSrc, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], imagesx($filterSrc), imagesy($filterSrc));
 //Not the problem
-//imagecopymerge($resizedImage['image'], $filterSquare, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], 30);
+imagecopymerge($resizedImage['image'], $filterSquare, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], 30);
 
 require_once($functions_path . "dbConnect.php");
 if (!$connection = dbConnect())
 {
-	header("Location: /register.php");
+	header("Location: /");
 	exit();
 }
 
 $extension = 'png';
 $query = $connection->prepare(
 	"INSERT INTO posts (`user_id`, `extension`)
-		VALUES (?, ?)"
+		VALUES (?, ?);"
 );
 $query->execute([$_SESSION['user_id'], $extension]);
 $newPostId = $connection->lastInsertId();
