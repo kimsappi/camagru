@@ -18,13 +18,12 @@ if (!file_exists($filters_path . $_POST['filter']))
 $filterSrc = imagecreatefrompng($filters_path . $_POST['filter']);
 
 $uploadedImage = imagecreatefrompng($_FILES["imageBlob"]["tmp_name"]);
-//$resizedImage = cropAndResizeImage($uploadedImage);
+$resizedImage = cropAndResizeImage($uploadedImage);
 
 // This removes the problem with the horrible image compression
-$resizedImage = ['image' => $uploadedImage, 'size' => 720];
+//$resizedImage = ['image' => $uploadedImage, 'size' => 720];
 $filterSquare = imagecreate($resizedImage['size'], $resizedImage['size']);
 imagecopyresampled($filterSquare, $filterSrc, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], imagesx($filterSrc), imagesy($filterSrc));
-//Not the problem
 imagecopymerge($resizedImage['image'], $filterSquare, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], 30);
 
 require_once($functions_path . "dbConnect.php");
