@@ -50,6 +50,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 				VALUES (?, ?, ?);"
 		);
 		$query->execute([$_POST["username"], $password, $_POST["email"]]);
+
+		// Create unique string for email confirmation
+		$emailConfirmationHash = hash('md5', $_POST['email'] . $_POST['username']);
+		// Send email confirmation mail
+		$rootURL = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
+		$emailConfirmationURL = $rootURL . 'confirm_email.php?hash=' . $emailConfirmationHash;
+		$confirmationEmailText = <<<EOD
+<p>Thanks for registering! Click or copy the following to link confirm your email address:</p>
+<a href='$emailConfirmationURL'>$emailConfirmationURL</a>
+EOD;
+		$emailHeaders = 'MIME-Version: 1.0';
+		$emailHeaders .= 'Content-type: text/html; charset=UTF-8';
+		$mailSuccess = mail($_POST['email'], 'Camagru | Confirm your email', $confirmationEmailText, $emailHeaders);
+		if (!$mailSuccess)
+			error_log(error_get_last()['message']);
 		header("Location: index.php");
 		exit();
 	}
