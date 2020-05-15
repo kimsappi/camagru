@@ -1,7 +1,7 @@
 </head>
 <?php
 if (isset($body_onload))
-	echo "<body onload='$body_onload'";
+	echo "<body onload='$body_onload'>";
 else
 	echo "<body>";
 ?>

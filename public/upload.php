@@ -21,11 +21,10 @@ $uploadedImage = imagecreatefrompng($_FILES["imageBlob"]["tmp_name"]);
 $resizedImage = cropAndResizeImage($uploadedImage);
 
 imagepng($resizedImage['image'], $uploads_path . 'imagepngresult.png');
-// This removes the problem with the horrible image compression
-//$resizedImage = ['image' => $uploadedImage, 'size' => 720];
-$filterSquare = imagecreate($resizedImage['size'], $resizedImage['size']);
-//imagecopyresampled($filterSquare, $filterSrc, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], imagesx($filterSrc), imagesy($filterSrc));
-//imagecopymerge($resizedImage['image'], $filterSquare, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], 30);
+// imagecreatetruecolor MANDATORY for good quality
+$filterSquare = imagecreatetruecolor($resizedImage['size'], $resizedImage['size']);
+imagecopyresampled($filterSquare, $filterSrc, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], imagesx($filterSrc), imagesy($filterSrc));
+imagecopymerge($resizedImage['image'], $filterSquare, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], 30);
 
 require_once($functions_path . "dbConnect.php");
 if (!$connection = dbConnect())

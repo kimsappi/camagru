@@ -9,12 +9,12 @@ function cropAndResizeImage(&$image)
 	$height = imagesy($image);
 	$squareSize = min([$width, $height]);
 
-	/* Create new square image canvas */
-	$squareImage = imagecreate(min([$squareSize, $maxRes]), min([$squareSize, $maxRes]));
+	/* Create new square image canvas, imagecreatetruecolor is MANDATORY for quality */
+	$squareImage = imagecreatetruecolor(min([$squareSize, $maxRes]), min([$squareSize, $maxRes]));
 	
 	/* Original image larger than maxRes, need to downscale image */
 	if ($squareSize > $maxRes)
-		imagecopyresized($squareImage, $image,
+		imagecopyresampled($squareImage, $image,
 			0, 0, // Destination offset coordinates (width, height)
 			($width - $squareSize) / 2, ($height - $squareSize) / 2, // Source offset coordinates
 			$maxRes, $maxRes, // Destination width, height
