@@ -10,7 +10,7 @@ Hive web-dev project. PHP/vanilla JS
 - [ ] No error/log messages anywhere
 - [x] Tech: PHP backend, PDO database driver, no frameworks/libraries except pure CSS ones
 - [ ] Firefox >= 41 and Chrome >= 46 compatibility
-- index.php must be in directory root
+- [ ] index.php must be in directory root
 
 ## Security
 - [x] Passwords must be encrypted
@@ -20,7 +20,7 @@ Hive web-dev project. PHP/vanilla JS
 
 ## User account features
 - [x] Mandate email validity and password complexity
-- [ ] Email validation through one-time link
+- [x] Email validation through one-time link
 - [ ] 'Forgot password' feature
 - [x] Possibility to log out on any page
 - [x] Ability to change username, email, password and email notification state
