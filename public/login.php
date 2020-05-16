@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 	}
 
 	$query = $connection->prepare(
-		"SELECT `id`, `username`, `password`, `email` FROM users
+		"SELECT `id`, `username`, `password`, `email`, `email_verification_string` FROM `users`
 			WHERE `username` = ?;"
 	);
 	if ($query->execute([$_POST["username"]]))
@@ -27,7 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		require_once($functions_path . "hashPassword.php");
 		$result = $query->fetch();
 		if (!$result || // Username not found in database
-			$result["password"] !== hashPassword($_POST["password"], $_POST["username"])
+			$result["password"] !== hashPassword($_POST["password"], $_POST["username"]) ||
+			strlen($result['email_verification_string'] > 0) // Email not verified
 		)
 		{
 			header("Location: /login.php");

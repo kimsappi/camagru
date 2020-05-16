@@ -45,14 +45,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		}
 		require_once($functions_path . "hashPassword.php");
 		$password = hashPassword($_POST["password"], $_POST["username"]);
-		$query = $connection->prepare(
-			"INSERT IGNORE INTO users (`username`, `password`, `email`)
-				VALUES (?, ?, ?);"
-		);
-		$query->execute([$_POST["username"], $password, $_POST["email"]]);
-
 		// Create unique string for email confirmation
 		$emailConfirmationHash = hash('md5', $_POST['email'] . $_POST['username']);
+
+		$query = $connection->prepare(
+			"INSERT IGNORE INTO users (`username`, `password`, `email`, `email_verification_string`)
+				VALUES (?, ?, ?, ?);"
+		);
+		$query->execute([$_POST["username"], $password, $_POST["email"], $emailConfirmationHash]);
+
 		// Send email confirmation mail
 		$rootURL = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
 		$emailConfirmationURL = $rootURL . 'confirm_email.php?hash=' . $emailConfirmationHash;
@@ -60,8 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 <p>Thanks for registering! Click or copy the following to link confirm your email address:</p>
 <a href='$emailConfirmationURL'>$emailConfirmationURL</a>
 EOD;
-		$emailHeaders = 'MIME-Version: 1.0';
-		$emailHeaders .= 'Content-type: text/html; charset=UTF-8';
+		$emailHeaders = "MIME-Version: 1.0\r\n";
+		$emailHeaders .= "Content-type: text/html; charset=iso-8859-1\r\n";
 		$mailSuccess = mail($_POST['email'], 'Camagru | Confirm your email', $confirmationEmailText, $emailHeaders);
 		if (!$mailSuccess)
 			error_log(error_get_last()['message']);

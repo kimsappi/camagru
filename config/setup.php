@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS users (
 	password CHAR(64) NOT NULL,
 	email VARCHAR(99) UNIQUE NOT NULL,
 	email_on_comment BOOLEAN DEFAULT 1,
-	email_verified BOOLEAN DEFAULT 0
+	email_verification_string VARCHAR(32)
 );
 QUERY;
 if (!$connection->query($query))
@@ -77,8 +77,8 @@ require_once("config.php");
 require_once(__DIR__ . "/../functions/hashPassword.php");
 $admin_password = hashPassword($admin_password, $admin_username, $salt);
 $query = <<<QUERY
-INSERT INTO users (`username`, `password`, `email`, `email_verified`)
-	VALUES ('$admin_username', '$admin_password', '$admin_email', 1);
+INSERT INTO users (`username`, `password`, `email`, `email_verification_string`)
+	VALUES ('$admin_username', '$admin_password', '$admin_email', '');
 QUERY;
 try
 {
