@@ -61,3 +61,9 @@ else
 	require_once($templates_path . "forms/form_login.php");
 }
 ?>
+
+<a href='/forgot_password.php'>Forgot your password?</a>
+
+<?php
+require_once($templates_path . "footer.php");
+?>

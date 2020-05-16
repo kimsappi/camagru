@@ -14,7 +14,7 @@ if (!$connection = dbConnect())
 }
 
 $query = <<<EOD
-SELECT `id` FROM `users`
+SELECT `id`, `password` FROM `users`
 	WHERE BINARY `email_verification_string` = ?;
 EOD;
 
@@ -22,7 +22,7 @@ $query = $connection->prepare($query);
 $query->execute([$_GET['hash']]);
 $result = $query->fetch();
 
-if (!$result)
+if (!$result || !strlen($result['password']))
 {
 	header("Location: /");
 	exit();
