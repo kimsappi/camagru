@@ -1,6 +1,8 @@
 <?php
 require_once($_SERVER["DOCUMENT_ROOT"] . "/require.php");
 require_once($functions_path . "dbConnect.php");
+require_once($templates_path . 'head.php');
+require_once($templates_path . 'header.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET')
 {

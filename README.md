@@ -21,7 +21,7 @@ Hive web-dev project. PHP/vanilla JS
 ## User account features
 - [x] Mandate email validity and password complexity
 - [x] Email validation through one-time link
-- [ ] 'Forgot password' feature
+- [x] 'Forgot password' feature
 - [x] Possibility to log out on any page
 - [x] Ability to change username, email, password and email notification state
 - [ ] Ability to receive email on new comments to user's posts
