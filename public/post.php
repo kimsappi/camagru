@@ -20,6 +20,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 	
 	$commentPostId = $_GET['id'];
 	$commentUserId = $_SESSION['user_id'];
+
+	// Check if original poster needs to be emailed, also check if post exists
+	$queryStr = <<<EOD
+	SELECT `email`, `email_on_comment` FROM `users`
+		INNER JOIN `posts`
+			ON users.id = posts.user_id
+		WHERE posts.id = ?;
+EOD;
+
+	$query = $connection->prepare($queryStr);
+	$query->execute([$commentPostId]);
+	$result = $query->fetch();
+	if (!$result)
+	{
+		header('Location: /');
+		exit();
+	}
+
+	// Send email to original poster if they have the setting selected
+	if ($result['email_on_comment'])
+	{
+		$postURL = $rootURL = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/post.php?id=' . $commentPostId;
+		$mailToPoster = <<<EOD
+	<p>You have a new comment on your post: <a href='$postURL'>$postURL</a></p>
+EOD;
+
+		$emailHeaders = "MIME-Version: 1.0\r\n";
+		$emailHeaders .= "Content-type: text/html; charset=iso-8859-1\r\n";
+		mail($result['email'], 'Camagru | New comment on your post', $mailToPoster, $emailHeaders);
+	}
+
 	$queryStr = <<<EOD
 	INSERT INTO `comments` (`post_id`, `user_id`, `content`)
 		VALUES (?, ?, ?);

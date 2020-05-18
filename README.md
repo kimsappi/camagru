@@ -23,8 +23,8 @@ Hive web-dev project. PHP/vanilla JS
 - [x] Email validation through one-time link
 - [x] 'Forgot password' feature
 - [x] Possibility to log out on any page
-- [x] Ability to change username, email, password and email notification state
-- [ ] Ability to receive email on new comments to user's posts
+- [ ] Ability to change username, email, password and email notification state
+- [x] Ability to receive email on new comments to user's posts
 
 ## Post/gallery features
 - [x] Ability to comment on posts
