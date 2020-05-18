@@ -63,9 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 EOD;
 		$emailHeaders = "MIME-Version: 1.0\r\n";
 		$emailHeaders .= "Content-type: text/html; charset=iso-8859-1\r\n";
-		$mailSuccess = mail($_POST['email'], 'Camagru | Confirm your email', $confirmationEmailText, $emailHeaders);
-		if (!$mailSuccess)
-			error_log(error_get_last()['message']);
+		mail($_POST['email'], 'Camagru | Confirm your email', $confirmationEmailText, $emailHeaders);
 		header("Location: index.php");
 		exit();
 	}

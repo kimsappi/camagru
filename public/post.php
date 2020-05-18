@@ -78,6 +78,11 @@ if (!$result)
 	exit();
 }
 
+// Get original poster's name. Yes, this is done stupidly with 2 queries, but
+// I had already completed the rest of the page and it would take more work to fix everything.
+$posterName = $connection->query("SELECT `username` FROM `users` WHERE `id` = {$result['user_id']};");
+$posterName = $posterName->fetch()['username'];
+
 $fileName = $result['id'] . '.' . $result['extension'];
 
 // Deletion is via GET too because this was easiest
@@ -152,6 +157,9 @@ EOD;
 
 <!-- Page body -->
 <?= $deletionHTML ?>
+<div class='row'>
+	By: <?= sanitiseOutput($posterName) ?>
+</div>
 <div class='row'>
 	<div class='col-12 col-md-10' id='postMainImage'>
 		<img src='<?= $uploads_path_url . $fileName; ?>' alt='Post image' id='postMainImageImg' class='resizeSelectorClass'>

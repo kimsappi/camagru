@@ -82,14 +82,14 @@ QUERY;
 try
 {
 if (!$connection->query($query))
-	exit("Failed to create admin account.");
+	exit("Failed to create DUMMY account.");
 
-echo "Admin account created successfully." . PHP_EOL;
+echo "DUMMY account created successfully." . PHP_EOL;
 }
 catch(Exception $e)
 {
 	if (preg_match("/Integrity constraint violation.*for key 'username'/", $e))
-		echo "Admin account already exists." . PHP_EOL;
+		echo "DUMMY account already exists." . PHP_EOL;
 	else
 		echo $e . PHP_EOL;
 }
