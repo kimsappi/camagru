@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 	}
 
 	$query = $connection->prepare(
-		"SELECT `id`, `username`, `password`, `email`, `email_verification_string` FROM `users`
+		"SELECT `id`, `username`, `password`, `email`, `email_verification_string`, `email_on_comment` FROM `users`
 			WHERE `username` = ?;"
 	);
 	if ($query->execute([$_POST["username"]]))
@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		$_SESSION["username"] = $result["username"];
 		$_SESSION["user_id"] = $result["id"];
 		$_SESSION["email"] = $result["email"];
+		$_SESSION["email_on_comment"] = $result["email_on_comment"];
 		//require_once($_SERVER["DOCUMENT_ROOT"] . "/functions/idAdmin.php");
 		//$_SESSION["is_admin"] = isAdmin($result["id"]);
 		if (isset($_GET["destination"]))

@@ -76,8 +76,8 @@ require_once("config.php");
 require_once(__DIR__ . "/../functions/hashPassword.php");
 $admin_password = hashPassword($admin_password, $admin_username, $salt);
 $query = <<<QUERY
-INSERT INTO users (`username`, `password`, `email`, `email_verification_string`)
-	VALUES ('$admin_username', '$admin_password', '$admin_email', '');
+INSERT INTO users (`username`, `password`, `email`, `email_verification_string`, `email_on_comment`)
+	VALUES ('$admin_username', '$admin_password', '$admin_email', '', 0);
 QUERY;
 try
 {

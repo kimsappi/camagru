@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		if (validatePassWordStrength($_POST['oldPassword']))
 		{
 			$query = $connection->prepare(
-				"SELECT `id`, `username`, `password`, `email` FROM users
+				"SELECT `id`, `username`, `password`, `email`, `email_on_comment` FROM users
 					WHERE `username` = ?;"
 			);
 			if ($query->execute([$_SESSION["username"]]))
@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 				if ($changesMadeCorrectly)
 				{
 					// Change username (requires changing password as well because that's how it's hashed)
-					if ($_POST['username'] != $_SESSION['username'])
+					if (!isset($_POST['username']) || $_POST['username'] != $_SESSION['username'])
 					{
 						if (validateUsername($_POST['username']))
 						{
@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 						$changesMadeCorrectly = FALSE;
 
 					// Change email
-					if ($_POST['email'] != $_SESSION['email'])
+					if (!isset($_POST['email']) || $_POST['email'] != $_SESSION['email'])
 					{
 						if (filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
 						{
@@ -117,11 +117,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 						$changesMadeCorrectly = FALSE;
 
 					// Change password
-					if (strlen($_POST['newPassword']) > 0 && $_POST['newPassword'] != $_POST['oldPassword'])
+					if (!isset($_POST['newPassword']) || (strlen($_POST['newPassword']) > 0 && $_POST['newPassword'] != $_POST['oldPassword']))
 					{
-						if (validatePasswordStrength($_POST['newPassword']) && $_POST['newPassword'] == $_POST['confirmPassword'])
+						if (!isset($_POST['confirmPassword']) || (validatePasswordStrength($_POST['newPassword']) && $_POST['newPassword'] == $_POST['confirmPassword']))
 						{
-							
 							$newHashedPassword = hashPassword($_POST['newPassword'], $_SESSION['username']);
 							$query = "UPDATE `users` SET `password` = ? WHERE `id` = ?";
 							$query = $connection->prepare($query);
@@ -132,6 +131,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 					}
 					if (strlen($errorWithNewPassword) > 0)
 						$changesMadeCorrectly = FALSE;
+
+					// Change email on comment preference
+					$shouldEmailOnComment = intval(isset($_POST['emailOnComment']));
+					$query = "UPDATE `users` SET `email_on_comment` = ? WHERE `id` = ?;";
+					$query = $connection->prepare($query);
+					$query->execute([$shouldEmailOnComment, $_SESSION['user_id']]);
+					$_SESSION['email_on_comment'] = $shouldEmailOnComment;
 				}
 			}
 		}
@@ -186,6 +192,8 @@ require_once($templates_path . "header.php");
 			<div>Confirm all changes with current password</div>
 			<label for='oldPassword'>Password</label>
 			<input type='password' name='oldPassword'>
+			<input type='checkbox' name='emailOnComment' <?= $_SESSION['email_on_comment'] ? 'checked' : '' ?>>
+			<label for='emailOnComment'>Receive emails upon comment to your posts</label>
 			<input type='submit' name='submit' value='Submit'>
 		</form>
 	</div>
