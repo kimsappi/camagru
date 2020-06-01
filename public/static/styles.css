@@ -16,6 +16,25 @@ img, video {
 	font-weight: bold;
 }
 
+.buttonStyleLink {
+	background-color: lightblue;
+	padding: 0.3em;
+	border-radius: 0.5em;
+	box-shadow: 0.2em 0.2em 0.2em slategrey;
+	margin-right: 0.2em;
+	font-weight: bold;
+}
+
+.buttonStyleLink:link, .buttonStyleLink:visited, .buttonStyleLink:hover, .buttonStyleLink:active {
+	color: black;
+	transition: color 0.5s, background-color 2s;
+}
+
+.buttonStyleLink:hover {
+	color: deeppink;
+	background-color: lightgreen;
+}
+
 .flexRow {
 	display: flex;
 	flex-flow: row nowrap;
@@ -25,12 +44,28 @@ img, video {
 	justify-content: space-evenly;
 }
 
+.flexSpaceAround {
+	justify-content: space-around;
+}
+
+.floatLeft {
+	float: left;
+}
+
+.floatRight {
+	float: right;
+}
+
 .headerTopRight {
 	text-align: right;
 }
 
 .thumbnailCustom {
 	max-width: 25%;
+}
+
+.marginTop1Em {
+	margin-top: 1em;
 }
 
 #likesCounter a:link, #likesCounter a:visited, #likesCounter a:hover, #likesCounter a:active {
@@ -126,6 +161,10 @@ img, video {
 	/*background-color: pink;*/
 }
 
+#galleryNextPrevNavigation {
+	margin-top: 1em;
+}
+
 /* #mainBodyAndSideGalleryContainer {
 	width: 100%;
 }
@@ -139,6 +178,24 @@ img, video {
 	width: 100%;
 } */
 
+/* Take pic control button stuff */
+.takePicControlButton {
+	padding: 1em;
+	border-radius: 1em;
+	font-weight: bold;
+}
+
+#take_pic_from_webcam {
+	background-color: lightblue;
+}
+
+#cancel_pic_from_webcam {
+	background-color: lightcoral;
+}
+
+#upload_old_pic {
+	background-color: lightgreen;
+}
 
 /* Webcam stuff */
 #cancel_pic_from_webcam, #upload_old_pic {

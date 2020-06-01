@@ -34,7 +34,7 @@ $nextPageLink = '';
 if ($currentPage > 1) {
 	$prevPage = $currentPage - 1;
 	$prevPageLink = <<<EOD
-		<div><a href="/?page=$prevPage">Previous page</a></div>
+		<a href="/?page=$prevPage">Previous page</a>
 EOD;
 }
 
@@ -58,7 +58,7 @@ EOD;
 	{
 		$nextPage = $currentPage + 1;
 		$nextPageLink = <<<EOD
-			<div><a href="/?page=$nextPage">Next page</a></div>
+			<a href="/?page=$nextPage">Next page</a>
 EOD;
 		break;
 	}
@@ -89,10 +89,12 @@ if (!$imagesFound)
 </div>
 
 <div id='galleryNextPrevNavigation'>
-	<?php
-	echo $prevPageLink;
-	echo $nextPageLink;
-	?>
+	<div class='floatLeft'>
+		<?= $prevPageLink ?>
+	</div>
+	<div class='floatRight'>
+		<?= $nextPageLink ?>
+	</div>
 </div>
 
 

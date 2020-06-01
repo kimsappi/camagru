@@ -46,10 +46,10 @@ EOD;
 			?>
 		</div>
 	</div>
-	<div class='row'>
-		<button id="take_pic_from_webcam">Snap!</button>
-		<button id="cancel_pic_from_webcam">Cancel</button>
-		<button id="upload_old_pic">Upload</button>
+	<div class='row col-12 flexRow flexSpaceAround marginTop1Em'>
+		<button id="take_pic_from_webcam" class='takePicControlButton'>Snap!</button>
+		<button id="cancel_pic_from_webcam" class='takePicControlButton'>Cancel</button>
+		<button id="upload_old_pic" class='takePicControlButton'>Upload</button>
 	</div>
 </div>
 

@@ -18,7 +18,7 @@ else
 					require_once($functions_path . "/utils.php");
 					$userName = sanitiseOutput($_SESSION['username']);
 					echo <<<EOD
-					<div id='username'>
+					<div id='username' class='bold'>
 						<a href='/profile.php'>
 							$userName
 						</a>
