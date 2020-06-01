@@ -1,9 +1,49 @@
+header {
+	display: flex;
+	flex-flow: row nowrap;
+	justify-content: space-between;
+}
+
 img, video {
 	border-radius: 3%;
 }
 
+.text2Em {
+	font-size: 2em;
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.flexRow {
+	display: flex;
+	flex-flow: row nowrap;
+}
+
+.flexSpaceEvenly {
+	justify-content: space-evenly;
+}
+
+.headerTopRight {
+	text-align: right;
+}
+
 .thumbnailCustom {
 	max-width: 25%;
+}
+
+#likesCounter a:link, #likesCounter a:visited, #likesCounter a:hover, #likesCounter a:active {
+	text-decoration: none;
+	color: orangered;
+}
+
+#likesCounter a:link, #likesCounter a:visited {
+	transition: color 0.5s;
+}
+
+#likesCounter a:hover {
+	color: darkturquoise;
 }
 
 /* Classes related to side gallery */
@@ -37,9 +77,10 @@ img, video {
 
 /* Classes related to comments on post page */
 #commentsContainer {
+	margin-top: 1em;
 	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
+	flex-direction: column;
+	flex-wrap: nowrap;
 }
 
 .commentContainer {
@@ -70,7 +111,7 @@ img, video {
 
 /* ID selectors */
 #postMainImage, #webcam_container {
-	background-color: lightblue;
+	/*background-color: lightblue;*/
 	padding: 0px;
 	max-width: 100%;
 }
@@ -82,7 +123,7 @@ img, video {
 }
 
 #postSideGallery {
-	background-color: pink;
+	/*background-color: pink;*/
 }
 
 /* #mainBodyAndSideGalleryContainer {

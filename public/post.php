@@ -153,13 +153,20 @@ EOD;
 
 ?>
 
-
-
 <!-- Page body -->
 <?= $deletionHTML ?>
+
 <div class='row'>
-	By: <?= sanitiseOutput($posterName) ?>
+	<div class='col-12 col-md-10 flexRow flexSpaceEvenly'>
+		<div>
+			By: <span class='bold text2Em'><?= sanitiseOutput($posterName) ?></span>
+		</div>
+		<div id='likesCounter' class='text2Em'>	
+			<a href='post.php?id=<?= $postId ?>&like=1'>&#x2764;&#xFE0F; <?= $likesCount ?></a>
+		</div>
+	</div>
 </div>
+
 <div class='row'>
 	<div class='col-12 col-md-10' id='postMainImage'>
 		<img src='<?= $uploads_path_url . $fileName; ?>' alt='Post image' id='postMainImageImg' class='resizeSelectorClass'>
@@ -173,13 +180,21 @@ EOD;
 </div>
 
 <div class='row'>
-<a href='post.php?id=<?= $postId ?>&like=1'>&#x2764;&#xFE0F; <?= $likesCount ?></a>
+	<div class='col-0 col-md-1'>
+
+	</div>
+	<div class='col-12 col-md-11'>
+		<?= $commentForm; ?>
+	</div>
 </div>
 
-<?= $commentForm; ?>
+<div class='row'>
+	<div class='col-0 col-md-1'>
 
-<div id='commentsContainer'>
-<?= $commentsHTML; ?>
+	</div>
+	<div id='commentsContainer' class='col-12 col-md-11'>
+		<?= $commentsHTML; ?>
+	</div>
 </div>
 
 <script src='/static/sideGallery.js'></script>
