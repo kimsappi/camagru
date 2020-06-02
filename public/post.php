@@ -118,8 +118,9 @@ EOD;
 $commentForm = '';
 if (isset($_SESSION['username']))
 	$commentForm = <<<EOD
-	<form method='post'>
-		<input type='textarea' name='commentInput' id='commentInput'>
+	<form method='post' id='commentForm'>
+		<textarea name='commentInput' id='commentInput' rows='4' cols='50' wrap='soft' maxlength='500'></textarea>
+		<br>
 		<input type='submit' name='submit' value='OK'>
 	</form>
 EOD;
@@ -147,15 +148,13 @@ $deletionHTML = '';
 if (isset($_SESSION['user_id']) && $_SESSION['user_id'] === $result['user_id'])
 {
 	$deletionHTML = <<<EOD
-	<a href='post.php?id=$postId&delete=1'>Delete this post</a>
+	<a href='post.php?id=$postId&delete=1'>&#x274C; Delete this post</a>
 EOD;
 }
 
 ?>
 
 <!-- Page body -->
-<?= $deletionHTML ?>
-
 <div class='row'>
 	<div class='col-12 col-md-10 flexRow flexSpaceEvenly'>
 		<div>
@@ -163,6 +162,9 @@ EOD;
 		</div>
 		<div id='likesCounter' class='text2Em'>	
 			<a href='post.php?id=<?= $postId ?>&like=1'>&#x2764;&#xFE0F; <?= $likesCount ?></a>
+		</div>
+		<div>
+			<?= $deletionHTML ?>
 		</div>
 	</div>
 </div>

@@ -111,6 +111,15 @@ img, video {
 }
 
 /* Classes related to comments on post page */
+#commentForm {
+	margin-top: 1em;
+}
+
+#commentForm > textarea {
+	height: auto;
+	width: auto;
+}
+
 #commentsContainer {
 	margin-top: 1em;
 	display: flex;
@@ -142,6 +151,7 @@ img, video {
 }
 
 .commentContent {
+	overflow-wrap: break-word;
 }
 
 /* ID selectors */
