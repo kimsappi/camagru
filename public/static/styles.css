@@ -81,6 +81,24 @@ img, video {
 	color: darkturquoise;
 }
 
+/* #editProfileForm > input {
+	margin-bottom: 0.5em;
+} */
+
+#editProfileForm > input[type='submit'] {
+	display: block;
+	margin-top: 0.5em;
+}
+
+#editProfileForm > div {
+	font-weight: bold;
+	margin-top: 0.5em;
+}
+
+#editProfileForm label {
+	font-weight: normal;
+}
+
 /* Classes related to side gallery */
 .sideGallery {
 	display: flex;

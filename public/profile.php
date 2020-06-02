@@ -176,8 +176,8 @@ require_once($templates_path . "header.php");
 		?>
 	</div>
 	<div class='row'>
-		<h1>Edit profile<h2>
-		<form method='post'>
+		<h2>Edit profile</h2>
+		<form method='post' id='editProfileForm'>
 			<div>Change username</div>
 			<label for='username'>Username</label>
 			<input type='text' name='username' value='<?= sanitiseOutput($_SESSION['username']) ?>'>
@@ -187,13 +187,15 @@ require_once($templates_path . "header.php");
 			<div>Change password</div>
 			<label for='newPassword'>New password</label>
 			<input type='password' name='newPassword'>
+			<br>
 			<label for='confirmPassword'>Confirm new password</label>
 			<input type='password' name='confirmPassword'>
+			<div>Communication settings</div>
+			<input type='checkbox' name='emailOnComment' <?= $_SESSION['email_on_comment'] ? 'checked' : '' ?>>
+			<label for='emailOnComment'>Receive emails upon comment to your posts</label>
 			<div>Confirm all changes with current password</div>
 			<label for='oldPassword'>Password</label>
 			<input type='password' name='oldPassword'>
-			<input type='checkbox' name='emailOnComment' <?= $_SESSION['email_on_comment'] ? 'checked' : '' ?>>
-			<label for='emailOnComment'>Receive emails upon comment to your posts</label>
 			<input type='submit' name='submit' value='Submit'>
 		</form>
 	</div>
