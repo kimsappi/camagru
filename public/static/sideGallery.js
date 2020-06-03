@@ -12,7 +12,7 @@ const centerPostMainImage = () => {
 	const imageElements = document.querySelectorAll('.resizeSelectorClass');
 	const containerElement = document.getElementById('postMainImage') || document.getElementById('webcam_container');
 	const containerWidth = containerElement.offsetWidth;
-	const imageWidth = imageElements[0].offsetHeight;
+	const imageWidth = imageElements[0].offsetWidth || imageElements[1].offsetWidth;
 	const leftMargin = (containerWidth - imageWidth) / 2;
 	const sideGallery = document.getElementById('postSideGallery');
 
@@ -43,3 +43,12 @@ if (document.getElementById('webcam_container')) {
 	webcamContainer.addEventListener('loadeddata', resizeSideGalleryOnResize);
 	webcamContainer.addEventListener('loadeddata', centerPostMainImage);
 }
+
+/*
+** Resizing doesn't work properly upon loading the webcam view even with the above.
+** Could probably be fixed by adding a load eventListener to the video, but...
+*/
+setInterval(() => {
+	resizeSideGalleryOnResize();
+	centerPostMainImage();
+}, 5000);
