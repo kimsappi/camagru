@@ -104,18 +104,24 @@ function cancelPicFromWebcam()
 
 function uploadPic(uploadedFile = null)
 {
-	let data = new FormData();
-	if (uploadedFile instanceof Event)
-		data.append("imageBlob", imageBlob, "image");
+	const filterElement = document.getElementById('filter');
+	if (!filterElement.value)
+		alert('You must select a filter before uploading!');
+
 	else {
-		data.append("imageBlob", uploadedFile, "image");
+		let data = new FormData();
+		if (uploadedFile instanceof Event)
+			data.append("imageBlob", imageBlob, "image");
+		else {
+			data.append("imageBlob", uploadedFile, "image");
+		}
+		data.append("filter", document.getElementById('filter').value);
+		fetch("/upload.php", {
+			method: 'post',
+			body: data
+		})
+			.then(window.location.href='/');
 	}
-	data.append("filter", document.getElementById('filter').value);
-	fetch("/upload.php", {
-		method: 'post',
-		body: data
-	})
-		.then(window.location.href='/');
 }
 
 function changeElementDisplay(id, display)

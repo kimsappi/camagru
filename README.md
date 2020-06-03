@@ -36,7 +36,7 @@ Hive web-dev project. PHP/vanilla JS
 - [x] Only allow logged in users to access the page
 - [x] Editing section and gallery section
 - [x] Allow user to select filter
-- [ ] Capture/(upload?) button must be inactive if no filter is selected
+- [x] Capture/(upload?) button must be inactive if no filter is selected
 - [x] Filter must be superposed onto the image in the back-end
 - [x] Allow uploading image file from computer
 
