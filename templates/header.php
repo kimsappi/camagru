@@ -7,10 +7,12 @@ else
 ?>
 <div class='container'>
 	<header>
-		<nav>
-			<a href="/index.php">Home</a>
-		</nav>
-		<div class='headerTopRight'>
+		<div class='col'>
+			<a href="/index.php" id='headerLogoA'>
+				<img src='/images/logo.png' id='headerLogoImg'>
+			</a>
+		</div>
+		<div class='col headerTopRight'>
 			<?php
 				if (isset($_SESSION["username"]))
 				{

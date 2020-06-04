@@ -1,7 +1,34 @@
+#headerLogoImg {
+	height: auto;
+	width: 20vw;
+}
+
+@media screen and (max-width: 992px) {
+	#headerLogoImg {
+		width: 30vw;
+	}
+}
+
+@media screen and (max-width: 768px) {
+	#headerLogoImg {
+		width: 50vw;
+	}
+}
+
 header {
 	display: flex;
 	flex-flow: row nowrap;
 	justify-content: space-between;
+	margin-bottom: 1em;
+}
+
+
+footer {
+	margin-top: 2em;
+}
+
+#username {
+	margin-bottom: 0.5em;
 }
 
 img, video {
@@ -191,6 +218,10 @@ img, video {
 
 #galleryNextPrevNavigation {
 	margin-top: 1em;
+}
+
+#indexGallery {
+	margin-top: 1.5em;
 }
 
 /* #mainBodyAndSideGalleryContainer {
