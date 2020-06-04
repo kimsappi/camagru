@@ -134,6 +134,10 @@ function changeElementDisplay(id, display)
 ** User has uploaded an image, display it and remove webcam functionality
 */
 const userSelectsUploadFile = () => {
+	// Remove cancel button
+	const cancelButton = document.getElementById('cancel_pic_from_webcam');
+	cancelButton.style.display = 'none';
+
 	const inputElement = document.getElementById('fileUpload');
 	const fileData = inputElement.files[0];
 	if (!fileData)
