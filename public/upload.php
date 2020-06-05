@@ -1,6 +1,6 @@
 <?php
 require_once($_SERVER["DOCUMENT_ROOT"] . "/require.php");
-if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST' || !$_POST || !$_FILES || !isset($_POST['filter']) || !strlen($_POST['filter']) || !isset($_FILES["imageBlob"]) || !isset($_FILES["imageBlob"]["type"]) || $_FILES["imageBlob"]["type"] !== "image/png" || $_FILES["imageBlob"]["size"] > 5000000)
+if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST' || !$_POST || !$_FILES || !isset($_POST['filter']) || !strlen($_POST['filter']) || !isset($_FILES["imageBlob"]) || !isset($_FILES["imageBlob"]["type"]) || substr($_FILES["imageBlob"]["type"], 0, 6) !== "image/" || $_FILES["imageBlob"]["size"] > 5000000)
 {
 	header("Location: /");
 	exit();
@@ -10,14 +10,18 @@ error_log(print_r($_POST, true));
 
 require_once($functions_path . "imageFunctions.php");
 
-if (!file_exists($filters_path . $_POST['filter']))
+if (!file_exists($filters_path . $_POST['filter']) || ($_FILES["imageBlob"]["type"] !== 'image/png' && $_FILES["imageBlob"]["type"] !== 'image/jpeg'))
 {
 	header("Location: /");
 	exit();
 }
 $filterSrc = imagecreatefrompng($filters_path . $_POST['filter']);
 
-$uploadedImage = imagecreatefrompng($_FILES["imageBlob"]["tmp_name"]);
+if ($_FILES["imageBlob"]["type"] === 'image/png')
+	$uploadedImage = imagecreatefrompng($_FILES["imageBlob"]["tmp_name"]);
+elseif ($_FILES["imageBlob"]["type"] === 'image/jpeg')
+	$uploadedImage = imagecreatefromjpeg($_FILES["imageBlob"]["tmp_name"]);
+
 $resizedImage = cropAndResizeImage($uploadedImage);
 
 imagepng($resizedImage['image'], $uploads_path . 'imagepngresult.png');

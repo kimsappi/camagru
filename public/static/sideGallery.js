@@ -51,4 +51,4 @@ if (document.getElementById('webcam_container')) {
 setInterval(() => {
 	resizeSideGalleryOnResize();
 	centerPostMainImage();
-}, 5000);
+}, 1000);

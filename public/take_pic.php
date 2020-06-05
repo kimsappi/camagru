@@ -28,6 +28,9 @@ EOD;
 <!-- Page body -->
 <div class='container noMargin'>
 	<div class='row'>
+		You can also upload an image file (png, jpeg, max 4 MB)
+	</div>
+	<div class='row'>
 		<input type='file' id='fileUpload' oninput='userSelectsUploadFile();'>
 	</div>
 	<div class='row'>
