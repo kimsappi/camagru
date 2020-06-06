@@ -5,10 +5,10 @@ if (!isset($_SESSION))
 $root_path = $_SERVER["DOCUMENT_ROOT"];
 $uploads_path = $root_path . "/images/uploads/";
 $filters_path = $root_path . "/images/filters/";
-$templates_path = $root_path . "/../templates/";
-$functions_path = $root_path . "/../functions/";
+$templates_path = $root_path . "/templates/";
+$functions_path = $root_path . "/functions/";
 $static_path = $root_path . "/static/";
-$config_path = $root_path . "/../config/";
+$config_path = $root_path . "/config/";
 
 $uploads_path_url = '/images/uploads/';
 ?>

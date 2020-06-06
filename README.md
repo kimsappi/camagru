@@ -10,7 +10,7 @@ Hive web-dev project. PHP/vanilla JS
 - [x] No error/log messages anywhere
 - [x] Tech: PHP backend, PDO database driver, no frameworks/libraries except pure CSS ones
 - [ ] Firefox >= 41 and Chrome >= 46 compatibility
-- [ ] index.php must be in directory root
+- [x] index.php must be in directory root
 
 ## Security
 - [x] Passwords must be encrypted
