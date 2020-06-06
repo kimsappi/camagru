@@ -5,8 +5,8 @@ if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST' || !$_
 	header("Location: /");
 	exit();
 }
-error_log(print_r($_FILES, true));
-error_log(print_r($_POST, true));
+// error_log(print_r($_FILES, true));
+// error_log(print_r($_POST, true));
 
 require_once($functions_path . "imageFunctions.php");
 
@@ -44,8 +44,8 @@ $query = $connection->prepare(
 );
 $query->execute([$_SESSION['user_id'], $extension]);
 $newPostId = $connection->lastInsertId();
-error_log('New post added, id: ' . $newPostId);
+// error_log('New post added, id: ' . $newPostId);
 
 imagepng($resizedImage['image'], $uploads_path . $newPostId . "." . $extension);
 rename($_FILES["imageBlob"]["tmp_name"], $uploads_path . 'snap.png');
-error_log('Square size of new image: ' . $resizedImage['size']);
+// error_log('Square size of new image: ' . $resizedImage['size']);

@@ -7,7 +7,7 @@ Hive web-dev project. PHP/vanilla JS
 * MySQL (can probably be changed for another SQL DB, see `config/database.php`)
 
 # Requirements/Features
-- [ ] No error/log messages anywhere
+- [x] No error/log messages anywhere
 - [x] Tech: PHP backend, PDO database driver, no frameworks/libraries except pure CSS ones
 - [ ] Firefox >= 41 and Chrome >= 46 compatibility
 - [ ] index.php must be in directory root
@@ -16,7 +16,7 @@ Hive web-dev project. PHP/vanilla JS
 - [x] Passwords must be encrypted
 - [x] No possibility of SQL injection
 - [x] Sanitise user input/output
-- [ ] Disallow uploading of 'unwanted' content
+- [x] Disallow uploading of 'unwanted' content
 
 ## User account features
 - [x] Mandate email validity and password complexity
