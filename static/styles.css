@@ -119,6 +119,11 @@ img, video {
 #editProfileForm > input[type='submit'] {
 	display: block;
 	margin-top: 0.5em;
+	background-color: lightblue;
+	padding: 0.5em;
+	font-weight: bold;
+	border: 1px solid black;
+	border-radius: 0.5em;
 }
 
 #editProfileForm > div {

@@ -63,7 +63,9 @@ else
 }
 ?>
 
-<a href='/forgot_password.php'>Forgot your password?</a>
+<div class='marginTop1Em'>
+	<a href='/forgot_password.php'>Forgot your password?</a>
+</div>
 
 <?php
 require_once($templates_path . "footer.php");
