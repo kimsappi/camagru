@@ -54,6 +54,7 @@ img, video {
 	box-shadow: 0.2em 0.2em 0.2em slategrey;
 	margin-right: 0.2em;
 	font-weight: bold;
+	font-variant: small-caps;
 }
 
 .buttonStyleLink:link, .buttonStyleLink:visited, .buttonStyleLink:hover, .buttonStyleLink:active {
@@ -97,6 +98,35 @@ img, video {
 
 .marginTop1Em {
 	margin-top: 1em;
+}
+
+input[type='file'] {
+	display: none;
+}
+
+#fileUploadLabel {
+	cursor: pointer;
+	margin-top: 0.5em;
+	border: 1px solid black;
+	border-radius: 0.5em;
+	display: inline-block;
+	padding: 0.5em;
+	background-color: lightblue;
+	color: maroon;
+	font-size: 1.2em;
+	font-variant: small-caps;
+}
+
+#fileUpload {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+	background-color: lightblue;
+	padding: 0.5em;
+	border-radius: 0.5em;
+}
+
+#filter {
+	margin-bottom: 0.5em;
 }
 
 #likesCounter a:link, #likesCounter a:visited, #likesCounter a:hover, #likesCounter a:active {
@@ -248,9 +278,11 @@ img, video {
 
 /* Take pic control button stuff */
 .takePicControlButton {
-	padding: 1em;
+	padding: 0.5em;
 	border-radius: 1em;
+	font-size: 1.5em;
 	font-weight: bold;
+	font-variant: small-caps;
 }
 
 #take_pic_from_webcam {

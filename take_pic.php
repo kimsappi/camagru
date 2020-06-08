@@ -31,9 +31,11 @@ EOD;
 		You can also upload an image file (png, jpeg, max 4 MB)
 	</div>
 	<div class='row'>
+		<label for='fileUpload' id='fileUploadLabel'>Upload!</label>
 		<input type='file' id='fileUpload' oninput='userSelectsUploadFile();'>
 	</div>
 	<div class='row'>
+		<h4>Select a filter:</h4>
 		<select id='filter' name='filter'>
 			<?= $filtersSelectHTML ?>
 		</select>
