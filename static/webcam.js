@@ -159,6 +159,9 @@ const userSelectsUploadFile = () => {
 	const reader = new FileReader();
 	reader.onload = (img => e => img.src = e.target.result)(imgElement);
 	reader.readAsDataURL(fileData);
+
+	document.getElementById('fileUploadLabel').style.display = 'none';
+	document.querySelector('.uploadInfo').style.display = 'none';
 }
 
 /*

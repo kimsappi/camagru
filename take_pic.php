@@ -27,7 +27,7 @@ EOD;
 
 <!-- Page body -->
 <div class='container noMargin'>
-	<div class='row'>
+	<div class='row uploadInfo'>
 		You can also upload an image file (png, jpeg, max 4 MB)
 	</div>
 	<div class='row'>
