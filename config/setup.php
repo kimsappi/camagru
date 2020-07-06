@@ -1,6 +1,31 @@
 #!/usr/bin/php
 <?php
 require_once("database.php");
+
+try
+{
+	$db = new PDO($DB_DSN_NO_DB, $DB_USER, $DB_PASSWORD);
+	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}
+catch(PDOException $e)
+{
+	exit("Failed to connect to database: $e" . PHP_EOL);
+}
+
+$query = <<<'QUERY'
+DROP DATABASE IF EXISTS camagru;
+QUERY;
+if (!$db->query($query))
+	exit("Failed to DROP TABLE IF EXISTS camagru");
+
+$query = <<<'QUERY'
+CREATE DATABASE IF NOT EXISTS camagru;
+QUERY;
+if (!$db->query($query))
+	exit("Failed to CREATE TABLE IF NOT EXISTS camagru");
+
+echo "Database created successfully." . PHP_EOL;
+
 try
 {
 	$connection = new PDO($DB_DSN, $DB_USER, $DB_PASSWORD);
