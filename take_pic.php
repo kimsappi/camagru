@@ -3,8 +3,6 @@ $head_title = "Snap! | Camagru";
 $body_onload = "initialiseWebcamStreamOnload();";
 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/require.php");
-require_once($templates_path . "head.php");
-require_once($templates_path . "header.php");
 
 if (!isset($_SESSION["username"]))
 {
@@ -23,9 +21,11 @@ foreach ($filtersDir as $fileData)
 EOD;
 	}
 }
-?>
 
-<!-- Page body -->
+// Page body
+require_once($templates_path . "head.php");
+require_once($templates_path . "header.php");
+?>
 <div class='container noMargin'>
 	<div class='row uploadInfo'>
 		You can also upload an image file (png, jpeg, max 4 MB)

@@ -46,6 +46,8 @@ $query->execute([$_SESSION['user_id'], $extension]);
 $newPostId = $connection->lastInsertId();
 // error_log('New post added, id: ' . $newPostId);
 
+if (!file_exists($uploads_path))
+	mkdir($uploads_path);
 imagepng($resizedImage['image'], $uploads_path . $newPostId . "." . $extension);
 rename($_FILES["imageBlob"]["tmp_name"], $uploads_path . 'snap.png');
 // error_log('Square size of new image: ' . $resizedImage['size']);
