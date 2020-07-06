@@ -120,7 +120,15 @@ function uploadPic(uploadedFile = null)
 			method: 'post',
 			body: data
 		})
-			.then(window.location.href='/');
+			.then(response => response.json())
+			.then(newId => {
+				let redir = '';
+				if (newId)
+					redir = 'post.php?id=' + newId;
+				else
+					redir = 'index.php';
+				window.location.href = redir;
+			});
 	}
 }
 

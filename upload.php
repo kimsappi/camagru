@@ -24,7 +24,7 @@ elseif ($_FILES["imageBlob"]["type"] === 'image/jpeg')
 
 $resizedImage = cropAndResizeImage($uploadedImage);
 
-imagepng($resizedImage['image'], $uploads_path . 'imagepngresult.png');
+//imagepng($resizedImage['image'], $uploads_path . 'imagepngresult.png');
 // imagecreatetruecolor MANDATORY for good quality
 $filterSquare = imagecreatetruecolor($resizedImage['size'], $resizedImage['size']);
 imagecopyresampled($filterSquare, $filterSrc, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], imagesx($filterSrc), imagesy($filterSrc));
@@ -51,3 +51,5 @@ if (!file_exists($uploads_path))
 imagepng($resizedImage['image'], $uploads_path . $newPostId . "." . $extension);
 rename($_FILES["imageBlob"]["tmp_name"], $uploads_path . 'snap.png');
 // error_log('Square size of new image: ' . $resizedImage['size']);
+
+echo json_encode($newPostId);
