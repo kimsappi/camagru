@@ -12,9 +12,14 @@ function initialiseWebcamStreamOnload()
 			webcamElement.srcObject = mediaStream;
 
 			/* Set maximum available resolution for webcam, up to 720 */
-			const capabilities = mediaStream.getVideoTracks()[0].getCapabilities();
-			const size = Math.min(capabilities.height.max, capabilities.width.max, 720);
-			const constraints = {height: size, width: size, facingMode: capabilities.facingMode};
+			let size = 720;
+			let facingMode = 'user';
+			if (mediaStream.getVideoTracks()[0].getCapabilities === 'function') {
+				const capabilities = mediaStream.getVideoTracks()[0].getCapabilities();
+				size = Math.min(capabilities.height.max, capabilities.width.max, 720);
+				facingMode = capabilities.facingMode;
+			}
+			const constraints = {height: size, width: size, facingMode: facingMode};
 			mediaStream.getVideoTracks()[0].applyConstraints(constraints);
 
 			/* Set imageCapture object to video track for photo taking */
@@ -22,6 +27,7 @@ function initialiseWebcamStreamOnload()
 		})
 		.catch((e) =>
 		{
+			console.log(e);
 			alert("Please make sure you have a webcam and allow your browser access to it.");
 		})
 	;
