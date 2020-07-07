@@ -1,15 +1,29 @@
+#indexGallery > * {
+	max-width: 20%;
+	margin-right: 1%;
+	margin-top: 1%;
+}
+
 #headerLogoImg {
 	height: auto;
 	width: 20vw;
 }
 
 @media screen and (max-width: 992px) {
+	#indexGallery > * {
+		max-width: 30%;
+	}
+	
 	#headerLogoImg {
 		width: 30vw;
 	}
 }
 
 @media screen and (max-width: 768px) {
+	#indexGallery > * {
+		max-width: 45%;
+	}
+
 	#headerLogoImg {
 		width: 50vw;
 	}
@@ -92,12 +106,12 @@ img, video {
 	text-align: right;
 }
 
-.thumbnailCustom {
-	max-width: 25%;
-}
-
 .marginTop1Em {
 	margin-top: 1em;
+}
+
+.thumbnailCustom {
+	max-width: 100%;
 }
 
 input[type='file'] {
@@ -251,17 +265,20 @@ input[type='file'] {
 	object-fit: contain;
 }
 
-#postSideGallery {
-	/*background-color: pink;*/
-}
-
 #galleryNextPrevNavigation {
 	margin-top: 1em;
 }
 
 #indexGallery {
-	margin-top: 1.5em;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
+
+/* #indexGallery > * > * {
+	margin-top: 3%;
+	margin-right: 3%;
+} */
 
 /* #mainBodyAndSideGalleryContainer {
 	width: 100%;
@@ -303,10 +320,10 @@ input[type='file'] {
 }
 
 
-#webcam_container {
-	/* position: relative; */
-	/* min-height: 50vh; */
-}
+/* #webcam_container {
+	position: relative; */
+	/* min-height: 50vh;
+} */
 
 #webcam, #img_preview {
 	/* position: absolute; */

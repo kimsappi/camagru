@@ -84,7 +84,7 @@ if (!$imagesFound)
 	<input type='submit' name='submit'>
 </form>
 -->
-<div id='indexGallery'>
+<div id='indexGallery' class='container'>
 	<?= $indexGalleryHTML ?>
 </div>
 
