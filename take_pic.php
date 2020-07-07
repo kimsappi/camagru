@@ -44,6 +44,7 @@ require_once($templates_path . "header.php");
 		<div id="webcam_container" class="col-12 col-md-10">
 			<video autoplay id="webcam" class='square resizeSelectorClass'></video>
 			<img id="img_preview" class='square resizeSelectorClass'>
+			<img id='filter_preview' class='square resizeSelectorClass'>
 		</div>
 		<div class='col-12 col-md-2 sideGallery' id='postSideGallery'>
 			<?php

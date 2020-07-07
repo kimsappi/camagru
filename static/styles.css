@@ -257,6 +257,7 @@ input[type='file'] {
 	/*background-color: lightblue;*/
 	padding: 0px;
 	max-width: 100%;
+	margin-bottom: 1em;
 }
 
 #postMainImageImg, #webcam, #img_preview {
@@ -325,10 +326,10 @@ input[type='file'] {
 	/* min-height: 50vh;
 } */
 
-#webcam, #img_preview {
+#webcam, #img_preview, #filter_preview {
 	/* position: absolute; */
 	/* min-height: 50vh; */
-	z-index: 2;
+	/* z-index: 2; */
 	object-fit: cover;
 	box-sizing: border-box;
 }
@@ -340,6 +341,15 @@ input[type='file'] {
 #img_preview {
 	display: none;
 	z-index: 3;
+}
+
+#filter_preview {
+	z-index: 4;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	opacity: 30%;
+	max-width: 100%;
 }
 
 /* Class to force divs to be square */
