@@ -257,6 +257,7 @@ input[type='file'] {
 	/*background-color: lightblue;*/
 	padding: 0px;
 	max-width: 100%;
+	margin-bottom: 1em;
 }
 
 #postMainImageImg, #webcam, #img_preview {

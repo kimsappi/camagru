@@ -27,7 +27,7 @@ function initialiseWebcamStreamOnload()
 		})
 		.catch((e) =>
 		{
-			console.log(e);
+			//console.log(e);
 			alert("Please make sure you have a webcam and allow your browser access to it.");
 		})
 	;
