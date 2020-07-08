@@ -71,9 +71,10 @@ function takePicFromWebcamStream()
 			.then((blob) =>
 			{
 				const previewElement = document.getElementById("img_preview");
+				const previewElementImg = document.getElementById("img_preview_img");
 				const webcamElement = document.getElementById("webcam");
 				const size = webcamElement.offsetHeight;
-				previewElement.src = URL.createObjectURL(blob);
+				previewElementImg.src = URL.createObjectURL(blob);
 				previewElement.style.display = "block";
 				previewElement.style.width = size + 'px';
 				previewElement.style.height = size + 'px';

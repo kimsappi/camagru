@@ -44,6 +44,16 @@ if (document.getElementById('webcam_container')) {
 	webcamContainer.addEventListener('loadeddata', centerPostMainImage);
 }
 
+const resizeImgPreviewImg = () => {
+	const filterElement = document.getElementById('filter_preview');
+	const imgPreviewImg = document.getElementById('img_preview');
+	// imgPreviewImg.height = window.getComputedStyle(filterElement, 'width');
+	// imgPreviewImg.width = window.getComputedStyle(filterElement, 'width');
+	imgPreviewImg.height = filterElement.width;
+	imgPreviewImg.width = filterElement.width;
+	console.log(imgPreviewImg.width, imgPreviewImg.height);
+};
+
 /*
 ** Resizing doesn't work properly upon loading the webcam view even with the above.
 ** Could probably be fixed by adding a load eventListener to the video, but...
@@ -51,4 +61,5 @@ if (document.getElementById('webcam_container')) {
 setInterval(() => {
 	resizeSideGalleryOnResize();
 	centerPostMainImage();
+	//resizeImgPreviewImg();
 }, 1000);

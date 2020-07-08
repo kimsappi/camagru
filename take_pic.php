@@ -43,8 +43,10 @@ require_once($templates_path . "header.php");
 	<div class='row'>
 		<div id="webcam_container" class="col-12 col-md-10">
 			<video autoplay id="webcam" class='square resizeSelectorClass'></video>
-			<img id="img_preview" class='square resizeSelectorClass'>
-			<img id='filter_preview' class='square resizeSelectorClass'>
+			<div id="img_preview" class='square resizeSelectorClass'>
+				<img id="img_preview_img" class='square'>
+				<img id='filter_preview' class='square'>
+			</div>
 		</div>
 		<div class='col-12 col-md-2 sideGallery' id='postSideGallery'>
 			<?php
