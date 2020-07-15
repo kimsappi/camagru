@@ -35,7 +35,6 @@ function initialiseWebcamStreamOnload()
 	/* Add eventListener for button to take/cancel photo and upload photo */
 	document.getElementById("take_pic_from_webcam").addEventListener("click", takePicFromWebcamStream);
 	document.getElementById("cancel_pic_from_webcam").addEventListener("click", cancelPicFromWebcam);
-	document.getElementById("filter").addEventListener("change", loadNewFilterPreview);
 }
 
 /*
@@ -193,12 +192,4 @@ const uploadOldPic = () => {
 		return;
 	}
 	uploadPic(fileData);
-}
-
-/*
-** Changes overlay filter preview
-*/
-const loadNewFilterPreview = event => {
-	const filterPreview = document.getElementById('filter_preview');
-	filterPreview.src = 'images/filters/' + event.target.value;
 }
