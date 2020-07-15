@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS comments (
 	post_id INT UNSIGNED NOT NULL,
 	user_id INT UNSIGNED NOT NULL,
 	content VARCHAR(512) NOT NULL,
-	FOREIGN KEY (post_id) REFERENCES posts(id),
+	FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
 	FOREIGN KEY (user_id) REFERENCES users(id)
 );
 QUERY;
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS likes (
 	post_id INT UNSIGNED NOT NULL,
 	user_id INT UNSIGNED NOT NULL,
 	PRIMARY KEY (post_id, user_id),
-	FOREIGN KEY (post_id) REFERENCES posts(id),
+	FOREIGN KEY (post_id) REFERENCES posts(id) ON DELETE CASCADE,
 	FOREIGN KEY (user_id) REFERENCES users(id)
 );
 QUERY;
