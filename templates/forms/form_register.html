@@ -1,19 +1,23 @@
 <form action="/register.php" method="post" id='editProfileForm'>
 	<div>
 		<label for="username">Username</label>
-		<input type="text" name="username">
+		<div class='formExplanation'>(4-24 characters, [a-zA-Z_])</div>
+		<input type="text" name="username" pattern="[a-zA-Z_]{4,24}$" required>
 	</div>
 	<div>
 		<label for="password">Password</label>
-		<input type="password" name="password">
+		<div class='formExplanation'>(>7 characters, must include 3 of: lowercase, capital, digit, special)</div>
+		<input type="password" name="password" required>
 	</div>
 	<div>
 		<label for="password2">Re-enter password</label>
-		<input type="password" name="password2">
+		<div></div>
+		<input type="password" name="password2" required>
 	</div>
 	<div>
 		<label for="email">Email</label>
-		<input type="email" name="email">
+		<div class='formExplanation'>Must be a real email</div>
+		<input type="email" name="email" required>
 	</div>
 	<input type="submit" value="Submit">
 </form>

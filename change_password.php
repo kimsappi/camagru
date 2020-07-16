@@ -33,10 +33,14 @@ if (!$result || strlen($result['password']))
 $contentHTML = <<<EOD
 <h2>Enter new password</h2>
 <form method='post'>
-	<label for='password'>New password</label>
-	<input type='password' name='password'>
-	<label for='confirmPassword'>Confirm password</label>
-	<input type='password' name='confirmPassword'>
+	<div>
+		<label for='password'>New password</label>
+		<input type='password' name='password'>
+	</div>
+	<div>
+		<label for='confirmPassword'>Confirm password</label>
+		<input type='password' name='confirmPassword'>
+	</div>
 	<input type='submit' name='submit'>
 </form>
 EOD;

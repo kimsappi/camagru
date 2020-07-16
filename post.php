@@ -2,8 +2,6 @@
 $head_title = "Camagru";
 require_once($_SERVER["DOCUMENT_ROOT"] . "/require.php");
 require_once($config_path . "config.php");
-require_once($templates_path . "head.php");
-require_once($templates_path . "header.php");
 require_once($templates_path . "Comment.php");
 require_once($functions_path . "dbConnect.php");
 
@@ -15,48 +13,47 @@ if (!$connection = dbConnect()) {
 // POST for commenting
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
-	if (!isset($_POST['commentInput']) || strlen($_POST['commentInput']) < 1 || !isset($_SESSION['username']) || !isset($_GET['id']))
-		exit();
-	
-	$commentPostId = $_GET['id'];
-	$commentUserId = $_SESSION['user_id'];
+	if (isset($_POST['commentInput']) && strlen($_POST['commentInput']) > 0 && isset($_SESSION['username']) && isset($_GET['id'])) {	
+		$commentPostId = $_GET['id'];
+		$commentUserId = $_SESSION['user_id'];
 
-	// Check if original poster needs to be emailed, also check if post exists
-	$queryStr = <<<EOD
-	SELECT `email`, `email_on_comment` FROM `users`
-		INNER JOIN `posts`
-			ON users.id = posts.user_id
-		WHERE posts.id = ?;
+		// Check if original poster needs to be emailed, also check if post exists
+		$queryStr = <<<EOD
+		SELECT `email`, `email_on_comment` FROM `users`
+			INNER JOIN `posts`
+				ON users.id = posts.user_id
+			WHERE posts.id = ?;
 EOD;
 
-	$query = $connection->prepare($queryStr);
-	$query->execute([$commentPostId]);
-	$result = $query->fetch();
-	if (!$result)
-	{
-		header('Location: /');
-		exit();
+		$query = $connection->prepare($queryStr);
+		$query->execute([$commentPostId]);
+		$result = $query->fetch();
+		if (!$result)
+		{
+			header('Location: /');
+			exit();
+		}
+
+		// Send email to original poster if they have the setting selected
+		if ($result['email_on_comment'])
+		{
+			$postURL = $rootURL = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/post.php?id=' . $commentPostId;
+			$mailToPoster = <<<EOD
+		<p>You have a new comment on your post: <a href='$postURL'>$postURL</a></p>
+EOD;
+
+			$emailHeaders = "MIME-Version: 1.0\r\n";
+			$emailHeaders .= "Content-type: text/html; charset=iso-8859-1\r\n";
+			mail($result['email'], 'Camagru | New comment on your post', $mailToPoster, $emailHeaders);
+		}
+
+		$queryStr = <<<EOD
+		INSERT INTO `comments` (`post_id`, `user_id`, `content`)
+			VALUES (?, ?, ?);
+EOD;
+		$query = $connection->prepare($queryStr);
+		$query->execute([$commentPostId, $commentUserId, $_POST['commentInput']]);
 	}
-
-	// Send email to original poster if they have the setting selected
-	if ($result['email_on_comment'])
-	{
-		$postURL = $rootURL = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/post.php?id=' . $commentPostId;
-		$mailToPoster = <<<EOD
-	<p>You have a new comment on your post: <a href='$postURL'>$postURL</a></p>
-EOD;
-
-		$emailHeaders = "MIME-Version: 1.0\r\n";
-		$emailHeaders .= "Content-type: text/html; charset=iso-8859-1\r\n";
-		mail($result['email'], 'Camagru | New comment on your post', $mailToPoster, $emailHeaders);
-	}
-
-	$queryStr = <<<EOD
-	INSERT INTO `comments` (`post_id`, `user_id`, `content`)
-		VALUES (?, ?, ?);
-EOD;
-	$query = $connection->prepare($queryStr);
-	$query->execute([$commentPostId, $commentUserId, $_POST['commentInput']]);
 }
 
 // GET
@@ -119,7 +116,7 @@ $commentForm = '';
 if (isset($_SESSION['username']))
 	$commentForm = <<<EOD
 	<form method='post' id='commentForm'>
-		<textarea name='commentInput' id='commentInput' rows='4' cols='50' wrap='soft' maxlength='500'></textarea>
+		<textarea name='commentInput' id='commentInput' rows='4' cols='50' wrap='soft' maxlength='500' required></textarea>
 		<br>
 		<input type='submit' name='submit' value='OK'>
 	</form>
@@ -152,9 +149,11 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_id'] === $result['user_id'])
 EOD;
 }
 
+// Page body
+require_once($templates_path . "head.php");
+require_once($templates_path . "header.php");
 ?>
 
-<!-- Page body -->
 <div class='row'>
 	<div class='col-12 col-md-10 flexRow flexSpaceEvenly'>
 		<div>

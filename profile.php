@@ -180,7 +180,8 @@ require_once($templates_path . "header.php");
 		<form method='post' id='editProfileForm'>
 			<div>Change username</div>
 			<label for='username'>Username</label>
-			<input type='text' name='username' value='<?= sanitiseOutput($_SESSION['username']) ?>'>
+			<div class='formExplanation'>(4-24 characters, [a-zA-Z_])</div>
+			<input type='text' name='username' value='<?= sanitiseOutput($_SESSION['username']) ?>' pattern="[a-zA-Z_]{4,24}$">
 			<div>Change email</div>
 			<label for='email'>Email</label>
 			<input type='email' name='email' value='<?= sanitiseOutput($_SESSION['email']) ?>'>
@@ -195,7 +196,7 @@ require_once($templates_path . "header.php");
 			<label for='emailOnComment'>Receive emails upon comment to your posts</label>
 			<div>Confirm all changes with current password</div>
 			<label for='oldPassword'>Password</label>
-			<input type='password' name='oldPassword'>
+			<input type='password' name='oldPassword' pattern=".{8,}" required>
 			<input type='submit' name='submit' value='Submit'>
 		</form>
 	</div>
