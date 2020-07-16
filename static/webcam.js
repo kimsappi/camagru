@@ -1,4 +1,5 @@
-let imageCapture = null;
+// Initial value for webcam size
+let size = 300;
 let imageBlob = null;
 
 function initialiseWebcamStreamOnload()
@@ -12,7 +13,6 @@ function initialiseWebcamStreamOnload()
 			webcamElement.srcObject = mediaStream;
 
 			/* Set maximum available resolution for webcam, up to 720 */
-			let size = 720;
 			let facingMode = 'user';
 			if (mediaStream.getVideoTracks()[0].getCapabilities === 'function') {
 				const capabilities = mediaStream.getVideoTracks()[0].getCapabilities();
@@ -21,9 +21,7 @@ function initialiseWebcamStreamOnload()
 			}
 			const constraints = {height: size, width: size, facingMode: facingMode};
 			mediaStream.getVideoTracks()[0].applyConstraints(constraints);
-
-			/* Set imageCapture object to video track for photo taking */
-			imageCapture = new ImageCapture(mediaStream.getVideoTracks()[0]);
+			console.log(constraints);
 		})
 		.catch((e) =>
 		{
@@ -35,6 +33,10 @@ function initialiseWebcamStreamOnload()
 	/* Add eventListener for button to take/cancel photo and upload photo */
 	document.getElementById("take_pic_from_webcam").addEventListener("click", takePicFromWebcamStream);
 	document.getElementById("cancel_pic_from_webcam").addEventListener("click", cancelPicFromWebcam);
+}
+
+const webcamVideoStartsPlaying = () => {
+	const x = 0;
 }
 
 /*
@@ -64,29 +66,49 @@ function changeTakePicButtonFunctionality(toUpload)
 */
 function takePicFromWebcamStream()
 {
-	if (imageCapture)
-	{
-		imageCapture.takePhoto()
-			.then((blob) =>
-			{
-				const previewElement = document.getElementById("img_preview");
+	const canvas = document.getElementById('canvas');
+	const context = canvas.getContext('2d');
+	const webcamContainer = document.getElementById('webcam_container');
+	const video = document.getElementById('webcam');
+	const dimensions = getComputedStyle(webcamContainer).height;
+	const previewElement = document.getElementById("img_preview");
+
+
+	// context.width = dimensions;
+	// context.height = dimensions;
+	// context.canvas.width = dimensions;
+	// context.canvas.height = dimensions;
+	console.log(canvas.width);
+	canvas.height = canvas.width;
+	console.log(dimensions);
+	context.drawImage(video, 20, 0, 300, 300, 0, 0, 300, 300);
+
+	const imageData = canvas.toDataURL();
+	console.log(imageData);
+	previewElement.setAttribute('src', imageData);
+	// if (imageCapture)
+	// {
+	// 	imageCapture.takePhoto()
+	// 		.then((blob) =>
+	// 		{
+	// 			const previewElement = document.getElementById("img_preview");
 				const webcamElement = document.getElementById("webcam");
-				const size = webcamElement.offsetHeight;
-				previewElement.src = URL.createObjectURL(blob);
-				previewElement.style.display = "block";
-				previewElement.style.width = size + 'px';
-				previewElement.style.height = size + 'px';
-				webcamElement.style.display = "none";
-				changeElementDisplay("cancel_pic_from_webcam", "inline-block");
+	// 			const size = webcamElement.offsetHeight;
+	// 			previewElement.src = URL.createObjectURL(blob);
+	 			previewElement.style.display = "block";
+	 			previewElement.style.width = size + 'px';
+	 			previewElement.style.height = size + 'px';
+	 			webcamElement.style.display = "none";
+	 			changeElementDisplay("cancel_pic_from_webcam", "inline-block");
 				changeTakePicButtonFunctionality(true);
-				imageBlob = blob;
-			})
-			.catch(() =>
-			{
-				alert("Please enable your webcam.");
-			})
-		;
-	}
+	// 			imageBlob = blob;
+	// 		})
+	// 		.catch(() =>
+	// 		{
+	// 			alert("Please enable your webcam.");
+	// 		})
+	// 	;
+	// }
 }
 
 /*
@@ -96,14 +118,21 @@ function cancelPicFromWebcam()
 {
 	let previewElement = document.getElementById("img_preview");
 	let webcamElement = document.getElementById("webcam");
-	imageBlob = null;
-	if (previewElement.src)
-	{
-		previewElement.style.display = "none";
+	const canvas = document.getElementById('canvas');
+	const context = canvas.getContext('2d');
+	context.fillStyle = "#AAA";
+    context.fillRect(0, 0, canvas.width, canvas.height);
+	const data = canvas.toDataURL('image/png');
+    previewElement.setAttribute('src', data);
+
+	// imageBlob = null;
+	// if (previewElement.src)
+	// {
+	// 	previewElement.style.display = "none";
 		webcamElement.style.display = "block";
-		URL.revokeObjectURL(previewElement.src);
-		previewElement.src = "#";
-	}
+	// 	URL.revokeObjectURL(previewElement.src);
+	// 	previewElement.src = "#";
+	// }
 	changeElementDisplay("cancel_pic_from_webcam", "none");
 	changeTakePicButtonFunctionality(false);
 }
