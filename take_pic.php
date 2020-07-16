@@ -62,7 +62,7 @@ require_once($templates_path . "header.php");
 
 <!-- Load scripts required for webcam functionality and formatting -->
 <script src="/static/webcam.js"></script>
-<!-- <script src="/static/sideGallery.js"></script> -->
+<script src="/static/sideGallery.js"></script>
 
 <?php
 require_once($templates_path . "footer.php");
