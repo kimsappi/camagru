@@ -45,11 +45,13 @@ require_once($templates_path . "header.php");
 		</select>
 	</div>
 	<div class='row'>
-		<div id="webcam_container" class="col-12 col-md-10">
-			<video autoplay id="webcam" class='square resizeSelectorClass'></video>
-			<canvas id='canvas'></canvas>
-			<img id="img_preview" class='square resizeSelectorClass'>
-			<img id='filter_preview' class='square resizeSelectorClass'>
+		<div class="col-12 col-md-10">
+			<div id="webcam_container">
+				<video autoplay id="webcam" class='square resizeSelectorClass'></video>
+				<canvas id='canvas'></canvas>
+				<img id="img_preview" class='square resizeSelectorClass'>
+				<img id='filter_preview' class='resizeSelectorClass'>
+			</div>
 		</div>
 		<div class='col-12 col-md-2 sideGallery' id='postSideGallery'>
 			<?php

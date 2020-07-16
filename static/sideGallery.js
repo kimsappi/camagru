@@ -33,16 +33,34 @@ const centerPostMainImage = () => {
 	}
 }
 
+const resizeMainImage = () => {
+	if (!document.getElementById('img_preview'))
+		return;
+
+	const imgPreview = document.getElementById('img_preview');
+	imgPreview.style.height = imgPreview.style.width;
+}
+
 window.addEventListener('resize', resizeSideGalleryOnResize);
 window.addEventListener('load', resizeSideGalleryOnResize);
 window.addEventListener('resize', centerPostMainImage);
 window.addEventListener('load', centerPostMainImage);
+window.addEventListener('resize', resizeMainImage);
 
 if (document.getElementById('webcam_container')) {
 	const webcamContainer = document.getElementById('webcam');
 	webcamContainer.addEventListener('loadeddata', resizeSideGalleryOnResize);
 	webcamContainer.addEventListener('loadeddata', centerPostMainImage);
 }
+
+// Trying to make uploaded img preview square
+// const resizeUploadedImage = () => {
+// 	const imageElement = document.getElementById('img_preview');
+// 	const imageContainer = imageElement.parentElement;
+// 	//imageContainer.width = '300px';
+
+// 	//imageElement.style.height = imageElement.parentElement.height;
+// }
 
 /*
 ** Resizing doesn't work properly upon loading the webcam view even with the above.
@@ -51,4 +69,6 @@ if (document.getElementById('webcam_container')) {
 setInterval(() => {
 	resizeSideGalleryOnResize();
 	centerPostMainImage();
+	resizeMainImage();
+	// resizeUploadedImage();
 }, 1000);

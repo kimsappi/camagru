@@ -259,7 +259,7 @@ input[type='file'] {
 /* ID selectors */
 #postMainImage, #webcam_container {
 	/*background-color: lightblue;*/
-	overflow: hidden;
+	/* overflow: hidden; */
 	padding: 0px;
 	max-width: 100%;
 	margin-bottom: 1em;
@@ -270,7 +270,7 @@ input[type='file'] {
 	height: 100%; */
 }
 
-#postMainImageImg, #webcam, #img_preview {
+#postMainImageImg, #webcam, #img_preview, #filter_preview {
 	max-height: 100%;
 	max-width: 100%;
 	object-fit: contain;
@@ -356,7 +356,7 @@ input[type='file'] {
 #filter_preview {
 	z-index: 4;
 	position: absolute;
-	left: 0px;
+	/* left: 0px; */
 	top: 0px;
 	opacity: 30%;
 	max-width: 100%;

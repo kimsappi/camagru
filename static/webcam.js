@@ -1,6 +1,7 @@
 // Initial value for webcam size
 let size = 720;
 let imageBlob = null;
+let videoIsPlaying = false;
 
 function initialiseWebcamStreamOnload()
 {
@@ -21,7 +22,6 @@ function initialiseWebcamStreamOnload()
 			}
 			const constraints = {height: size, width: size, facingMode: facingMode};
 			mediaStream.getVideoTracks()[0].applyConstraints(constraints);
-			//console.log(constraints);
 		})
 		.catch((e) =>
 		{
@@ -33,10 +33,18 @@ function initialiseWebcamStreamOnload()
 	/* Add eventListener for button to take/cancel photo and upload photo */
 	document.getElementById("take_pic_from_webcam").addEventListener("click", takePicFromWebcamStream);
 	document.getElementById("cancel_pic_from_webcam").addEventListener("click", cancelPicFromWebcam);
+	document.getElementById("webcam").addEventListener("canplay", webcamStreamStartedPlaying());
+	document.getElementById("filter").addEventListener("change", loadNewFilterPreview);
 }
 
-const webcamVideoStartsPlaying = () => {
-	const x = 0;
+const webcamStreamStartedPlaying = () => {
+	if (!videoIsPlaying) {
+		videoIsPlaying = true;
+		// This hack makes uploaded images square by initialising the canvas or something.
+		// I have no idea why. It doesn't work if you just cancel...
+		takePicFromWebcamStream();
+		cancelPicFromWebcam();
+	}
 }
 
 /*
@@ -68,27 +76,24 @@ function takePicFromWebcamStream()
 {
 	const canvas = document.getElementById('canvas');
 	const context = canvas.getContext('2d');
-	const webcamContainer = document.getElementById('webcam_container');
 	const video = document.getElementById('webcam');
-	const dimensions = getComputedStyle(webcamContainer).height;
+	//const dimensions = getComputedStyle(webcamContainer).height;
 	const previewElement = document.getElementById("img_preview");
-	const imageElements = document.querySelectorAll('.resizeSelectorClass');
-	const imageWidth = imageElements[0].offsetWidth || imageElements[1].offsetWidth;
+	// const imageElements = document.querySelectorAll('.resizeSelectorClass');
+	const imageWidth = getComputedStyle(video).width;
+	console.log(imageWidth);
 
 	// context.width = dimensions;
 	// context.height = dimensions;
 	// context.canvas.width = dimensions;
 	// context.canvas.height = dimensions;
 	
-	console.log(imageWidth);
-	console.log(canvas.width);
-	canvas.width = imageWidth;
+	canvas.width = parseInt(imageWidth);
 	canvas.height = canvas.width;
-	//console.log(dimensions);
-	context.drawImage(video, 0, 0, canvas.height, canvas.height, 0, 0, canvas.height, canvas.height);
+	console.log('c' + canvas.height);
+	context.drawImage(video, 0, 0, 720, 720, 0, 0, canvas.height, canvas.height);
 
 	const imageData = canvas.toDataURL();
-	//console.log(imageData);
 	previewElement.setAttribute('src', imageData);
 	canvas.toBlob(blob => imageBlob = blob);
 	// if (imageCapture)
@@ -124,6 +129,12 @@ function cancelPicFromWebcam()
 	let previewElement = document.getElementById("img_preview");
 	let webcamElement = document.getElementById("webcam");
 	const canvas = document.getElementById('canvas');
+
+	const imageElements = document.querySelectorAll('.resizeSelectorClass');
+	const imageWidth = imageElements[0].offsetWidth || imageElements[1].offsetWidth;
+	canvas.height = imageWidth;
+	canvas.width = imageWidth;
+
 	const context = canvas.getContext('2d');
 	context.fillStyle = "#AAA";
     context.fillRect(0, 0, canvas.width, canvas.height);
@@ -131,13 +142,13 @@ function cancelPicFromWebcam()
     previewElement.setAttribute('src', data);
 
 	imageBlob = null;
-	if (previewElement.src)
-	{
+	// if (previewElement.src)
+	// {
 		previewElement.style.display = "none";
 		webcamElement.style.display = "block";
 		URL.revokeObjectURL(previewElement.src);
 		previewElement.src = "#";
-	}
+	// }
 	changeElementDisplay("cancel_pic_from_webcam", "none");
 	changeTakePicButtonFunctionality(false);
 }
@@ -226,4 +237,12 @@ const uploadOldPic = () => {
 		return;
 	}
 	uploadPic(fileData);
+}
+
+/*
+** Changes overlay filter preview
+*/
+const loadNewFilterPreview = event => {
+	const filterPreview = document.getElementById('filter_preview');
+	filterPreview.src = 'images/filters/' + event.target.value;
 }
