@@ -49,7 +49,7 @@ $newPostId = $connection->lastInsertId();
 if (!file_exists($uploads_path))
 	mkdir($uploads_path);
 imagepng($resizedImage['image'], $uploads_path . $newPostId . "." . $extension);
-rename($_FILES["imageBlob"]["tmp_name"], $uploads_path . 'snap.png');
+//rename($_FILES["imageBlob"]["tmp_name"], $uploads_path . 'snap.png');
 // error_log('Square size of new image: ' . $resizedImage['size']);
 
 echo json_encode($newPostId);
