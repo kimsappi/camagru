@@ -38,7 +38,7 @@ const resizeMainImage = () => {
 		return;
 
 	const imgPreview = document.getElementById('img_preview');
-	imgPreview.style.height = imgPreview.style.width;
+	imgPreview.style.height = getComputedStyle(imgPreview).width;
 }
 
 window.addEventListener('resize', resizeSideGalleryOnResize);

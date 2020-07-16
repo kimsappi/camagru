@@ -119,6 +119,8 @@ function takePicFromWebcamStream()
 	// 		})
 	// 	;
 	// }
+
+	previewElement.style.height = getComputedStyle(previewElement).width;
 }
 
 /*
@@ -246,3 +248,7 @@ const loadNewFilterPreview = event => {
 	const filterPreview = document.getElementById('filter_preview');
 	filterPreview.src = 'images/filters/' + event.target.value;
 }
+
+setInterval(() => {
+
+}, 1000);

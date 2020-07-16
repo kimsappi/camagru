@@ -49,7 +49,7 @@ require_once($templates_path . "header.php");
 			<div id="webcam_container">
 				<video autoplay id="webcam" class='square resizeSelectorClass'></video>
 				<canvas id='canvas'></canvas>
-				<img id="img_preview" class='square resizeSelectorClass'>
+				<img id="img_preview" class='resizeSelectorClass'>
 				<img id='filter_preview' class='resizeSelectorClass'>
 			</div>
 		</div>
