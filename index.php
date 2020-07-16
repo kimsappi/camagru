@@ -44,7 +44,7 @@ foreach ($connection->query($query) as $imageData)
 {
 	$imageId = $imageData['id'];
 	$fileName = $imageId . '.' . $imageData['extension'];
-	if ($imagesFound < $posts_per_page)
+	if ($imagesFound < $posts_per_page && file_exists($uploads_path . $fileName))
 	{
 		$indexGalleryHTML .= <<<EOD
 		<a href="post.php?id=$imageId">
