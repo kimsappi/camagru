@@ -1,5 +1,5 @@
 // Initial value for webcam size
-let size = 300;
+let size = 720;
 let imageBlob = null;
 
 function initialiseWebcamStreamOnload()
@@ -72,16 +72,20 @@ function takePicFromWebcamStream()
 	const video = document.getElementById('webcam');
 	const dimensions = getComputedStyle(webcamContainer).height;
 	const previewElement = document.getElementById("img_preview");
-
+	const imageElements = document.querySelectorAll('.resizeSelectorClass');
+	const imageWidth = imageElements[0].offsetWidth || imageElements[1].offsetWidth;
 
 	// context.width = dimensions;
 	// context.height = dimensions;
 	// context.canvas.width = dimensions;
 	// context.canvas.height = dimensions;
-	//console.log(canvas.width);
+	
+	console.log(imageWidth);
+	console.log(canvas.width);
+	canvas.width = imageWidth;
 	canvas.height = canvas.width;
 	//console.log(dimensions);
-	context.drawImage(video, 20, 0, 300, 300, 0, 0, 300, 300);
+	context.drawImage(video, 0, 0, canvas.height, canvas.height, 0, 0, canvas.height, canvas.height);
 
 	const imageData = canvas.toDataURL();
 	//console.log(imageData);
@@ -127,13 +131,13 @@ function cancelPicFromWebcam()
     previewElement.setAttribute('src', data);
 
 	imageBlob = null;
-	// if (previewElement.src)
-	// {
+	if (previewElement.src)
+	{
 		previewElement.style.display = "none";
 		webcamElement.style.display = "block";
 		URL.revokeObjectURL(previewElement.src);
 		previewElement.src = "#";
-	// }
+	}
 	changeElementDisplay("cancel_pic_from_webcam", "none");
 	changeTakePicButtonFunctionality(false);
 }

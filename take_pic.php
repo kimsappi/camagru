@@ -16,8 +16,12 @@ foreach ($filtersDir as $fileData)
 {
 	if (!$fileData->isDot())
 	{
+		$filterFileName = $fileData->getFilename();
+		$filterDisplayName = explode('.', $filterFileName)[0];
+		$filterDisplayName = ucwords(preg_replace('/[-_]+/', ' ', $filterDisplayName));
+
 		$filtersSelectHTML .= <<<EOD
-		<option value='{$fileData->getFilename()}'>{$fileData->getFilename()}</option>	
+		<option value='{$filterFileName}'>{$filterDisplayName}</option>	
 EOD;
 	}
 }
