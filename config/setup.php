@@ -1,5 +1,7 @@
-#!/usr/bin/php
 <?php
+if (php_sapi_name() !== 'cli')
+	return;
+
 require_once("database.php");
 
 try
