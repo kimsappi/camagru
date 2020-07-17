@@ -363,6 +363,13 @@ input[type='file'] {
 	max-width: 100%;
 }
 
+.formExplanation {
+	font-size: 0.7em;
+	color: darkslategray;
+	font-style: italic;
+	margin-top: -0.5em;
+}
+
 /* Class to force divs to be square */
 .square:after {
 	content: "";

@@ -41,16 +41,19 @@ function initialiseWebcamStreamOnload()
 }
 
 const firefoxDefaultFilter = () => {
+	const filterElement = document.getElementById('filter_preview');
 	if (navigator.userAgent.search('Firefox') > -1) {
-		const filterElement = document.getElementById('filter_preview');
-		filterElement.src = 'images/filters/goth.png';
+		filterElement.src = 'images/firefoxDefaultFilter.png';
 	}
+	else
+	filterElement.src = '';
 }
 
 const whyIsFirefoxNotStandardsCompliant = () => {
 	if (navigator.userAgent.search('Firefox') > -1) {
 		const container = document.getElementById('firefoxErrorContainer');
 		const div = document.createElement('div');
+		div.classList.add('formExplanation');
 		div.innerHTML = 'You appear to be using Firefox. As Firefox is not standards compliant, the final image will only contain the area covered by the filter.';
 		container.appendChild(div);
 		

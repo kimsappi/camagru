@@ -14,7 +14,7 @@ $filtersSelectHTML = "<option value=''>Select filter</option>";
 $filtersDir = new DirectoryIterator($filters_path);
 foreach ($filtersDir as $fileData)
 {
-	if (!$fileData->isDot())
+	if (!$fileData->isDot() && strlen($fileData))
 	{
 		$filterFileName = $fileData->getFilename();
 		$filterDisplayName = explode('.', $filterFileName)[0];
