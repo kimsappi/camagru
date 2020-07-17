@@ -36,6 +36,26 @@ function initialiseWebcamStreamOnload()
 	document.getElementById("cancel_pic_from_webcam").addEventListener("click", cancelPicFromWebcam);
 	document.getElementById("webcam").addEventListener("canplay", webcamStreamStartedPlaying());
 	document.getElementById("filter").addEventListener("change", loadNewFilterPreview);
+
+	whyIsFirefoxNotStandardsCompliant();
+}
+
+const firefoxDefaultFilter = () => {
+	if (navigator.userAgent.search('Firefox') > -1) {
+		const filterElement = document.getElementById('filter_preview');
+		filterElement.src = 'images/filters/goth.png';
+	}
+}
+
+const whyIsFirefoxNotStandardsCompliant = () => {
+	if (navigator.userAgent.search('Firefox') > -1) {
+		const container = document.getElementById('firefoxErrorContainer');
+		const div = document.createElement('div');
+		div.innerHTML = 'You appear to be using Firefox. As Firefox is not standards compliant, the final image will only contain the area covered by the filter.';
+		container.appendChild(div);
+		
+		firefoxDefaultFilter();
+	}
 }
 
 const webcamStreamStartedPlaying = () => {
@@ -248,10 +268,10 @@ const uploadOldPic = () => {
 ** Changes overlay filter preview
 */
 const loadNewFilterPreview = event => {
-	const filterPreview = document.getElementById('filter_preview');
-	filterPreview.src = 'images/filters/' + event.target.value;
+	if (event.target.value) {
+		const filterPreview = document.getElementById('filter_preview');
+		filterPreview.src = 'images/filters/' + event.target.value;
+	}
+	else
+		firefoxDefaultFilter();
 }
-
-setInterval(() => {
-
-}, 1000);

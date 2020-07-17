@@ -39,6 +39,13 @@ const resizeMainImage = () => {
 	const imgPreview = document.getElementById('img_preview');
 	imgPreview.style.height = getComputedStyle(imgPreview).width;
 
+	const filterPreview = document.getElementById('filter_preview');
+	const filterSizeReferenceElement = document.getElementById('webcam') || document.getElementById('img_preview');
+	filterPreview.style.height = getComputedStyle(filterSizeReferenceElement).height;
+	// console.log(getComputedStyle(filterSizeReferenceElement).height);
+	// console.log(filterSizeReferenceElement.outerHTML);
+	filterPreview.style.width = filterPreview.style.height;
+
 	// if (!document.getElementById('webcam'))
 	// 	return;
 	// const webcam = document.getElementById('webcam');

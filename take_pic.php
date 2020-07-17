@@ -38,7 +38,7 @@ require_once($templates_path . "header.php");
 		<label for='fileUpload' id='fileUploadLabel'>Upload!</label>
 		<input type='file' id='fileUpload' oninput='userSelectsUploadFile();'>
 	</div>
-	<div class='row'>
+	<div class='row' id='firefoxErrorContainer'>
 		<h4>Select a filter:</h4>
 		<select id='filter' name='filter'>
 			<?= $filtersSelectHTML ?>
