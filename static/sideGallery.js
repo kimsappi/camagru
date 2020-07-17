@@ -36,9 +36,13 @@ const centerPostMainImage = () => {
 const resizeMainImage = () => {
 	if (!document.getElementById('img_preview'))
 		return;
-
 	const imgPreview = document.getElementById('img_preview');
 	imgPreview.style.height = getComputedStyle(imgPreview).width;
+
+	// if (!document.getElementById('webcam'))
+	// 	return;
+	// const webcam = document.getElementById('webcam');
+	// webcam.style.width = getComputedStyle(webcam).height;
 }
 
 window.addEventListener('resize', resizeSideGalleryOnResize);

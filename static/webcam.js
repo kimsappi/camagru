@@ -20,8 +20,9 @@ function initialiseWebcamStreamOnload()
 				size = Math.min(capabilities.height.max, capabilities.width.max, 720);
 				facingMode = capabilities.facingMode;
 			}
-			const constraints = {height: size, width: size, facingMode: facingMode};
-			mediaStream.getVideoTracks()[0].applyConstraints(constraints);
+			const constraints = {height: {min: 200, ideal: 720}, width: {min: 200, ideal: 720}, facingMode: facingMode};
+			mediaStream.getVideoTracks()[0].applyConstraints(constraints)
+				.then(() => {webcamElement.srcObject = mediaStream;});
 		})
 		.catch((e) =>
 		{
@@ -59,12 +60,14 @@ function changeTakePicButtonFunctionality(toUpload)
 		button.removeEventListener("click", takePicFromWebcamStream);
 		button.addEventListener("click", uploadPic);
 		button.innerHTML = "Upload!";
+		button.style.backgroundColor = 'lightgreen';
 	}
 	else
 	{
 		button.removeEventListener("click", uploadPic);
 		button.addEventListener("click", takePicFromWebcamStream);
 		button.innerHTML = "Snap!";
+		button.style.backgroundColor = 'lightblue';
 	}
 }
 
@@ -81,7 +84,7 @@ function takePicFromWebcamStream()
 	const previewElement = document.getElementById("img_preview");
 	// const imageElements = document.querySelectorAll('.resizeSelectorClass');
 	const imageWidth = getComputedStyle(video).width;
-	console.log(imageWidth);
+	//console.log(imageWidth);
 
 	// context.width = dimensions;
 	// context.height = dimensions;
@@ -90,7 +93,7 @@ function takePicFromWebcamStream()
 	
 	canvas.width = parseInt(imageWidth);
 	canvas.height = canvas.width;
-	console.log('c' + canvas.height);
+	//console.log('c' + canvas.height);
 	context.drawImage(video, 0, 0, 720, 720, 0, 0, canvas.height, canvas.height);
 
 	const imageData = canvas.toDataURL();
