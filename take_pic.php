@@ -43,11 +43,16 @@ require_once($templates_path . "header.php");
 		<input type='file' id='fileUpload' oninput='userSelectsUploadFile();'>
 		<input type='text' name='csrf' id='csrf' value='<?= $csrfHash ?>' class='displayNone'></input>
 	</div>
+	
 	<div class='row' id='firefoxErrorContainer'>
-		<h4>Select a filter:</h4>
+		<h4 class='col-12'>Select a filter:</h4>
 		<select id='filter' name='filter'>
 			<?= $filtersSelectHTML ?>
 		</select>
+	</div>
+	<div class='row'>
+		<label for='opacity' class='col-12'>Filter opacity</label>
+		<input type='range' name='opacity' min='20' max='70' value='30' step='1' id='opacity'>
 	</div>
 	<div class='row'>
 		<div class="col-12 col-md-10">

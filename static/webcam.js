@@ -36,8 +36,14 @@ function initialiseWebcamStreamOnload()
 	document.getElementById("cancel_pic_from_webcam").addEventListener("click", cancelPicFromWebcam);
 	document.getElementById("webcam").addEventListener("canplay", webcamStreamStartedPlaying());
 	document.getElementById("filter").addEventListener("change", loadNewFilterPreview);
+	document.getElementById("opacity").addEventListener("input", changeFilterOpacity);
 
 	whyIsFirefoxNotStandardsCompliant();
+}
+
+const changeFilterOpacity = e => {
+	const filterElement = document.getElementById('filter_preview');
+	filterElement.style.opacity = e.target.value / 100;
 }
 
 const firefoxDefaultFilter = () => {
@@ -194,6 +200,7 @@ function uploadPic(uploadedFile = null)
 		}
 		data.append("filter", document.getElementById('filter').value);
 		data.append("csrf", document.getElementById('csrf').value);
+		data.append("opacity", document.getElementById('opacity').value);
 		fetch("/upload.php", {
 			method: 'post',
 			body: data

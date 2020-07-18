@@ -10,7 +10,8 @@ if (!isset($_POST['csrf']) || $_POST['csrf'] !== $_SESSION['csrf'])
 if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST' || !$_POST || !$_FILES ||
 	!isset($_POST['filter']) || !strlen($_POST['filter']) || !isset($_FILES["imageBlob"]) ||
 	!isset($_FILES["imageBlob"]["type"]) || substr($_FILES["imageBlob"]["type"], 0, 6) !== "image/" ||
-	$_FILES["imageBlob"]["size"] > 5000000)
+	$_FILES["imageBlob"]["size"] > 5000000 || !isset($_POST['opacity']) || !is_numeric($_POST['opacity']) ||
+	$_POST['opacity'] < 19 || $_POST['opacity'] > 71)
 {
 	header("Location: /");
 	exit();
@@ -50,7 +51,7 @@ imagecopyresampled($filterSquare, $filterSrc, 0, 0, 0, 0, $resizedImage['size'],
 $tempTransparencyLayer = imagecreatetruecolor($resizedImage['size'], $resizedImage['size']);
 imagecopy($tempTransparencyLayer, $resizedImage['image'], 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size']);
 imagecopy($tempTransparencyLayer, $filterSquare, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size']);
-imagecopymerge($resizedImage['image'], $tempTransparencyLayer, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], 30);
+imagecopymerge($resizedImage['image'], $tempTransparencyLayer, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], $_POST['opacity']);
 
 require_once($functions_path . "dbConnect.php");
 if (!$connection = dbConnect())
