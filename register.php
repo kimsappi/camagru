@@ -2,6 +2,8 @@
 $head_title = "Register | Camagru";
 require_once($_SERVER["DOCUMENT_ROOT"] . "/require.php");
 
+$errorMsg = '';
+
 /* Registration was submitted */
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
@@ -40,32 +42,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 	{
 		if ($query->fetch()) // Existing account found for username and/or password
 		{
-			echo "Username or email already associated with an account.";
-			exit();
+			$errorMsg = "Username or email already associated with an account.";
 		}
-		require_once($functions_path . "hashPassword.php");
-		$password = hashPassword($_POST["password"], $_POST["username"]);
-		// Create unique string for email confirmation
-		$emailConfirmationHash = hash('md5', $_POST['email'] . $_POST['username']);
+		else {
+			require_once($functions_path . "hashPassword.php");
+			$password = hashPassword($_POST["password"], $_POST["username"]);
+			// Create unique string for email confirmation
+			$emailConfirmationHash = hash('md5', $_POST['email'] . $_POST['username']);
 
-		$query = $connection->prepare(
-			"INSERT IGNORE INTO users (`username`, `password`, `email`, `email_verification_string`)
-				VALUES (?, ?, ?, ?);"
-		);
-		$query->execute([$_POST["username"], $password, $_POST["email"], $emailConfirmationHash]);
+			$query = $connection->prepare(
+				"INSERT IGNORE INTO users (`username`, `password`, `email`, `email_verification_string`)
+					VALUES (?, ?, ?, ?);"
+			);
+			$query->execute([$_POST["username"], $password, $_POST["email"], $emailConfirmationHash]);
 
-		// Send email confirmation mail
-		$rootURL = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
-		$emailConfirmationURL = $rootURL . 'confirm_email.php?hash=' . $emailConfirmationHash;
-		$confirmationEmailText = <<<EOD
+			// Send email confirmation mail
+			$rootURL = (!empty($_SERVER['HTTPS']) ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . '/';
+			$emailConfirmationURL = $rootURL . 'confirm_email.php?hash=' . $emailConfirmationHash;
+			$confirmationEmailText = <<<EOD
 <p>Thanks for registering! Click or copy the following to link confirm your email address:</p>
 <a href='$emailConfirmationURL'>$emailConfirmationURL</a>
 EOD;
-		$emailHeaders = "MIME-Version: 1.0\r\n";
-		$emailHeaders .= "Content-type: text/html; charset=iso-8859-1\r\n";
-		mail($_POST['email'], 'Camagru | Confirm your email', $confirmationEmailText, $emailHeaders);
-		header("Location: index.php");
-		exit();
+			$emailHeaders = "MIME-Version: 1.0\r\n";
+			$emailHeaders .= "Content-type: text/html; charset=iso-8859-1\r\n";
+			mail($_POST['email'], 'Camagru | Confirm your email', $confirmationEmailText, $emailHeaders);
+			header("Location: index.php");
+			exit();
+		}
 	}
 }
 
@@ -78,6 +81,7 @@ if (isset($_SESSION["username"]))
 }
 else
 {
+	echo $errorMsg;
 	require_once($templates_path . "forms/form_register.html");
 }
 ?>

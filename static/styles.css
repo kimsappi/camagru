@@ -147,6 +147,13 @@ input[type='file'] {
 	margin-bottom: 0.5em;
 }
 
+#likesCounter {
+	background-color: lightpink;
+	border-radius: 1em;
+	padding: 0.1em;
+	margin-bottom: 0.5em;
+}
+
 #likesCounter a:link, #likesCounter a:visited, #likesCounter a:hover, #likesCounter a:active {
 	text-decoration: none;
 	color: orangered;
@@ -196,7 +203,7 @@ input[type='file'] {
 }
 
 /* On large devices, move the side gallery to the side */
-@media screen and (min-width: 992px)
+@media screen and (min-width: 768px)
 {
 	.sideGallery {
 		display: flex;

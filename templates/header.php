@@ -5,6 +5,8 @@ if (isset($body_onload))
 else
 	echo "<body>";
 ?>
+<!-- Hack to prevent a Firefox warning about unloaded stylesheets -->
+<script>0</script>
 <div class='container'>
 	<header>
 		<div class='col'>

@@ -158,9 +158,17 @@ if (isset($_SESSION['user_id']) && $_SESSION['user_id'] === $postRow['user_id'])
 	<form method='post'>
 		<input type='text' name='csrf' value='$csrfHash' class='displayNone'></input>
 		<input type='text' name='delete' value='1' class='displayNone'></input>
-		<a href='#' onclick='this.parentNode.submit();';>&#x274C; Delete this post</a>
+		<a href='#' onclick='deletePost(this);'>&#x274C; Delete this post</a>
 	</form>
 EOD;
+}
+
+$likeEmoji = '&#x2764;&#xFE0F;';
+if (isset($_SESSION['user_id'])) {
+	$haveLikedQuery = "SELECT COUNT(*) FROM `likes` WHERE `post_id` = $postId AND `user_id` = {$_SESSION['user_id']};";
+	$haveLikedQuery = $connection->query($haveLikedQuery);
+	if ($haveLikedQuery->fetchColumn())
+		$likeEmoji = '&#128148;';
 }
 
 // Page body
@@ -177,7 +185,7 @@ require_once($templates_path . "header.php");
 			<form method='post'>
 				<input type='text' name='csrf' value='<?= $csrfHash ?>' class='displayNone'></input>
 				<input type='text' name='like' value='1' class='displayNone'></input>
-				<a href='#' onclick='this.parentNode.submit();';>&#x2764;&#xFE0F; <?= $likesCount ?></a>
+				<a href='#' onclick='this.parentNode.submit();';><?= $likeEmoji ?> <?= $likesCount ?></a>
 			</form>
 		</div>
 		<div>
@@ -217,6 +225,12 @@ require_once($templates_path . "header.php");
 </div>
 
 <script src='/static/sideGallery.js'></script>
+<script>
+	const deletePost = e => {
+		if (confirm('Delete this post?'))
+			e.parentNode.submit();
+	};
+</script>
 
 <?php
 require_once($templates_path . "footer.php");

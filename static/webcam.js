@@ -60,6 +60,7 @@ const whyIsFirefoxNotStandardsCompliant = () => {
 		const container = document.getElementById('firefoxErrorContainer');
 		const div = document.createElement('div');
 		div.classList.add('formExplanation');
+		div.classList.add('col-12');
 		div.innerHTML = 'You appear to be using Firefox. As Firefox is not standards compliant, the final image will only contain the area covered by the filter.';
 		container.appendChild(div);
 		
