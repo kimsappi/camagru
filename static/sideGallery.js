@@ -40,7 +40,10 @@ const resizeMainImage = () => {
 	imgPreview.style.height = getComputedStyle(imgPreview).width;
 
 	const filterPreview = document.getElementById('filter_preview');
-	const filterSizeReferenceElement = document.getElementById('webcam').style.display !== 'none' ? document.getElementById('webcam') : document.getElementById('img_preview');
+	const filterSizeReferenceElement = 
+		document.getElementById('webcam') && document.getElementById('webcam').style.display !== 'none' ?
+		document.getElementById('webcam') :
+		document.getElementById('img_preview');
 	filterPreview.style.height = getComputedStyle(filterSizeReferenceElement).height;
 	// console.log(getComputedStyle(filterSizeReferenceElement).height);
 	// console.log(filterSizeReferenceElement.outerHTML);
