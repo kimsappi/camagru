@@ -45,4 +45,4 @@ Hive web-dev project. PHP/vanilla JS
 - [x] Deleting posts
 - [x] Uploading images
 - [x] Liking/unliking posts
-- [ ] Changing login details
+- [x] Changing login details

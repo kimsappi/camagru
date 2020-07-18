@@ -389,3 +389,7 @@ input[type='file'] {
 	color: maroon;
 	margin-bottom: 0.5em;
 }
+
+.maroon {
+	color: maroon;
+}

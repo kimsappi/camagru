@@ -22,6 +22,10 @@ $changesMadeCorrectly = FALSE;
 // User submitted form, check what should be changed and change it
 if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
+	if (!isset($_POST['csrf']) || $_POST['csrf'] !== $_SESSION['csrf']) {
+		header('Location: /?csrf=1');
+		exit();
+	}
 	$changesMadeCorrectly = TRUE;
 	$userData = NULL;
 
@@ -153,10 +157,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		$changesMadeCorrectly = FALSE;
 	}
 }
-?>
 
-<!-- Page body -->
-<?php
+$csrfHash = generateFormValidationHash($_SESSION['user_id']);
+$_SESSION['csrf'] = $csrfHash;
+
+// <!-- Page body -->
 // These are here instead of the top, so we get the new username immediately on submission
 require_once($templates_path . "head.php");
 require_once($templates_path . "header.php");
@@ -166,37 +171,41 @@ require_once($templates_path . "header.php");
 		<?php
 		if (!$changesMadeCorrectly)
 		{
-			echo "<div class='formError'>$errorWithName</div>";
-			echo "<div class='formError'>$errorWithEmail</div>";
-			echo "<div class='formError'>$errorWithNewPassword</div>";
-			echo "<div class='formError'>$errorWithOldPassword</div>";
+			echo "<div class='statusText'>$errorWithName</div>";
+			echo "<div class='statusText'>$errorWithEmail</div>";
+			echo "<div class='statusText'>$errorWithNewPassword</div>";
+			echo "<div class='statusText'>$errorWithOldPassword</div>";
 		}
 		else
-			echo "<div class='formError'>All changes saved!</div>";
+			echo "<div class='statusText'>All changes saved!</div>";
 		?>
 	</div>
 	<div class='row'>
-		<h2>Edit profile</h2>
+		<div class='col-12'>
+			<h2>Edit profile</h2>
+		</div>	
 		<form method='post' id='editProfileForm'>
 			<div>Change username</div>
 			<label for='username'>Username</label>
-			<div class='formExplanation'>(4-24 characters, [a-zA-Z_])</div>
 			<input type='text' name='username' value='<?= sanitiseOutput($_SESSION['username']) ?>' pattern="[a-zA-Z_]{4,24}$">
+			<div class='formExplanation'>(4-24 characters, [a-zA-Z_])</div>
 			<div>Change email</div>
 			<label for='email'>Email</label>
 			<input type='email' name='email' value='<?= sanitiseOutput($_SESSION['email']) ?>'>
 			<div>Change password</div>
 			<label for='newPassword'>New password</label>
-			<input type='password' name='newPassword'>
+			<input type='password' name='newPassword' pattern=".{8,}">
 			<br>
 			<label for='confirmPassword'>Confirm new password</label>
-			<input type='password' name='confirmPassword'>
+			<input type='password' name='confirmPassword' pattern=".{8,}">
+			<div class='formExplanation'>(>7 characters, must include 3 of: lowercase, capital, digit, special)</div>
 			<div>Communication settings</div>
 			<input type='checkbox' name='emailOnComment' <?= $_SESSION['email_on_comment'] ? 'checked' : '' ?>>
 			<label for='emailOnComment'>Receive emails upon comment to your posts</label>
-			<div>Confirm all changes with current password</div>
+			<div class='maroon'>Confirm all changes with current password</div>
 			<label for='oldPassword'>Password</label>
 			<input type='password' name='oldPassword' pattern=".{8,}" required>
+			<input type='text' name='csrf' value='<?= $csrfHash ?>' class='displayNone'></input>
 			<input type='submit' name='submit' value='Submit'>
 		</form>
 	</div>
