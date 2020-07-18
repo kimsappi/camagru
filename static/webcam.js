@@ -113,16 +113,16 @@ function takePicFromWebcamStream()
 	//const dimensions = getComputedStyle(webcamContainer).height;
 	const previewElement = document.getElementById("img_preview");
 	// const imageElements = document.querySelectorAll('.resizeSelectorClass');
-	const imageWidth = getComputedStyle(video).width;
+	const imageHeight = video.videoHeight;
 
 	// context.width = dimensions;
 	// context.height = dimensions;
 	// context.canvas.width = dimensions;
 	// context.canvas.height = dimensions;
 	
-	canvas.width = parseInt(imageWidth);
+	canvas.width = parseInt(imageHeight);
 	canvas.height = canvas.width;
-	context.drawImage(video, 0, 0, 720, 720, 0, 0, canvas.height, canvas.height);
+	context.drawImage(video, 0, 0, canvas.height, canvas.height, 0, 0, canvas.height, canvas.height);
 
 	const imageData = canvas.toDataURL();
 	previewElement.setAttribute('src', imageData);
@@ -164,9 +164,9 @@ function cancelPicFromWebcam()
 	const canvas = document.getElementById('canvas');
 
 	const imageElements = document.querySelectorAll('.resizeSelectorClass');
-	const imageWidth = imageElements[0].offsetWidth || imageElements[1].offsetWidth;
-	canvas.height = imageWidth;
-	canvas.width = imageWidth;
+	const imageHeight = getComputedStyle(imageElements[0]).height || getComputedStyle(imageElements[1]).height;
+	canvas.height = imageHeight;
+	canvas.width = imageHeight;
 
 	const context = canvas.getContext('2d');
 	context.fillStyle = "#AAA";
