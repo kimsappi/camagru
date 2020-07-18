@@ -1,5 +1,8 @@
 <?php
 header('X-Frame-Options: DENY');
+
+if (!isset($head_title))
+	$head_title = 'Camagru';
 ?>
 
 <!DOCTYPE html>
