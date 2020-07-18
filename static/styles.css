@@ -29,7 +29,13 @@ canvas {
 	}
 
 	#headerLogoImg {
-		width: 50vw;
+		width: 40vw;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	#headerLogoImg {
+		width: 30vw;
 	}
 }
 
@@ -58,7 +64,7 @@ img, video {
 }
 
 .text2Em {
-	font-size: 2em;
+	font-size: 1.5em;
 }
 
 .bold {
@@ -257,6 +263,7 @@ input[type='file'] {
 	font-weight: bold;
 	font-style: oblique;
 	margin-bottom: 0.5em;
+	overflow-wrap: break-word;
 }
 
 .commentContent {

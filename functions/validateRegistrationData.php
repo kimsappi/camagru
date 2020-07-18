@@ -22,11 +22,11 @@ function validatePassWordStrength(string $password, $confirmPassword = FALSE): b
 
 function validateUsername(string $username): bool
 {
-	/* Username 4-24 characters, only alphanumerics and underscores */
+	/* Username 4-14 characters, only alphanumerics and underscores */
 	
 	if (
 		strlen($username) < 4 ||
-		strlen($username) > 24 ||
+		strlen($username) > 14 ||
 		!preg_match("/^[\w]+$/", $username)
 	)
 		return FALSE;

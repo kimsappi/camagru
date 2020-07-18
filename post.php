@@ -125,7 +125,7 @@ if (isset($_SESSION['username']))
 	$_SESSION['csrf'] = $csrfHash;
 	$commentForm = <<<EOD
 	<form method='post' id='commentForm'>
-		<textarea name='commentInput' id='commentInput' rows='4' cols='50' wrap='soft' maxlength='500' required></textarea>
+		<textarea name='commentInput' id='commentInput' rows='4' cols='40' wrap='soft' maxlength='500' required placeholder='Max. 500 characters'></textarea>
 		<input type='text' name='csrf' value='$csrfHash' class='displayNone'></input>
 		<br>
 		<input type='submit' name='submit' value='OK'>
@@ -177,10 +177,10 @@ require_once($templates_path . "header.php");
 ?>
 
 <div class='row'>
+	<div class='col-12'>
+		By: <span class='bold text2Em'><?= sanitiseOutput($posterName) ?></span>
+	</div>
 	<div class='col-12 col-md-10 flexRow flexSpaceEvenly'>
-		<div>
-			By: <span class='bold text2Em'><?= sanitiseOutput($posterName) ?></span>
-		</div>
 		<div id='likesCounter' class='text2Em'>
 			<form method='post'>
 				<input type='text' name='csrf' value='<?= $csrfHash ?>' class='displayNone'></input>

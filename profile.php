@@ -187,8 +187,8 @@ require_once($templates_path . "header.php");
 		<form method='post' id='editProfileForm'>
 			<div>Change username</div>
 			<label for='username'>Username</label>
-			<input type='text' name='username' value='<?= sanitiseOutput($_SESSION['username']) ?>' pattern="[a-zA-Z_]{4,24}$">
-			<div class='formExplanation'>(4-24 characters, [a-zA-Z_])</div>
+			<input type='text' name='username' value='<?= sanitiseOutput($_SESSION['username']) ?>' pattern="[a-zA-Z_]{4,14}$">
+			<div class='formExplanation'>(4-14 characters, [a-zA-Z_])</div>
 			<div>Change email</div>
 			<label for='email'>Email</label>
 			<input type='email' name='email' value='<?= sanitiseOutput($_SESSION['email']) ?>'>
