@@ -9,7 +9,7 @@ Hive web-dev project. PHP/vanilla JS
 # Requirements/Features
 - [x] No error/log messages anywhere
 - [x] Tech: PHP backend, PDO database driver, no frameworks/libraries except pure CSS ones
-- [ ] Firefox >= 41 and Chrome >= 46 compatibility
+- [x] Firefox >= 41 (kind of) and Chrome >= 46 compatibility
 - [x] index.php must be in directory root
 
 ## Security
@@ -40,3 +40,8 @@ Hive web-dev project. PHP/vanilla JS
 - [x] Filter must be superposed onto the image in the back-end
 - [x] Allow uploading image file from computer
 
+## CSRF protection
+- [x] Commenting
+- [x] Deleting posts
+- [ ] Liking/unliking posts
+- [ ] Changing login details

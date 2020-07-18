@@ -11,6 +11,10 @@ function cropAndResizeImage(&$image)
 
 	/* Create new square image canvas, imagecreatetruecolor is MANDATORY for quality */
 	$squareImage = imagecreatetruecolor(min([$squareSize, $maxRes]), min([$squareSize, $maxRes]));
+	imagesavealpha($squareImage, TRUE);
+	//imagealphablending($squareImage, FALSE);
+	$transparency = imagecolorallocatealpha($squareImage, 0, 0, 0, 127);
+	imagefill($squareImage, 0, 0, $transparency);
 	
 	/* Original image larger than maxRes, need to downscale image */
 	if ($squareSize > $maxRes)

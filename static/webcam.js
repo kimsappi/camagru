@@ -199,7 +199,9 @@ function uploadPic(uploadedFile = null)
 			method: 'post',
 			body: data
 		})
-			.then(response => response.json())
+			.then(response => {;
+				response.json();
+			})
 			.then(newId => {
 				let redir = '';
 				if (newId)

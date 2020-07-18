@@ -72,11 +72,17 @@ if (!$imagesFound)
 		$indexGalleryHTML .= "Gallery is currently empty. Why not make the FIRST post?";
 	}
 }
+
+$statusText = '';
+if (isset($_GET['deleted'])) {
+	$statusText = 'Post deleted successfully.';
+}
 ?>
 
 
 
 <!-- Page body -->
+<div class='red'><?= $statusText ?></div>
 <p>You can <a href='/take_pic.php' class='buttonStyleLink'>SNAP</a> a new picture with a webcam or upload a file:</p>
 <!--
 <form action='/file_upload.php' method='post'>

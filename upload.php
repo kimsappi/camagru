@@ -27,6 +27,10 @@ $resizedImage = cropAndResizeImage($uploadedImage);
 //imagepng($resizedImage['image'], $uploads_path . 'imagepngresult.png');
 // imagecreatetruecolor MANDATORY for good quality
 $filterSquare = imagecreatetruecolor($resizedImage['size'], $resizedImage['size']);
+imagesavealpha($filterSquare, TRUE);
+//imagealphablending($filterSquare, FALSE);
+$transparency = imagecolorallocatealpha($filterSquare, 0, 0, 0, 127);
+imagefill($filterSquare, 0, 0, $transparency);
 imagecopyresampled($filterSquare, $filterSrc, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], imagesx($filterSrc), imagesy($filterSrc));
 imagecopymerge($resizedImage['image'], $filterSquare, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], 30);
 
@@ -51,5 +55,5 @@ if (!file_exists($uploads_path))
 imagepng($resizedImage['image'], $uploads_path . $newPostId . "." . $extension);
 //rename($_FILES["imageBlob"]["tmp_name"], $uploads_path . 'snap.png');
 // error_log('Square size of new image: ' . $resizedImage['size']);
-
+//error_log($newPostId);
 echo json_encode($newPostId);

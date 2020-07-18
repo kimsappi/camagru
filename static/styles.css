@@ -380,3 +380,11 @@ input[type='file'] {
 .noMargin {
 	margin: 0px;
 }
+
+.displayNone {
+	display: none;
+}
+
+.red {
+	color: maroon;
+}

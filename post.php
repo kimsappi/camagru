@@ -10,10 +10,26 @@ if (!$connection = dbConnect()) {
 	exit();
 }
 
-// POST for commenting
-if ($_SERVER['REQUEST_METHOD'] === 'POST')
+$postId = intval($_GET['id']);
+$query = $connection->prepare("SELECT * FROM posts WHERE `id` = ?;");
+$query->execute([$postId]);
+$result = $query->fetch(PDO::FETCH_ASSOC);
+$postRow = $result;
+
+$fileName = $result['id'] . '.' . $result['extension'];
+
+if (!$result)
 {
-	if (isset($_POST['commentInput']) && strlen($_POST['commentInput']) > 0 && isset($_SESSION['username']) && isset($_GET['id'])) {	
+	header('Location: /');
+	exit();
+}
+
+// POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['csrf']) && ($_POST['csrf'] === $_SESSION['csrf']))
+{
+	// Commenting
+	if (isset($_POST['commentInput']) && strlen($_POST['commentInput']) > 0 && isset($_SESSION['username']) && isset($_GET['id']))
+	{	
 		$commentPostId = $_GET['id'];
 		$commentUserId = $_SESSION['user_id'];
 
@@ -54,6 +70,19 @@ EOD;
 		$query = $connection->prepare($queryStr);
 		$query->execute([$commentPostId, $commentUserId, $_POST['commentInput']]);
 	}
+
+	// Deleting
+	if (isset($_POST['delete']))
+	{
+		if (isset($_SESSION['user_id']) && $_SESSION['user_id'] === $postRow['user_id'])
+		{
+			unlink($uploads_path . $fileName);
+			$query = $connection->prepare("DELETE FROM posts WHERE `id` = ?;");
+			$query->execute([$postId]);
+		}
+		header('Location: /?deleted=1');
+		exit();
+	}
 }
 
 // GET
@@ -63,37 +92,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && (!isset($_GET['id']) || !intval($_GE
 	exit();
 }
 
-$postId = intval($_GET['id']);
-
-$query = $connection->prepare("SELECT * FROM posts WHERE `id` = ?;");
-$query->execute([$postId]);
-$result = $query->fetch(PDO::FETCH_ASSOC);
-
-if (!$result)
-{
-	header('Location: /');
-	exit();
-}
-
 // Get original poster's name. Yes, this is done stupidly with 2 queries, but
 // I had already completed the rest of the page and it would take more work to fix everything.
-$posterName = $connection->query("SELECT `username` FROM `users` WHERE `id` = {$result['user_id']};");
+// error_log(print_r($postRow, TRUE));
+// error_log("SELECT `username` FROM `users` WHERE `id` = {$postRow['user_id']};");
+$posterName = $connection->query("SELECT `username` FROM `users` WHERE `id` = {$postRow['user_id']};");
 $posterName = $posterName->fetch()['username'];
-
-$fileName = $result['id'] . '.' . $result['extension'];
-
-// Deletion is via GET too because this was easiest
-if (isset($_GET['delete']))
-{
-	if (isset($_SESSION['user_id']) && $_SESSION['user_id'] === $result['user_id'])
-	{
-		unlink($uploads_path . $fileName);
-		$query = $connection->prepare("DELETE FROM posts WHERE `id` = ?;");
-		$query->execute([$postId]);
-	}
-	header('Location: /');
-	exit();
-}
 
 // Liking is handled via GET too because why not
 if (isset($_SESSION['user_id']) && isset($_GET['like']))
@@ -114,9 +118,12 @@ EOD;
 
 $commentForm = '';
 if (isset($_SESSION['username']))
+	$csrfHash = generateFormValidationHash($_SESSION['user_id']);
+	$_SESSION['csrf'] = $csrfHash;
 	$commentForm = <<<EOD
 	<form method='post' id='commentForm'>
 		<textarea name='commentInput' id='commentInput' rows='4' cols='50' wrap='soft' maxlength='500' required></textarea>
+		<input type='text' name='csrf' value='$csrfHash' class='displayNone'></input>
 		<br>
 		<input type='submit' name='submit' value='OK'>
 	</form>
@@ -142,10 +149,14 @@ $likesCount = $likesQuery->fetchColumn();
 
 // If the current user is the author of the post, allow deletion
 $deletionHTML = '';
-if (isset($_SESSION['user_id']) && $_SESSION['user_id'] === $result['user_id'])
+if (isset($_SESSION['user_id']) && $_SESSION['user_id'] === $postRow['user_id'])
 {
 	$deletionHTML = <<<EOD
-	<a href='post.php?id=$postId&delete=1'>&#x274C; Delete this post</a>
+	<form method='post'>
+		<input type='text' name='csrf' value='$csrfHash' class='displayNone'></input>
+		<input type='text' name='delete' value='1' class='displayNone'></input>
+		<a href='#' onclick='this.parentNode.submit();';>&#x274C; Delete this post</a>
+	</form>
 EOD;
 }
 
