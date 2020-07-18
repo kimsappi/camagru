@@ -16,6 +16,7 @@ if (!file_exists($filters_path . $_POST['filter']) || ($_FILES["imageBlob"]["typ
 	exit();
 }
 $filterSrc = imagecreatefrompng($filters_path . $_POST['filter']);
+imagesavealpha($filterSrc, TRUE);
 
 if ($_FILES["imageBlob"]["type"] === 'image/png')
 	$uploadedImage = imagecreatefrompng($_FILES["imageBlob"]["tmp_name"]);
@@ -32,7 +33,12 @@ imagesavealpha($filterSquare, TRUE);
 $transparency = imagecolorallocatealpha($filterSquare, 0, 0, 0, 127);
 imagefill($filterSquare, 0, 0, $transparency);
 imagecopyresampled($filterSquare, $filterSrc, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], imagesx($filterSrc), imagesy($filterSrc));
-imagecopymerge($resizedImage['image'], $filterSquare, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], 30);
+
+// Hack for imagecopymerge alpha channel darkness problem
+$tempTransparencyLayer = imagecreatetruecolor($resizedImage['size'], $resizedImage['size']);
+imagecopy($tempTransparencyLayer, $resizedImage['image'], 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size']);
+imagecopy($tempTransparencyLayer, $filterSquare, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size']);
+imagecopymerge($resizedImage['image'], $tempTransparencyLayer, 0, 0, 0, 0, $resizedImage['size'], $resizedImage['size'], 30);
 
 require_once($functions_path . "dbConnect.php");
 if (!$connection = dbConnect())

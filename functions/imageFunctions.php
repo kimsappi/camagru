@@ -12,8 +12,8 @@ function cropAndResizeImage(&$image)
 	/* Create new square image canvas, imagecreatetruecolor is MANDATORY for quality */
 	$squareImage = imagecreatetruecolor(min([$squareSize, $maxRes]), min([$squareSize, $maxRes]));
 	imagesavealpha($squareImage, TRUE);
-	//imagealphablending($squareImage, FALSE);
-	$transparency = imagecolorallocatealpha($squareImage, 0, 0, 0, 127);
+	imagealphablending($squareImage, FALSE);
+	$transparency = imagecolorallocatealpha($squareImage, 255, 255, 255, 0);
 	imagefill($squareImage, 0, 0, $transparency);
 	
 	/* Original image larger than maxRes, need to downscale image */
@@ -31,6 +31,8 @@ function cropAndResizeImage(&$image)
 			($width - $squareSize) / 2, ($height - $squareSize) / 2, // Source offset coordinates
 			$squareSize, $squareSize // Source width, height
 		);
+
+	//imagepng($squareImage, $filters_path . 'tempSquare.png');
 	
 	return [
 		'image' => $squareImage,
