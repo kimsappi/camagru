@@ -43,6 +43,6 @@ Hive web-dev project. PHP/vanilla JS
 ## CSRF protection
 - [x] Commenting
 - [x] Deleting posts
-- [ ] Uploading images
-- [ ] Liking/unliking posts
+- [x] Uploading images
+- [x] Liking/unliking posts
 - [ ] Changing login details

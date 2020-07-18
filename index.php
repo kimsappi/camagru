@@ -77,12 +77,15 @@ $statusText = '';
 if (isset($_GET['deleted'])) {
 	$statusText = 'Post deleted successfully.';
 }
+if (isset($_GET['csrf'])) {
+	$statusText = 'For security reasons, you should only use one tab at a time.';
+}
 ?>
 
 
 
 <!-- Page body -->
-<div class='red'><?= $statusText ?></div>
+<div class='statusText'><?= $statusText ?></div>
 <p>You can <a href='/take_pic.php' class='buttonStyleLink'>SNAP</a> a new picture with a webcam or upload a file:</p>
 <!--
 <form action='/file_upload.php' method='post'>

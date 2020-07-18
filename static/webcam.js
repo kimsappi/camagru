@@ -107,7 +107,6 @@ function takePicFromWebcamStream()
 	const previewElement = document.getElementById("img_preview");
 	// const imageElements = document.querySelectorAll('.resizeSelectorClass');
 	const imageWidth = getComputedStyle(video).width;
-	//console.log(imageWidth);
 
 	// context.width = dimensions;
 	// context.height = dimensions;
@@ -116,7 +115,6 @@ function takePicFromWebcamStream()
 	
 	canvas.width = parseInt(imageWidth);
 	canvas.height = canvas.width;
-	//console.log('c' + canvas.height);
 	context.drawImage(video, 0, 0, 720, 720, 0, 0, canvas.height, canvas.height);
 
 	const imageData = canvas.toDataURL();
@@ -175,7 +173,7 @@ function cancelPicFromWebcam()
 		previewElement.style.display = "none";
 		webcamElement.style.display = "block";
 		URL.revokeObjectURL(previewElement.src);
-		previewElement.src = "#";
+		previewElement.src = "";
 	// }
 	changeElementDisplay("cancel_pic_from_webcam", "none");
 	changeTakePicButtonFunctionality(false);
@@ -195,16 +193,17 @@ function uploadPic(uploadedFile = null)
 			data.append("imageBlob", uploadedFile, "image");
 		}
 		data.append("filter", document.getElementById('filter').value);
+		data.append("csrf", document.getElementById('csrf').value);
 		fetch("/upload.php", {
 			method: 'post',
 			body: data
 		})
-			.then(response => {;
-				response.json();
-			})
+			.then(response => response.json())
 			.then(newId => {
 				let redir = '';
-				if (newId)
+				if (newId === 'csrf')
+					redir = '/?csrf=1';
+				else if (newId)
 					redir = 'post.php?id=' + newId;
 				else
 					redir = 'index.php';

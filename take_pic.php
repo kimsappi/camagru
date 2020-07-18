@@ -3,12 +3,16 @@ $head_title = "Snap! | Camagru";
 $body_onload = "initialiseWebcamStreamOnload();";
 
 require_once($_SERVER["DOCUMENT_ROOT"] . "/require.php");
+require_once($functions_path . 'utils.php');
 
 if (!isset($_SESSION["username"]))
 {
 	header("Location: /login.php?destination=take_pic.php");
 	exit();
 }
+
+$csrfHash = generateFormValidationHash($_SESSION['user_id']);
+$_SESSION['csrf'] = $csrfHash;
 
 $filtersSelectHTML = "<option value=''>Select filter</option>";
 $filtersDir = new DirectoryIterator($filters_path);
@@ -37,6 +41,7 @@ require_once($templates_path . "header.php");
 	<div class='row'>
 		<label for='fileUpload' id='fileUploadLabel'>Upload!</label>
 		<input type='file' id='fileUpload' oninput='userSelectsUploadFile();'>
+		<input type='text' name='csrf' id='csrf' value='<?= $csrfHash ?>' class='displayNone'></input>
 	</div>
 	<div class='row' id='firefoxErrorContainer'>
 		<h4>Select a filter:</h4>

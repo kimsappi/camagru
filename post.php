@@ -24,9 +24,10 @@ if (!$result)
 	exit();
 }
 
-// POST
+// POST for commenting, deleting, liking and unliking
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['csrf']) && ($_POST['csrf'] === $_SESSION['csrf']))
 {
+
 	// Commenting
 	if (isset($_POST['commentInput']) && strlen($_POST['commentInput']) > 0 && isset($_SESSION['username']) && isset($_GET['id']))
 	{	
@@ -83,6 +84,25 @@ EOD;
 		header('Location: /?deleted=1');
 		exit();
 	}
+
+	// Liking/unliking
+	if (isset($_SESSION['user_id']) && isset($_POST['like'])){
+		$likeQuery = <<<EOD
+		INSERT INTO `likes` (`post_id`, `user_id`)
+			VALUES ($postId, {$_SESSION['user_id']});
+EOD;
+		try
+		{
+			$connection->query($likeQuery);
+		}
+		catch (PDOException $e)
+		{
+			$unlikeQuery = <<<EOD
+			DELETE FROM `likes` WHERE post_id = $postId AND user_id = {$_SESSION['user_id']};
+EOD;
+			$connection->query($unlikeQuery);
+		}
+	}
 }
 
 // GET
@@ -98,23 +118,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && (!isset($_GET['id']) || !intval($_GE
 // error_log("SELECT `username` FROM `users` WHERE `id` = {$postRow['user_id']};");
 $posterName = $connection->query("SELECT `username` FROM `users` WHERE `id` = {$postRow['user_id']};");
 $posterName = $posterName->fetch()['username'];
-
-// Liking is handled via GET too because why not
-if (isset($_SESSION['user_id']) && isset($_GET['like']))
-{
-	$likeQuery = <<<EOD
-	INSERT INTO `likes` (`post_id`, `user_id`)
-		VALUES ($postId, {$_SESSION['user_id']});
-EOD;
-	try
-	{
-		$connection->query($likeQuery);
-	}
-	catch (PDOException $e)
-	{
-		// User has already liked this post, do nothing
-	}
-}
 
 $commentForm = '';
 if (isset($_SESSION['username']))
@@ -170,8 +173,12 @@ require_once($templates_path . "header.php");
 		<div>
 			By: <span class='bold text2Em'><?= sanitiseOutput($posterName) ?></span>
 		</div>
-		<div id='likesCounter' class='text2Em'>	
-			<a href='post.php?id=<?= $postId ?>&like=1'>&#x2764;&#xFE0F; <?= $likesCount ?></a>
+		<div id='likesCounter' class='text2Em'>
+			<form method='post'>
+				<input type='text' name='csrf' value='<?= $csrfHash ?>' class='displayNone'></input>
+				<input type='text' name='like' value='1' class='displayNone'></input>
+				<a href='#' onclick='this.parentNode.submit();';>&#x2764;&#xFE0F; <?= $likesCount ?></a>
+			</form>
 		</div>
 		<div>
 			<?= $deletionHTML ?>
