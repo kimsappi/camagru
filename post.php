@@ -25,7 +25,7 @@ if (!$result)
 }
 
 // POST for commenting, deleting, liking and unliking
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['csrf']) && ($_POST['csrf'] === $_SESSION['csrf']))
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['csrf']) && ($_POST['csrf'] === $_SESSION['csrf']) && isset($_SESSION['username']))
 {
 
 	// Commenting
@@ -120,6 +120,7 @@ $posterName = $connection->query("SELECT `username` FROM `users` WHERE `id` = {$
 $posterName = $posterName->fetch()['username'];
 
 $commentForm = '';
+$csrfHash = 0;
 if (isset($_SESSION['username']))
 	$csrfHash = generateFormValidationHash($_SESSION['user_id']);
 	$_SESSION['csrf'] = $csrfHash;
