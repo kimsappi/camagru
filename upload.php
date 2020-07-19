@@ -13,7 +13,7 @@ if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST' || !$_
 	$_FILES["imageBlob"]["size"] > 5000000 || !isset($_POST['opacity']) || !is_numeric($_POST['opacity']) ||
 	$_POST['opacity'] < 19 || $_POST['opacity'] > 71)
 {
-	header("Location: /");
+	echo json_encode("Wrong filetype");
 	exit();
 }
 
@@ -21,7 +21,7 @@ require_once($functions_path . "imageFunctions.php");
 
 if (!file_exists($filters_path . $_POST['filter']) || ($_FILES["imageBlob"]["type"] !== 'image/png' && $_FILES["imageBlob"]["type"] !== 'image/jpeg'))
 {
-	header("Location: /");
+	echo json_encode("Wrong filetype");
 	exit();
 }
 $filterSrc = imagecreatefrompng($filters_path . $_POST['filter']);
@@ -32,7 +32,7 @@ if ($_FILES["imageBlob"]["type"] === 'image/png')
 elseif ($_FILES["imageBlob"]["type"] === 'image/jpeg')
 	$uploadedImage = imagecreatefromjpeg($_FILES["imageBlob"]["tmp_name"]);
 else {
-	header("Location: /");
+	echo json_encode("Wrong filetype");
 	exit();
 }
 

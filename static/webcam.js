@@ -41,9 +41,10 @@ function initialiseWebcamStreamOnload()
 	whyIsFirefoxNotStandardsCompliant();
 }
 
-const changeFilterOpacity = e => {
+const changeFilterOpacity = () => {
+	const opacityElement = document.getElementById("opacity");
 	const filterElement = document.getElementById('filter_preview');
-	filterElement.style.opacity = e.target.value / 100;
+	filterElement.style.opacity = opacityElement.value / 100;
 }
 
 const firefoxDefaultFilter = () => {
@@ -52,7 +53,7 @@ const firefoxDefaultFilter = () => {
 		filterElement.src = 'images/firefoxDefaultFilter.png';
 	}
 	else
-	filterElement.src = '';
+		filterElement.src = '';
 }
 
 const whyIsFirefoxNotStandardsCompliant = () => {
