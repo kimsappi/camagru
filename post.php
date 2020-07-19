@@ -124,6 +124,7 @@ if (isset($_SESSION['username']))
 	$csrfHash = generateFormValidationHash($_SESSION['user_id']);
 	$_SESSION['csrf'] = $csrfHash;
 	$commentForm = <<<EOD
+	<div class='bold text2Em'>Comments</div>
 	<form method='post' id='commentForm'>
 		<textarea name='commentInput' id='commentInput' rows='4' cols='40' wrap='soft' maxlength='500' required placeholder='Max. 500 characters'></textarea>
 		<input type='text' name='csrf' value='$csrfHash' class='displayNone'></input>

@@ -1,9 +1,9 @@
 // Sets max height of side gallery to height of post image or webcam view
 const resizeSideGalleryOnResize = () => {
 	const mainElement = document.getElementById('postMainImage') || document.getElementById('webcam_container');
-	const height = mainElement.offsetHeight;
+	const height = getComputedStyle(mainElement).height;
 	const postSideGallery = document.getElementById('postSideGallery');
-	postSideGallery.style.maxHeight = height + 'px';
+	postSideGallery.style.maxHeight = height;
 }
 
 // Centers post image or webcam view within its container and

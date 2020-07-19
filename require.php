@@ -1,6 +1,9 @@
 <?php
-if (!isset($_SESSION))
+if (!isset($_SESSION)) {
 	session_start();
+	$sessId = session_id();
+	header("Set-Cookie: PHPSESSID=$sessId; SameSite=Lax;", false);
+}
 
 $root_path = $_SERVER["DOCUMENT_ROOT"];
 $uploads_path = $root_path . "/images/uploads/";
