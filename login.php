@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 		$result = $query->fetch();
 		if (!$result || // Username not found in database
 			$result["password"] !== hashPassword($_POST["password"], $_POST["username"]) ||
-			strlen($result['email_verification_string'] > 0) // Email not verified
+			strlen($result['email_verification_string']) > 0 // Email not verified
 		)
 		{
 			header("Location: /login.php");
