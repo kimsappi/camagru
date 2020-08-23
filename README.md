@@ -1,5 +1,13 @@
-# camagru
-Hive web-dev project. PHP/vanilla JS
+# Camagru
+Hive web-dev project. PHP/vanilla JS (mandated by the exercise). Allows users to upload or capture photos with a webcam and apply a filter to the image as well as comment and like submissions.
+
+Deployment available [here](https://kimsappi-camagru.herokuapp.com/index.php). In this deployment image files are only persisted for 30 minutes while the database is persistent, so there will be 404s.
+
+# Installation instructions
+1. Set the correct database connection details in `config/database.php`
+2. Run `php config/setup.php` to initialise the database.
+3. Serve through a web server with PHP support or `php -S localhost:3000` or port of your choice
+4. *Emails (e.g. registration confirmation email) are sent through PHP `mail()`, which may or may not work depending on your settings. Nullifying `email_verification_string` allows users to log in without clicking the link.*
 
 # Dependencies
 * PHP (>=7.1.0?) & PHP PDO extension (bundled)
